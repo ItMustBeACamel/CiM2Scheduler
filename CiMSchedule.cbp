@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="CiMSchedule" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/CiMSchedule" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="D:/_dev/lib/wx/wxWidgets-3.0.0/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="D:/_dev/lib/wx/wxWidgets-3.0.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="libwxmsw30u_core.a" />
+					<Add library="libwxbase30u.a" />
+					<Add library="libwxpng.a" />
+					<Add library="libwxzlib.a" />
+					<Add directory="D:/_dev/lib/wx/wxWidgets-3.0.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/CiMSchedule" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="D:/_dev/lib/wx/wxWidgets-3.0.0/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="D:/_dev/lib/wx/wxWidgets-3.0.0/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="libwxmsw30u_core.a" />
+					<Add library="libwxbase30u.a" />
+					<Add library="libwxpng.a" />
+					<Add library="libwxzlib.a" />
+					<Add directory="D:/_dev/lib/wx/wxWidgets-3.0.0/lib/gcc_dll" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++11" />
+			<Add option="-Wall" />
+			<Add option="-pipe" />
+			<Add option="-mthreads" />
+			<Add option="-D__GNUWIN32__" />
+			<Add option="-D__WXMSW__" />
+			<Add option="-DWXUSINGDLL" />
+			<Add option="-DwxUSE_UNICODE" />
+			<Add directory="D:/_dev/lib/wx/wxWidgets-3.0.0/include" />
+		</Compiler>
+		<ResourceCompiler>
+			<Add directory="D:/_dev/lib/wx/wxWidgets-3.0.0/include" />
+		</ResourceCompiler>
+		<Linker>
+			<Add option="-mthreads" />
+		</Linker>
+		<Unit filename="./timetable.h" />
+		<Unit filename="CiMScheduleApp.cpp" />
+		<Unit filename="CiMScheduleApp.h" />
+		<Unit filename="CiMScheduleMain.cpp" />
+		<Unit filename="CiMScheduleMain.h" />
+		<Unit filename="LineEditor.cpp" />
+		<Unit filename="LineEditor.h" />
+		<Unit filename="TimeTablePanel.cpp" />
+		<Unit filename="TimeTablePanel.h" />
+		<Unit filename="lines.cpp" />
+		<Unit filename="lines.h" />
+		<Unit filename="resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="stations.cpp" />
+		<Unit filename="stations.h" />
+		<Unit filename="timestamp.h" />
+		<Unit filename="wxsmith/CiMScheduleframe.wxs" />
+		<Unit filename="wxsmith/LineEditor.wxs" />
+		<Unit filename="wxsmith/TimeTablePanel.wxs" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+			<wxsmith version="1">
+				<gui name="wxWidgets" src="CiMScheduleApp.cpp" main="CiMScheduleFrame" init_handlers="necessary" language="CPP" />
+				<resources>
+					<wxFrame wxs="wxsmith/CiMScheduleframe.wxs" src="CiMScheduleMain.cpp" hdr="CiMScheduleMain.h" fwddecl="0" i18n="1" name="CiMScheduleFrame" language="CPP" />
+					<wxDialog wxs="wxsmith/LineEditor.wxs" src="LineEditor.cpp" hdr="LineEditor.h" fwddecl="0" i18n="1" name="LineEditor" language="CPP" />
+					<wxPanel wxs="wxsmith/TimeTablePanel.wxs" src="TimeTablePanel.cpp" hdr="TimeTablePanel.h" fwddecl="0" i18n="1" name="TimeTablePanel" language="CPP" />
+				</resources>
+			</wxsmith>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
