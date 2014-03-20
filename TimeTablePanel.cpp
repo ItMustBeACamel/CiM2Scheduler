@@ -1,4 +1,5 @@
 #include "TimeTablePanel.h"
+#include <list>
 
 //(*InternalHeaders(TimeTablePanel)
 #include <wx/intl.h>
@@ -18,6 +19,7 @@ const long TimeTablePanel::ID_STATICTEXT3 = wxNewId();
 const long TimeTablePanel::ID_TEXTCTRL3 = wxNewId();
 const long TimeTablePanel::ID_SPINBUTTON3 = wxNewId();
 const long TimeTablePanel::ID_PANEL2 = wxNewId();
+const long TimeTablePanel::ID_GRID1 = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(TimeTablePanel,wxPanel)
@@ -48,11 +50,11 @@ TimeTablePanel::TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID
 	};
 	rbPlans = new wxRadioBox(Panel1, ID_RADIOBOX1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 6, __wxRadioBoxChoices_1, 1, wxRA_VERTICAL, wxDefaultValidator, _T("ID_RADIOBOX1"));
 	rbPlans->SetSelection(0);
-	BoxSizer2->Add(rbPlans, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	BoxSizer2->Add(rbPlans, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	Panel1->SetSizer(BoxSizer2);
 	BoxSizer2->Fit(Panel1);
 	BoxSizer2->SetSizeHints(Panel1);
-	BoxSizer1->Add(Panel1, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	BoxSizer1->Add(Panel1, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	Panel2 = new wxPanel(this, ID_PANEL2, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL2"));
 	BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
 	StaticText1 = new wxStaticText(Panel2, ID_STATICTEXT1, _("Start time:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT1"));
@@ -79,7 +81,43 @@ TimeTablePanel::TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID
 	Panel2->SetSizer(BoxSizer3);
 	BoxSizer3->Fit(Panel2);
 	BoxSizer3->SetSizeHints(Panel2);
-	BoxSizer1->Add(Panel2, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	BoxSizer1->Add(Panel2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	gdTimetable = new wxGrid(this, ID_GRID1, wxDefaultPosition, wxDefaultSize, 0, _T("ID_GRID1"));
+	gdTimetable->CreateGrid(24,4);
+	gdTimetable->EnableEditing(true);
+	gdTimetable->EnableGridLines(true);
+	gdTimetable->SetRowLabelSize(20);
+	gdTimetable->SetColLabelValue(0, _("Monday-Thursday"));
+	gdTimetable->SetColLabelValue(1, _("Friday"));
+	gdTimetable->SetColLabelValue(2, _("Saturday"));
+	gdTimetable->SetColLabelValue(3, _("Sunday"));
+	gdTimetable->SetRowLabelValue(0, _("0"));
+	gdTimetable->SetRowLabelValue(1, _("1"));
+	gdTimetable->SetRowLabelValue(2, _("2"));
+	gdTimetable->SetRowLabelValue(3, _("3"));
+	gdTimetable->SetRowLabelValue(4, _("4"));
+	gdTimetable->SetRowLabelValue(5, _("5"));
+	gdTimetable->SetRowLabelValue(6, _("6"));
+	gdTimetable->SetRowLabelValue(7, _("7"));
+	gdTimetable->SetRowLabelValue(8, _("8"));
+	gdTimetable->SetRowLabelValue(9, _("9"));
+	gdTimetable->SetRowLabelValue(10, _("10"));
+	gdTimetable->SetRowLabelValue(11, _("11"));
+	gdTimetable->SetRowLabelValue(12, _("12"));
+	gdTimetable->SetRowLabelValue(13, _("13"));
+	gdTimetable->SetRowLabelValue(14, _("14"));
+	gdTimetable->SetRowLabelValue(15, _("15"));
+	gdTimetable->SetRowLabelValue(16, _("16"));
+	gdTimetable->SetRowLabelValue(17, _("17"));
+	gdTimetable->SetRowLabelValue(18, _("18"));
+	gdTimetable->SetRowLabelValue(19, _("19"));
+	gdTimetable->SetRowLabelValue(20, _("20"));
+	gdTimetable->SetRowLabelValue(21, _("21"));
+	gdTimetable->SetRowLabelValue(22, _("22"));
+	gdTimetable->SetRowLabelValue(23, _("23"));
+	gdTimetable->SetDefaultCellFont( gdTimetable->GetFont() );
+	gdTimetable->SetDefaultCellTextColour( gdTimetable->GetForegroundColour() );
+	BoxSizer1->Add(gdTimetable, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	SetSizer(BoxSizer1);
 	BoxSizer1->Fit(this);
 	BoxSizer1->SetSizeHints(this);
@@ -99,9 +137,50 @@ TimeTablePanel::~TimeTablePanel()
 
 void TimeTablePanel::refresh()
 {
-    txtBegin->SetLabel(_timetable.getPlan(_currentPlan).getBegin().toString());
-    txtEnd->SetLabel(_timetable.getPlan(_currentPlan).getEnd().toString());
-    txtInterval->SetLabel(_timetable.getPlan(_currentPlan).getInterval().toString());
+    TimeStamp startTime = _timetable.getPlan(_currentPlan).getBegin() + _offset;
+    TimeStamp endTime = _timetable.getPlan(_currentPlan).getEnd() + _offset;
+    TimeStamp interval = _timetable.getPlan(_currentPlan).getInterval();
+    begin.normalize();
+    end.normalize();
+
+    txtBegin->SetLabel(startTime.toString());
+    txtEnd->SetLabel(endTime.toString());
+    txtInterval->SetLabel(interval.toString());
+
+
+
+    typedef std::list<TimeStamp> TimeList;
+
+
+
+    DayFlags dayFlag = F_DAY_NONE;
+    for(unsigned int day = 0; day < DAY_NUM; ++day)
+    {
+        TimeList timeList;
+        dayFlag << 1;
+        for(unsigned int plan = 0; plan < PLAN_NUM; ++plan)
+        {
+            Timetable::Plan plan(_timetable.getPlan(plan).activeAtDay(dayFlag));
+            if(plan.activeAtDay(dayFlag))
+            {
+                Time planStart = plan.getBegin() + _offset;
+                Time planEnd = plan.getEnd() + _offset;
+                Time planInterval = plan.getInterval();
+
+                Time t = plan.getBegin() + _offset;
+                if
+                Time max =
+
+
+                for(Time t = begin; t != end; t = (t + interval).normalize())
+                {
+
+                }
+
+            }
+        }
+
+    }
 }
 
 void TimeTablePanel::setOffset(const TimeStamp& off)

@@ -6,6 +6,7 @@
 #include <sstream>
 
 #define TIME_SLICE 5 // in minutes
+#define TIME_RESOLUTION 288 // per day
 
 
 struct TimeStamp
@@ -53,6 +54,15 @@ struct TimeStamp
     const bool operator!=(const TimeStamp& x)const
     {
         return(time!=x.time);
+    }
+
+    const bool operator>(const TimeStamp& x)const
+    {
+        return(time>x.time);
+    }
+    const bool operator<(const TimeStamp& x)const
+    {
+        return(time<x.time);
     }
 
     std::string toString()const

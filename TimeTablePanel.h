@@ -9,6 +9,7 @@
 #include <wx/radiobox.h>
 #include <wx/textctrl.h>
 #include <wx/panel.h>
+#include <wx/grid.h>
 #include <wx/spinbutt.h>
 //*)
 
@@ -20,6 +21,7 @@ class TimeTablePanel: public wxPanel
 		virtual ~TimeTablePanel();
 
 		//(*Declarations(TimeTablePanel)
+		wxGrid* gdTimetable;
 		wxTextCtrl* txtBegin;
 		wxRadioBox* rbPlans;
 		wxStaticText* StaticText2;
@@ -55,6 +57,7 @@ class TimeTablePanel: public wxPanel
 		static const long ID_TEXTCTRL3;
 		static const long ID_SPINBUTTON3;
 		static const long ID_PANEL2;
+		static const long ID_GRID1;
 		//*)
 
 	private:

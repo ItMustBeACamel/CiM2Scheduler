@@ -24,13 +24,11 @@
 							</object>
 							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 							<border>5</border>
-							<option>1</option>
 						</object>
 					</object>
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 				<border>5</border>
-				<option>1</option>
 			</object>
 			<object class="sizeritem">
 				<object class="wxPanel" name="ID_PANEL2" variable="Panel2" member="yes">
@@ -98,6 +96,47 @@
 					</object>
 				</object>
 				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+				<border>5</border>
+			</object>
+			<object class="sizeritem">
+				<object class="wxGrid" name="ID_GRID1" variable="gdTimetable" member="yes">
+					<cols>4</cols>
+					<rows>24</rows>
+					<labelcolwidth>20</labelcolwidth>
+					<collabels>
+						<item>Monday-Thursday</item>
+						<item>Friday</item>
+						<item>Saturday</item>
+						<item>Sunday</item>
+					</collabels>
+					<rowlabels>
+						<item>0</item>
+						<item>1</item>
+						<item>2</item>
+						<item>3</item>
+						<item>4</item>
+						<item>5</item>
+						<item>6</item>
+						<item>7</item>
+						<item>8</item>
+						<item>9</item>
+						<item>10</item>
+						<item>11</item>
+						<item>12</item>
+						<item>13</item>
+						<item>14</item>
+						<item>15</item>
+						<item>16</item>
+						<item>17</item>
+						<item>18</item>
+						<item>19</item>
+						<item>20</item>
+						<item>21</item>
+						<item>22</item>
+						<item>23</item>
+					</rowlabels>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 				<border>5</border>
 				<option>1</option>
 			</object>
