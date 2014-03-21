@@ -132,7 +132,7 @@ TimeTablePanel::TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID
 	Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&TimeTablePanel::OngdTimetableCellLeftClick);
 	gdTimetable->Connect(wxEVT_SIZE,(wxObjectEventFunction)&TimeTablePanel::OngdTimetableResize,0,this);
 	//*)
-	_currentPlan = (PlanName)rbPlans->GetSelection();
+	_currentPlan = (PlanLabel)rbPlans->GetSelection();
 	gdTimetable->SetDefaultCellAlignment(wxALIGN_CENTRE, wxALIGN_CENTRE);
 	sbBegin->SetMax(TIME_RESOLUTION-1);
 	sbEnd->SetMax(TIME_RESOLUTION-1);
@@ -265,7 +265,7 @@ const TimeTablePanel::TimeOffsetType& TimeTablePanel::getOffset()const
 
 void TimeTablePanel::OnrbPlansSelect(wxCommandEvent& event)
 {
-    _currentPlan = (PlanName)rbPlans->GetSelection();
+    _currentPlan = (PlanLabel)rbPlans->GetSelection();
     refresh();
 }
 

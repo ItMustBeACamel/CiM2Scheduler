@@ -30,3 +30,7 @@ Thumbs.db
 
 # Folder config file  
 Desktop.ini
+
+
+#documentation
+/doxygen/html/

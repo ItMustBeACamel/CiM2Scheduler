@@ -15,8 +15,9 @@
 typedef unsigned int DayFlags;
 
 #define DAY_NUM 4
+typedef unsigned int DayName;
 
-enum PlanName
+enum PlanLabel
 {
     PLAN_WEEKDAY,
     PLAN_MORNING_RUSH,
@@ -27,7 +28,37 @@ enum PlanName
     PLAN_NUM
 };
 
+/** \brief
+ *
+ * \return the first time slice of the week
+ *
+ */
+inline WeekTime weekBegin()
+{
+    return WeekTime(0);
+}
 
+inline WeekTime weekEnd() /**< returns the time slice after the last time slice of the week*/
+{
+    return WeekTime(TIME_SLICES_PER_DAY * DAY_NUM);
+}
+
+inline WeekTime dayBegin(const DayName& day) // returns the first time slice of the given day
+{
+    assert(day < DAY_NUM);
+    return WeekTime(TIME_SLICES_PER_DAY * day);
+}
+
+inline WeekTime dayEnd(const DayName& day) // returns the time slice after the last slice of the given day
+{
+    assert(day < DAY_NUM);
+    return WeekTime(TIME_SLICES_PER_DAY * (day+1));
+}
+
+/** \brief
+ * Class representing a timetable
+ *
+ */
 class Timetable
 {
 public:
@@ -80,7 +111,13 @@ public:
             return _interval;
         }
 
-        const bool activeAtDays(const DayFlags& days)const // true when all dayflags are set
+        const bool activeAtDay(const DayName& day)const /**< returns true if the given day is active in the plan */
+        {
+            assert(day < DAY_NUM);
+            return _days & 1 << day;
+        }
+
+        const bool activeAtDays(const DayFlags& days)const /**< returns true if all the given days are active in the plan */
         {
             return (_days | days) == _days;
         }
@@ -108,6 +145,7 @@ public:
         DayFlags _days;
     };
     typedef Plan PlanType;
+    typedef unsigned int PlanName;
     typedef PlanType::DayTimeType DayTimeType;
     typedef PlanType::IntervalType IntervalType;
 
@@ -127,7 +165,7 @@ public:
     {
         return _plans[plan];
     }
-    const Plan& getPlan(const unsigned int& plan) const
+    const Plan& getPlan(const PlanName& plan) const
     {
         return _plans[plan];
     }

@@ -70,6 +70,7 @@
 		</Linker>
 		<Unit filename="./timestamp.cpp" />
 		<Unit filename="./timetable.cpp" />
+		<Unit filename="./timetable_view.h" />
 		<Unit filename="CiMScheduleApp.cpp" />
 		<Unit filename="CiMScheduleApp.h" />
 		<Unit filename="CiMScheduleMain.cpp" />
@@ -104,6 +105,15 @@
 					<wxPanel wxs="wxsmith/TimeTablePanel.wxs" src="TimeTablePanel.cpp" hdr="TimeTablePanel.h" fwddecl="0" i18n="1" name="TimeTablePanel" language="CPP" />
 				</resources>
 			</wxsmith>
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

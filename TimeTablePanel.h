@@ -67,7 +67,7 @@ class TimeTablePanel: public wxPanel
 
 	private:
         Timetable _timetable;
-        PlanName _currentPlan;
+        PlanLabel _currentPlan;
         TimeOffset _offset;
 
 		//(*Handlers(TimeTablePanel)

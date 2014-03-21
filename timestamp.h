@@ -4,8 +4,6 @@
 
 #include <string>
 
-
-
 //some macros for better code readability
 #define H_PER_DAY   24
 #define M_PER_H     60
@@ -13,7 +11,9 @@
 
 
 #define TIME_SLICES_PER_DAY     288 // the resolution of the time system in slices per day
+
 #define TIME_RESOLUTION         TIME_SLICES_PER_DAY // deprecated
+
 #define TIME_SLICE_LENGTH       (M_PER_DAY / TIME_SLICES_PER_DAY) // length of a time slice in minutes
 #define TIME_SLICES_PER_HOUR    (M_PER_H / TIME_SLICE_LENGTH)
 
