@@ -47,7 +47,10 @@ public:
             _begin.normalize();
             _end.normalize();
         }
-
+        void setBegin(const TimeStamp& begin)
+        {
+            _begin = begin;
+        }
         TimeStampType& getBegin()
         {
             return _begin;
@@ -55,6 +58,10 @@ public:
         const TimeStampType& getBegin() const
         {
             return _begin;
+        }
+        void setEnd(const TimeStamp& end)
+        {
+            _end = end;
         }
         TimeStampType& getEnd()
         {
@@ -73,10 +80,26 @@ public:
             return _interval;
         }
 
-        const bool activeAtDays(const DayFlags& days)const
+        const bool activeAtDays(const DayFlags& days)const // true when all dayflags are set
         {
-            return (_days | days);
+            return (_days | days) == _days;
         }
+
+        void activateDays(const DayFlags& days)
+        {
+            _days = _days | days;
+        }
+
+        void deactivateDays(const DayFlags& days)
+        {
+            _days = _days & ~days;
+        }
+
+        void toggleDays(const DayFlags& days)
+        {
+            _days = _days ^ days;
+        }
+
 
 
     private:
@@ -104,7 +127,7 @@ public:
     {
         return _plans[plan];
     }
-    const Plan& getPlan(const PlanName& plan) const
+    const Plan& getPlan(const unsigned int& plan) const
     {
         return _plans[plan];
     }

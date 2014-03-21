@@ -49,6 +49,8 @@
 						<object class="sizeritem">
 							<object class="wxSpinButton" name="ID_SPINBUTTON1" variable="sbBegin" member="yes">
 								<max>100</max>
+								<style>wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP</style>
+								<handler function="OnsbBeginChange" entry="EVT_SPIN" />
 							</object>
 							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 							<border>5</border>
@@ -69,6 +71,8 @@
 						<object class="sizeritem">
 							<object class="wxSpinButton" name="ID_SPINBUTTON2" variable="sbEnd" member="yes">
 								<max>100</max>
+								<style>wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP</style>
+								<handler function="OnsbEndChange" entry="EVT_SPIN" />
 							</object>
 							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 							<border>5</border>
@@ -89,6 +93,9 @@
 						<object class="sizeritem">
 							<object class="wxSpinButton" name="ID_SPINBUTTON3" variable="sbInterval" member="yes">
 								<max>100</max>
+								<style>wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP</style>
+								<handler function="OnsbIntervalChangeUp" entry="EVT_SPIN_UP" />
+								<handler function="OnsbIntervalChangeDown" entry="EVT_SPIN_DOWN" />
 							</object>
 							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 							<border>5</border>
@@ -101,7 +108,8 @@
 			<object class="sizeritem">
 				<object class="wxGrid" name="ID_GRID1" variable="gdTimetable" member="yes">
 					<cols>4</cols>
-					<rows>24</rows>
+					<rows>25</rows>
+					<readonly>1</readonly>
 					<labelcolwidth>20</labelcolwidth>
 					<collabels>
 						<item>Monday-Thursday</item>
@@ -110,6 +118,7 @@
 						<item>Sunday</item>
 					</collabels>
 					<rowlabels>
+						<item>x</item>
 						<item>0</item>
 						<item>1</item>
 						<item>2</item>
@@ -135,6 +144,8 @@
 						<item>22</item>
 						<item>23</item>
 					</rowlabels>
+					<handler function="OngdTimetableCellLeftClick" entry="EVT_CMD_GRID_CELL_LEFT_CLICK" />
+					<handler function="OngdTimetableResize" entry="EVT_SIZE" />
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 				<border>5</border>

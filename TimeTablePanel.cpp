@@ -1,5 +1,6 @@
 #include "TimeTablePanel.h"
 #include <list>
+#include <sstream>
 
 //(*InternalHeaders(TimeTablePanel)
 #include <wx/intl.h>
@@ -61,21 +62,21 @@ TimeTablePanel::TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID
 	BoxSizer3->Add(StaticText1, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	txtBegin = new wxTextCtrl(Panel2, ID_TEXTCTRL1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL1"));
 	BoxSizer3->Add(txtBegin, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-	sbBegin = new wxSpinButton(Panel2, ID_SPINBUTTON1, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS, _T("ID_SPINBUTTON1"));
+	sbBegin = new wxSpinButton(Panel2, ID_SPINBUTTON1, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP, _T("ID_SPINBUTTON1"));
 	sbBegin->SetRange(0, 100);
 	BoxSizer3->Add(sbBegin, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	StaticText2 = new wxStaticText(Panel2, ID_STATICTEXT2, _("End time:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
 	BoxSizer3->Add(StaticText2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	txtEnd = new wxTextCtrl(Panel2, ID_TEXTCTRL2, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL2"));
 	BoxSizer3->Add(txtEnd, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-	sbEnd = new wxSpinButton(Panel2, ID_SPINBUTTON2, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS, _T("ID_SPINBUTTON2"));
+	sbEnd = new wxSpinButton(Panel2, ID_SPINBUTTON2, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP, _T("ID_SPINBUTTON2"));
 	sbEnd->SetRange(0, 100);
 	BoxSizer3->Add(sbEnd, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	StaticText3 = new wxStaticText(Panel2, ID_STATICTEXT3, _("Interval:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT3"));
 	BoxSizer3->Add(StaticText3, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	txtInterval = new wxTextCtrl(Panel2, ID_TEXTCTRL3, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL3"));
 	BoxSizer3->Add(txtInterval, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-	sbInterval = new wxSpinButton(Panel2, ID_SPINBUTTON3, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS, _T("ID_SPINBUTTON3"));
+	sbInterval = new wxSpinButton(Panel2, ID_SPINBUTTON3, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP, _T("ID_SPINBUTTON3"));
 	sbInterval->SetRange(0, 100);
 	BoxSizer3->Add(sbInterval, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	Panel2->SetSizer(BoxSizer3);
@@ -83,38 +84,39 @@ TimeTablePanel::TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID
 	BoxSizer3->SetSizeHints(Panel2);
 	BoxSizer1->Add(Panel2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	gdTimetable = new wxGrid(this, ID_GRID1, wxDefaultPosition, wxDefaultSize, 0, _T("ID_GRID1"));
-	gdTimetable->CreateGrid(24,4);
-	gdTimetable->EnableEditing(true);
+	gdTimetable->CreateGrid(25,4);
+	gdTimetable->EnableEditing(false);
 	gdTimetable->EnableGridLines(true);
 	gdTimetable->SetRowLabelSize(20);
 	gdTimetable->SetColLabelValue(0, _("Monday-Thursday"));
 	gdTimetable->SetColLabelValue(1, _("Friday"));
 	gdTimetable->SetColLabelValue(2, _("Saturday"));
 	gdTimetable->SetColLabelValue(3, _("Sunday"));
-	gdTimetable->SetRowLabelValue(0, _("0"));
-	gdTimetable->SetRowLabelValue(1, _("1"));
-	gdTimetable->SetRowLabelValue(2, _("2"));
-	gdTimetable->SetRowLabelValue(3, _("3"));
-	gdTimetable->SetRowLabelValue(4, _("4"));
-	gdTimetable->SetRowLabelValue(5, _("5"));
-	gdTimetable->SetRowLabelValue(6, _("6"));
-	gdTimetable->SetRowLabelValue(7, _("7"));
-	gdTimetable->SetRowLabelValue(8, _("8"));
-	gdTimetable->SetRowLabelValue(9, _("9"));
-	gdTimetable->SetRowLabelValue(10, _("10"));
-	gdTimetable->SetRowLabelValue(11, _("11"));
-	gdTimetable->SetRowLabelValue(12, _("12"));
-	gdTimetable->SetRowLabelValue(13, _("13"));
-	gdTimetable->SetRowLabelValue(14, _("14"));
-	gdTimetable->SetRowLabelValue(15, _("15"));
-	gdTimetable->SetRowLabelValue(16, _("16"));
-	gdTimetable->SetRowLabelValue(17, _("17"));
-	gdTimetable->SetRowLabelValue(18, _("18"));
-	gdTimetable->SetRowLabelValue(19, _("19"));
-	gdTimetable->SetRowLabelValue(20, _("20"));
-	gdTimetable->SetRowLabelValue(21, _("21"));
-	gdTimetable->SetRowLabelValue(22, _("22"));
-	gdTimetable->SetRowLabelValue(23, _("23"));
+	gdTimetable->SetRowLabelValue(0, _("x"));
+	gdTimetable->SetRowLabelValue(1, _("0"));
+	gdTimetable->SetRowLabelValue(2, _("1"));
+	gdTimetable->SetRowLabelValue(3, _("2"));
+	gdTimetable->SetRowLabelValue(4, _("3"));
+	gdTimetable->SetRowLabelValue(5, _("4"));
+	gdTimetable->SetRowLabelValue(6, _("5"));
+	gdTimetable->SetRowLabelValue(7, _("6"));
+	gdTimetable->SetRowLabelValue(8, _("7"));
+	gdTimetable->SetRowLabelValue(9, _("8"));
+	gdTimetable->SetRowLabelValue(10, _("9"));
+	gdTimetable->SetRowLabelValue(11, _("10"));
+	gdTimetable->SetRowLabelValue(12, _("11"));
+	gdTimetable->SetRowLabelValue(13, _("12"));
+	gdTimetable->SetRowLabelValue(14, _("13"));
+	gdTimetable->SetRowLabelValue(15, _("14"));
+	gdTimetable->SetRowLabelValue(16, _("15"));
+	gdTimetable->SetRowLabelValue(17, _("16"));
+	gdTimetable->SetRowLabelValue(18, _("17"));
+	gdTimetable->SetRowLabelValue(19, _("18"));
+	gdTimetable->SetRowLabelValue(20, _("19"));
+	gdTimetable->SetRowLabelValue(21, _("20"));
+	gdTimetable->SetRowLabelValue(22, _("21"));
+	gdTimetable->SetRowLabelValue(23, _("22"));
+	gdTimetable->SetRowLabelValue(24, _("23"));
 	gdTimetable->SetDefaultCellFont( gdTimetable->GetFont() );
 	gdTimetable->SetDefaultCellTextColour( gdTimetable->GetForegroundColour() );
 	BoxSizer1->Add(gdTimetable, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
@@ -123,8 +125,17 @@ TimeTablePanel::TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID
 	BoxSizer1->SetSizeHints(this);
 
 	Connect(ID_RADIOBOX1,wxEVT_COMMAND_RADIOBOX_SELECTED,(wxObjectEventFunction)&TimeTablePanel::OnrbPlansSelect);
+	Connect(ID_SPINBUTTON1,wxEVT_SCROLL_THUMBTRACK,(wxObjectEventFunction)&TimeTablePanel::OnsbBeginChange);
+	Connect(ID_SPINBUTTON2,wxEVT_SCROLL_THUMBTRACK,(wxObjectEventFunction)&TimeTablePanel::OnsbEndChange);
+	Connect(ID_SPINBUTTON3,wxEVT_SCROLL_LINEUP,(wxObjectEventFunction)&TimeTablePanel::OnsbIntervalChangeUp);
+	Connect(ID_SPINBUTTON3,wxEVT_SCROLL_LINEDOWN,(wxObjectEventFunction)&TimeTablePanel::OnsbIntervalChangeDown);
+	Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&TimeTablePanel::OngdTimetableCellLeftClick);
+	gdTimetable->Connect(wxEVT_SIZE,(wxObjectEventFunction)&TimeTablePanel::OngdTimetableResize,0,this);
 	//*)
 	_currentPlan = (PlanName)rbPlans->GetSelection();
+	gdTimetable->SetDefaultCellAlignment(wxALIGN_CENTRE, wxALIGN_CENTRE);
+	sbBegin->SetMax(TIME_RESOLUTION-1);
+	sbEnd->SetMax(TIME_RESOLUTION-1);
 
 	refresh();
 }
@@ -137,50 +148,95 @@ TimeTablePanel::~TimeTablePanel()
 
 void TimeTablePanel::refresh()
 {
-    TimeStamp startTime = _timetable.getPlan(_currentPlan).getBegin() + _offset;
-    TimeStamp endTime = _timetable.getPlan(_currentPlan).getEnd() + _offset;
+    TimeStamp startTime = _timetable.getPlan(_currentPlan).getBegin();
+    TimeStamp endTime = _timetable.getPlan(_currentPlan).getEnd();
     TimeStamp interval = _timetable.getPlan(_currentPlan).getInterval();
-    begin.normalize();
-    end.normalize();
+    //startTime.normalize();
+    //end.normalize();
 
-    txtBegin->SetLabel(startTime.toString());
-    txtEnd->SetLabel(endTime.toString());
+    txtBegin->SetLabel((startTime + _offset).toString());
+    if(_offset != TimeStamp(0))
+        txtBegin->SetBackgroundColour(*wxRED);
+    else
+        txtBegin->SetBackgroundColour(*wxWHITE);
+    sbBegin->SetValue(startTime.time);
+
+    txtEnd->SetLabel((endTime + _offset).toString());
+    if(_offset != TimeStamp(0))
+        txtEnd->SetBackgroundColour(*wxRED);
+    else
+        txtEnd->SetBackgroundColour(*wxWHITE);
+    sbEnd->SetValue(endTime.time);
+
     txtInterval->SetLabel(interval.toString());
 
 
 
-    typedef std::list<TimeStamp> TimeList;
+    gdTimetable->ClearGrid();
 
-
-
-    DayFlags dayFlag = F_DAY_NONE;
-    for(unsigned int day = 0; day < DAY_NUM; ++day)
+    for(int i = 0; i < gdTimetable->GetCols(); ++i)
     {
-        TimeList timeList;
-        dayFlag << 1;
-        for(unsigned int plan = 0; plan < PLAN_NUM; ++plan)
+        if(_timetable.getPlan(_currentPlan).activeAtDays(1 << i))
+            gdTimetable->SetCellValue(0, i, "x");
+    }
+
+    typedef std::list<TimeStamp> TimeList;
+    TimeList timeList;
+
+    for(unsigned int nPlan = 0; nPlan < (int)PLAN_NUM; ++nPlan)
+    {
+        Timetable::Plan plan(_timetable.getPlan(nPlan));
+
+        TimeStamp planStart = plan.getBegin();// + _offset;
+        TimeStamp planEnd = plan.getEnd();// + _offset;
+
+        TimeStamp planInterval = plan.getInterval();
+        if(planInterval == TimeStamp(0)) continue;
+
+        DayFlags dayFlag = F_DAY_MON_TO_THU;
+        for(unsigned int day = 0; day < DAY_NUM; ++day)
         {
-            Timetable::Plan plan(_timetable.getPlan(plan).activeAtDay(dayFlag));
-            if(plan.activeAtDay(dayFlag))
+            if(plan.activeAtDays(dayFlag))
             {
-                Time planStart = plan.getBegin() + _offset;
-                Time planEnd = plan.getEnd() + _offset;
-                Time planInterval = plan.getInterval();
-
-                Time t = plan.getBegin() + _offset;
-                if
-                Time max =
 
 
-                for(Time t = begin; t != end; t = (t + interval).normalize())
+                TimeStamp dayStart(TIME_RESOLUTION * day);
+                TimeStamp dayPlanStart(dayStart+planStart);
+                TimeStamp dayPlanEnd;
+                if(planEnd < planStart)
+                    dayPlanEnd = TimeStamp(TIME_RESOLUTION * (day+1)) + planEnd;
+                else
+                    dayPlanEnd = dayPlanStart + (planEnd - planStart);
+
+                for(TimeStamp t = dayPlanStart; (t <= dayPlanEnd) && (t < TimeStamp(TIME_RESOLUTION * 4)); t+=planInterval)
                 {
-
+                    timeList.push_back(t);
+                    if(dayFlag == F_DAY_MON_TO_THU && t >= TimeStamp(TIME_RESOLUTION))
+                        timeList.push_back(t-TimeStamp(TIME_RESOLUTION));
                 }
-
             }
+            dayFlag = dayFlag << 1;
         }
 
     }
+    timeList.sort();
+
+    for(TimeList::iterator i = timeList.begin(); i != timeList.end(); ++i)
+    {
+        TimeStamp actualTime((*i) + _offset);
+        if(actualTime >= TimeStamp(TIME_RESOLUTION * 4))
+            actualTime.normalize();
+
+        int col=actualTime.time/TIME_RESOLUTION;
+
+        actualTime.normalize();
+        int row = actualTime.getHour()+1;
+        std::stringstream ss;
+        ss << gdTimetable->GetCellValue(row,col) << " " << actualTime.getMinute();
+       gdTimetable->SetCellValue(row,col, ss.str());
+    }
+
+
 }
 
 void TimeTablePanel::setOffset(const TimeStamp& off)
@@ -202,5 +258,49 @@ const TimeStamp& TimeTablePanel::getOffset()const
 void TimeTablePanel::OnrbPlansSelect(wxCommandEvent& event)
 {
     _currentPlan = (PlanName)rbPlans->GetSelection();
+    refresh();
+}
+
+void TimeTablePanel::OngdTimetableResize(wxSizeEvent& event)
+{
+    for(int i = 0; i < gdTimetable->GetCols(); ++i)
+
+        gdTimetable->SetColumnWidth(i,(event.GetSize().GetWidth() - gdTimetable->GetColLabelSize()) / 4);
+        gdTimetable->ForceRefresh();
+}
+
+void TimeTablePanel::OnsbBeginChange(wxSpinEvent& event)
+{
+    _timetable.getPlan(_currentPlan).setBegin(TimeStamp(event.GetValue()));
+    refresh();
+}
+
+void TimeTablePanel::OnsbEndChange(wxSpinEvent& event)
+{
+    _timetable.getPlan(_currentPlan).setEnd(TimeStamp(event.GetValue()));
+    refresh();
+}
+
+void TimeTablePanel::OngdTimetableCellLeftClick(wxGridEvent& event)
+{
+    if(event.GetRow() == 0)
+    {
+        _timetable.getPlan(_currentPlan).toggleDays( 1 << event.GetCol());
+        refresh();
+    }
+    event.Allow();
+
+}
+
+void TimeTablePanel::OnsbIntervalChangeUp(wxSpinEvent& event)
+{
+    ++_timetable.getPlan(_currentPlan).getInterval();
+    refresh();
+
+}
+
+void TimeTablePanel::OnsbIntervalChangeDown(wxSpinEvent& event)
+{
+    --_timetable.getPlan(_currentPlan).getInterval();
     refresh();
 }

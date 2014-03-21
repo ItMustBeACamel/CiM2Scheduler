@@ -63,8 +63,9 @@
 											<creating_code>$(THIS) = new $(CLASS)(__line.getTimetable(),$(PARENT),$(ID),$(POS),$(SIZE));</creating_code>
 											<include_file>TimeTablePanel.h</include_file>
 											<local_include>1</local_include>
+											<style></style>
 										</object>
-										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 										<border>5</border>
 										<option>1</option>
 									</object>
@@ -81,6 +82,7 @@
 																	<style>wxLC_REPORT|wxLC_EDIT_LABELS</style>
 																	<handler function="OnListView1BeginDrag" entry="EVT_LIST_BEGIN_DRAG" />
 																	<handler function="OnlvStopsEndLabelEdit" entry="EVT_LIST_END_LABEL_EDIT" />
+																	<handler function="OnlvStopsItemSelect" entry="EVT_LIST_ITEM_SELECTED" />
 																</object>
 																<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 																<border>5</border>

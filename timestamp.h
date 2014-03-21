@@ -8,14 +8,13 @@
 #define TIME_SLICE 5 // in minutes
 #define TIME_RESOLUTION 288 // per day
 
-
 struct TimeStamp
 {
     typedef int TimeType;
     typedef TimeType HourType;
     typedef TimeType MinuteType;
 
-    explicit TimeStamp()
+    TimeStamp()
         : time(0)
     {   }
     explicit TimeStamp(TimeType t)
@@ -25,6 +24,14 @@ struct TimeStamp
     TimeStamp(HourType hour, MinuteType minute)
         : time(hour * 60 / TIME_SLICE + minute / TIME_SLICE)
     {   }
+    explicit TimeStamp(const std::string& str)
+    {
+        parse(str);
+    }
+    explicit TimeStamp(char const*const str)
+    {
+        parse(str);
+    }
 
     // operators
 
@@ -64,11 +71,48 @@ struct TimeStamp
     {
         return(time<x.time);
     }
+    const bool operator>=(const TimeStamp& x)const
+    {
+        return(time>=x.time);
+    }
+    const bool operator<=(const TimeStamp& x)const
+    {
+        return(time<=x.time);
+    }
+
+    TimeStamp& operator=(const TimeStamp& x)
+    {
+        time = x.time;
+        return *this;
+    }
+
+    TimeStamp& operator++()
+    {
+        ++time;
+        return *this;
+    }
+    TimeStamp& operator--()
+    {
+        --time;
+        return *this;
+    }
+    TimeStamp operator++(int)
+    {
+        TimeStamp temp(*this);
+        ++time;
+        return temp;
+    }
+    TimeStamp operator--(int)
+    {
+        TimeStamp temp(*this);
+        --time;
+        return temp;
+    }
 
     std::string toString()const
     {
-        HourType hour = GetHour();
-        HourType minute = GetMinute();
+        HourType hour = getHour();
+        HourType minute = getMinute();
         std::stringstream ss;
         if(hour < 10) ss << 0;
         ss << hour << ":";
@@ -116,22 +160,23 @@ struct TimeStamp
         return;
     }
 
-    HourType GetHour() const
+    HourType getHour() const
     {
         return time / (60 / TIME_SLICE);
     }
 
-    MinuteType GetMinute() const
+    MinuteType getMinute() const
     {
         return ((time %(60 / TIME_SLICE)) * TIME_SLICE);
     }
 
     TimeStamp& normalize()
     {
-        TimeType day = (24 * 60) / TIME_SLICE;
+        //TimeType day = (24 * 60) / TIME_SLICE;
 
-        while(time > day)
-            time -= day;
+        time = time % TIME_RESOLUTION;
+        //while(time > day)
+        //    time -= day;
         return *this;
     }
 

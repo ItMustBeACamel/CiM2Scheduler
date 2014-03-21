@@ -67,6 +67,16 @@ class TimeTablePanel: public wxPanel
 
 		//(*Handlers(TimeTablePanel)
 		void OnrbPlansSelect(wxCommandEvent& event);
+		void OngdTimetableResize(wxSizeEvent& event);
+		void OnsbBeginChangeUp(wxSpinEvent& event);
+		void OnsbBeginChangeDown(wxSpinEvent& event);
+		void OnsbEndChangeUp(wxSpinEvent& event);
+		void OnsbEndChangeDown(wxSpinEvent& event);
+		void OnsbBeginChange(wxSpinEvent& event);
+		void OnsbEndChange(wxSpinEvent& event);
+		void OngdTimetableCellLeftClick(wxGridEvent& event);
+		void OnsbIntervalChangeUp(wxSpinEvent& event);
+		void OnsbIntervalChangeDown(wxSpinEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

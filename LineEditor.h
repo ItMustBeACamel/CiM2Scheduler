@@ -93,6 +93,8 @@ class LineEditor: public wxDialog
 		void OnbtAddStationClick(wxCommandEvent& event);
 		void OnbtRemoveStopClick(wxCommandEvent& event);
 		void OnlvStopsEndLabelEdit(wxListEvent& event);
+		void OnlvStationsItemSelect(wxListEvent& event);
+		void OnlvStopsItemSelect(wxListEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
