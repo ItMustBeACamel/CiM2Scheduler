@@ -71,6 +71,7 @@
 		<Unit filename="./timestamp.cpp" />
 		<Unit filename="./timetable.cpp" />
 		<Unit filename="./timetable_view.h" />
+		<Unit filename="./utils.h" />
 		<Unit filename="CiMScheduleApp.cpp" />
 		<Unit filename="CiMScheduleApp.h" />
 		<Unit filename="CiMScheduleMain.cpp" />
@@ -89,6 +90,7 @@
 		<Unit filename="stations.h" />
 		<Unit filename="timestamp.h" />
 		<Unit filename="timetable.h" />
+		<Unit filename="todo.txt" />
 		<Unit filename="wxsmith/CiMScheduleframe.wxs" />
 		<Unit filename="wxsmith/LineEditor.wxs" />
 		<Unit filename="wxsmith/TimeTablePanel.wxs" />

@@ -2,6 +2,8 @@
 #include <list>
 #include <sstream>
 
+#include "timetable_view.h"
+
 //(*InternalHeaders(TimeTablePanel)
 #include <wx/intl.h>
 #include <wx/string.h>

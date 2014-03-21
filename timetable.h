@@ -3,6 +3,17 @@
 
 #include "timestamp.h"
 
+#include <cassert>
+
+#define DAY_NUM 4
+
+#define TIME_SLICES_PER_WEEK    (TIME_SLICES_PER_DAY * DAY_NUM)
+
+#define DAY_MON_TO_THU 0
+#define DAY_FRIDAY 1
+#define DAY_SATURDAY 2
+#define DAY_SUNDAY 3
+
 #define F_DAY_NONE 0x00000000
 #define F_DAY_MON_TO_THU 0x00000001
 #define F_DAY_FRIDAY 0x00000002
@@ -14,7 +25,7 @@
 #define F_DAY_LAST_DAY 0x00000008
 typedef unsigned int DayFlags;
 
-#define DAY_NUM 4
+
 typedef unsigned int DayName;
 
 enum PlanLabel
@@ -40,7 +51,7 @@ inline WeekTime weekBegin()
 
 inline WeekTime weekEnd() /**< returns the time slice after the last time slice of the week*/
 {
-    return WeekTime(TIME_SLICES_PER_DAY * DAY_NUM);
+    return WeekTime(TIME_SLICES_PER_WEEK);
 }
 
 inline WeekTime dayBegin(const DayName& day) // returns the first time slice of the given day
@@ -53,6 +64,11 @@ inline WeekTime dayEnd(const DayName& day) // returns the time slice after the l
 {
     assert(day < DAY_NUM);
     return WeekTime(TIME_SLICES_PER_DAY * (day+1));
+}
+
+inline WeekTime normalize(const WeekTime& weekTime)
+{
+    return WeekTime(weekTime.time % TIME_SLICES_PER_WEEK);
 }
 
 /** \brief
@@ -75,8 +91,8 @@ public:
         Plan(const DayTimeType& startTime, const DayTimeType& endTime, const TimeInterval& interval, DayFlags daymask)
             : _startTime(startTime), _endTime(endTime), _interval(interval), _days(daymask)
         {
-            _startTime.normalize();
-            _endTime.normalize();
+            _startTime.makeDaytime();
+            _endTime.makeDaytime();
         }
         void setStartTime(const DayTimeType& startTime)
         {
@@ -114,7 +130,7 @@ public:
         const bool activeAtDay(const DayName& day)const /**< returns true if the given day is active in the plan */
         {
             assert(day < DAY_NUM);
-            return _days & 1 << day;
+            return _days & (1 << day);
         }
 
         const bool activeAtDays(const DayFlags& days)const /**< returns true if all the given days are active in the plan */

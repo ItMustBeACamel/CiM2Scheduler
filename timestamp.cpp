@@ -180,7 +180,11 @@ Time::MinuteType Time::getMinute() const
 
 Time& Time::normalize()
 {
-    time = time % TIME_RESOLUTION;
+    return makeDaytime();
+}
 
+Time& Time::makeDaytime()
+{
+    time = time % TIME_SLICES_PER_DAY;
     return *this;
 }

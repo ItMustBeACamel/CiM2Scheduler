@@ -1,6 +1,7 @@
 #ifndef TIMESTAMP_H_INCLUDED
 #define TIMESTAMP_H_INCLUDED
 
+#include "utils.h"
 
 #include <string>
 
@@ -10,12 +11,12 @@
 #define M_PER_DAY   1440
 
 
-#define TIME_SLICES_PER_DAY     288 // the resolution of the time system in slices per day
+#define TIME_SLICES_PER_DAY 288 // the resolution of the time system in slices per day
 
-#define TIME_RESOLUTION         TIME_SLICES_PER_DAY // deprecated
+#define TIME_RESOLUTION TIME_SLICES_PER_DAY // deprecated
 
-#define TIME_SLICE_LENGTH       (M_PER_DAY / TIME_SLICES_PER_DAY) // length of a time slice in minutes
-#define TIME_SLICES_PER_HOUR    (M_PER_H / TIME_SLICE_LENGTH)
+#define TIME_SLICE_LENGTH (M_PER_DAY / TIME_SLICES_PER_DAY) // length of a time slice in minutes
+#define TIME_SLICES_PER_HOUR (M_PER_H / TIME_SLICE_LENGTH)
 
 struct Time
 {
@@ -55,14 +56,10 @@ struct Time
     void parse(const std::string& str);
     HourType getHour() const;
     MinuteType getMinute() const;
-    Time& normalize();
+    DEPRECATED(Time& normalize());
+        // use this function instead
+    Time& makeDaytime();
 
-    /*
-    inline static MinuteType sliceLength() // returns the length of one time slice (ValueType time) in minutes
-    {
-        return M_PER_DAY / TIME_RESOLUTION;
-    }
-    */
 
     ValueType time;
 };

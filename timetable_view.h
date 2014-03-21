@@ -8,20 +8,38 @@ class TimetableView
 public:
     typedef Timetable TimeTableType;
     typedef TimeOffset TimeOffsetType;
+    typedef TimeTableType::DayTimeType DayTimeType;
+    typedef TimeTableType::IntervalType IntervalType;
     typedef WeekTime WeekTimeType;
 
     struct StopListEntry
     {
-        typedef TimeTableType::PlanType PlanType;
-        StopListEntry(const PlanType& p, const WeekTimeType& t)
-        : plan(p), WeekTime(t)
+        typedef TimeTableType::PlanName PlanNameType;
+        StopListEntry(const PlanNameType& p, const WeekTimeType& t)
+            : plan(p), weekTime(t)
         {
 
         }
 
-        PlanType plan;
+        const bool operator>(const StopListEntry& x)const
+        {
+            if(weekTime == x.weekTime)
+                return plan > x.plan;
+            else
+                return weekTime>x.weekTime;
+        }
+        const bool operator<(const StopListEntry& x)const
+        {
+            if(weekTime == x.weekTime)
+                return plan < x.plan;
+            else
+                return weekTime<x.weekTime;
+        }
+
+        PlanNameType plan;
         WeekTimeType weekTime;
     };
+    typedef StopListEntry::PlanNameType PlanNameType;
     typedef std::list<StopListEntry> StopList;
 
     TimetableView(const TimeTableType& timeTable)
@@ -30,13 +48,13 @@ public:
 
     }
 
-    StopList operator(const TimeOffsetType& offset)
+    StopList operator()(const TimeOffsetType& offset)
     {
         _offset = offset;
 
         StopList stopList;
 
-        for(Timetable::PlanName nPlan = 0; nPlan < (Timetable::PlanName)PLAN_NUM; ++nPlan)
+        for(PlanNameType nPlan = 0; nPlan < (Timetable::PlanName)PLAN_NUM; ++nPlan)
         {
             Timetable::Plan plan(_timetable.getPlan(nPlan));
 
@@ -46,11 +64,11 @@ public:
             IntervalType planInterval = plan.getInterval();
             if(planInterval == IntervalType(0)) continue;
 
-            DayFlags dayFlag = F_DAY_MON_TO_THU;
+            //DayFlags dayFlag = F_DAY_MON_TO_THU;
 
-            for(unsigned int day = 0; day < DAY_NUM; ++day)
+            for(DayName day = 0; day < DAY_NUM; ++day)
             {
-                if(plan.activeAtDays(dayFlag))
+                if(plan.activeAtDay(day))
                 {
 
 
@@ -62,17 +80,29 @@ public:
                     else
                         dayPlanEnd = dayPlanStart + (planEnd - planStart);
 
-                    for(WeekTimeType t = dayPlanStart; (t <= dayPlanEnd) && (t < _timetable.getEndOfWeek()); t+=planInterval)
+                    for(WeekTimeType t = dayPlanStart; (t <= dayPlanEnd) && (t < weekEnd()); t+=planInterval)
                     {
-                        timeList.push_back(t);
-                        if(dayFlag == F_DAY_MON_TO_THU && t >= WeekTimeType(TIME_RESOLUTION))
-                            timeList.push_back(t-WeekTimeType(TIME_RESOLUTION));
+                        WeekTimeType newTime(normalize(t+_offset));
+
+                        stopList.push_back(StopListEntry(nPlan, newTime));
+
+                        if(day == DAY_MON_TO_THU && t >= dayEnd(day))
+                        {
+                            WeekTimeType wrappedTime(t);
+                            wrappedTime.makeDaytime();
+                            wrappedTime+= _offset;
+                            stopList.push_back(StopListEntry(nPlan, wrappedTime));
+                        }
+
                     }
                 }
-                dayFlag = dayFlag << 1;
+                //dayFlag = dayFlag << 1;
             }
-
         }
+        stopList.sort();
+        return stopList;
+
+    }
 
 
 

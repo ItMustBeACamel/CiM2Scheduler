@@ -22,39 +22,19 @@ public:
     ~Station();
 
     // operators
-    bool operator==(const Station& x) const
-    {
-        return(_id == x._id);
-    }
+    bool operator==(const Station& x) const;
 
-    /*
-    ID& getID()
-    {
-        return _id;
-    }
-    */
-    const ID& getID() const
-    {
-        return _id;
-    }
+    // member-functions
 
-    void setName(const std::string& n)
-    {
-        _name = std::string(n);
-    }
-    void setName(char const * const n)
-    {
-        _name = std::string(n);
-    }
+    const ID& getID() const;
 
-    std::string& getName()
-    {
-        return _name;
-    }
-    const std::string& getName() const
-    {
-        return _name;
-    }
+    void setName(const std::string& n);
+
+    void setName(char const * const n);
+
+    std::string& getName();
+
+    const std::string& getName() const;
 
 private:
     std::string _name;
@@ -68,37 +48,13 @@ class Stations
     friend class Station;
 public:
 
-    static Stations* instance()
-    {
-        if(!_instance) _instance = new Stations;
-        return _instance;
-    }
-
-    static void destroy()
-    {
-        if(_instance) delete _instance;
-    }
-
-    const StationList& getStationsList() const
-    {
-        return _list;
-    }
-
+    static Stations* instance();
+    static void destroy();
+    const StationList& getStationsList() const;
     Station::ID peekNextFreeID() const;
-
-    Station& addStation(const Station& newStation)
-    {
-        //newStation._id = getNextFreeID();
-        _list.push_back(newStation);
-
-        Station& s = _list.back();
-        s._id = getNextFreeID();
-        return s;
-    }
-
+    Station& addStation(const Station& newStation);
     Station& getStation(Station::ID id);
     const Station& getStation(Station::ID id) const;
-
     bool deleteStation(Station::ID id);
 
 private:
@@ -106,9 +62,7 @@ private:
     Station::ID getNextFreeID();
     void freeID(Station::ID id);
 
-    Stations()
-        : _idCounter(1)
-    {   }
+    Stations();
 
     static Stations* _instance;
     //----------------------------------
