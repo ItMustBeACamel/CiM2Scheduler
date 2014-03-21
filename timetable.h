@@ -35,47 +35,47 @@ public:
     class Plan
     {
     public:
-        //typedef unsigned int DayType;
-        typedef TimeStamp TimeStampType;
+        typedef DayTime DayTimeType;
+        typedef TimeInterval IntervalType;
         Plan()
-            :_begin(0), _end(0), _interval(0), _days(F_DAY_NONE)
+            :_startTime(0), _endTime(0), _interval(0), _days(F_DAY_NONE)
         {    }
 
-        Plan(const TimeStampType& begin, const TimeStampType& end, const TimeStampType& interval, DayFlags daymask)
-            : _begin(begin), _end(end), _interval(interval), _days(daymask)
+        Plan(const DayTimeType& startTime, const DayTimeType& endTime, const TimeInterval& interval, DayFlags daymask)
+            : _startTime(startTime), _endTime(endTime), _interval(interval), _days(daymask)
         {
-            _begin.normalize();
-            _end.normalize();
+            _startTime.normalize();
+            _endTime.normalize();
         }
-        void setBegin(const TimeStamp& begin)
+        void setStartTime(const DayTimeType& startTime)
         {
-            _begin = begin;
+            _startTime = startTime;
         }
-        TimeStampType& getBegin()
+        DayTimeType& getStartTime()
         {
-            return _begin;
+            return _startTime;
         }
-        const TimeStampType& getBegin() const
+        const DayTimeType& getStartTime() const
         {
-            return _begin;
+            return _startTime;
         }
-        void setEnd(const TimeStamp& end)
+        void setEndTime(const DayTimeType& endTime)
         {
-            _end = end;
+            _endTime = endTime;
         }
-        TimeStampType& getEnd()
+        DayTimeType& getEndTime()
         {
-            return _end;
+            return _endTime;
         }
-        const TimeStampType& getEnd() const
+        const DayTimeType& getEndTime() const
         {
-            return _end;
+            return _endTime;
         }
-        TimeStampType& getInterval()
+        TimeInterval& getInterval()
         {
             return _interval;
         }
-        const TimeStampType& getInterval() const
+        const TimeInterval& getInterval() const
         {
             return _interval;
         }
@@ -100,27 +100,27 @@ public:
             _days = _days ^ days;
         }
 
-
-
     private:
-        TimeStampType _begin;
-        TimeStampType _end;
-        TimeStampType _interval;
+        DayTimeType _startTime;
+        DayTimeType _endTime;
+        IntervalType _interval;
 
         DayFlags _days;
     };
     typedef Plan PlanType;
+    typedef PlanType::DayTimeType DayTimeType;
+    typedef PlanType::IntervalType IntervalType;
 
     //------------------------------------------------------------------------------------------
 
     Timetable()
     {
-        _plans[PLAN_WEEKDAY] = Plan(TimeStamp(6, 0), TimeStamp(22, 0), TimeStamp(2, 0), F_DAY_MON_TO_THU | F_DAY_FRIDAY);
-        _plans[PLAN_MORNING_RUSH] = Plan(TimeStamp(7, 0), TimeStamp(7, 30), TimeStamp(2, 0), F_DAY_MON_TO_THU | F_DAY_FRIDAY);
-        _plans[PLAN_EVENING_RUSH] = Plan(TimeStamp(17, 0), TimeStamp(17, 30), TimeStamp(2, 0), F_DAY_MON_TO_THU | F_DAY_FRIDAY);
-        _plans[PLAN_WEEKEND] = Plan(TimeStamp(6, 0), TimeStamp(21, 0), TimeStamp(3, 0), F_DAY_SATURDAY | F_DAY_SUNDAY);
-        _plans[PLAN_NIGHT] = Plan(TimeStamp(0, 0), TimeStamp(3, 0), TimeStamp(3, 0), F_DAY_EVERY_DAY);
-        _plans[PLAN_CUSTOM] = Plan(TimeStamp(0, 0), TimeStamp(0, 0), TimeStamp(0, 0), F_DAY_NONE);
+        _plans[PLAN_WEEKDAY] = Plan(DayTimeType(6, 0), DayTimeType(22, 0), IntervalType(2, 0), F_DAY_MON_TO_THU | F_DAY_FRIDAY);
+        _plans[PLAN_MORNING_RUSH] = Plan(DayTimeType(7, 0), DayTimeType(7, 30), IntervalType(2, 0), F_DAY_MON_TO_THU | F_DAY_FRIDAY);
+        _plans[PLAN_EVENING_RUSH] = Plan(DayTimeType(17, 0), DayTimeType(17, 30), IntervalType(2, 0), F_DAY_MON_TO_THU | F_DAY_FRIDAY);
+        _plans[PLAN_WEEKEND] = Plan(PlanType::DayTimeType(6, 0), PlanType::DayTimeType(21, 0), IntervalType(3, 0), F_DAY_SATURDAY | F_DAY_SUNDAY);
+        _plans[PLAN_NIGHT] = Plan(DayTimeType(0, 0), DayTimeType(3, 0), IntervalType(3, 0), F_DAY_EVERY_DAY);
+        _plans[PLAN_CUSTOM] = Plan(DayTimeType(0, 0), DayTimeType(0, 0), IntervalType(0, 0), F_DAY_NONE);
     }
 
     Plan& getPlan(const PlanName& plan)
@@ -130,6 +130,12 @@ public:
     const Plan& getPlan(const unsigned int& plan) const
     {
         return _plans[plan];
+    }
+
+
+    inline WeekTime getEndOfWeek() /**< returns the last TimeStamp of the week +1 */
+    {
+        return WeekTime(TIME_RESOLUTION * DAY_NUM);
     }
 
 

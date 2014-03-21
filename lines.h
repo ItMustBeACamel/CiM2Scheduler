@@ -25,7 +25,7 @@ public:
 
     struct Stop
     {
-        typedef TimeStamp TimeStampType;
+        typedef TimeOffset TimeStampType;
         Stop() : station(0), time(0) {}
         Stop(Station::ID s, const TimeStampType& t)
             : station(s), time(t)

@@ -148,21 +148,21 @@ TimeTablePanel::~TimeTablePanel()
 
 void TimeTablePanel::refresh()
 {
-    TimeStamp startTime = _timetable.getPlan(_currentPlan).getBegin();
-    TimeStamp endTime = _timetable.getPlan(_currentPlan).getEnd();
-    TimeStamp interval = _timetable.getPlan(_currentPlan).getInterval();
+    DayTimeType startTime = _timetable.getPlan(_currentPlan).getStartTime();
+    DayTimeType endTime = _timetable.getPlan(_currentPlan).getEndTime();
+    IntervalType interval = _timetable.getPlan(_currentPlan).getInterval();
     //startTime.normalize();
     //end.normalize();
 
     txtBegin->SetLabel((startTime + _offset).toString());
-    if(_offset != TimeStamp(0))
+    if(_offset != TimeOffsetType(0))
         txtBegin->SetBackgroundColour(*wxRED);
     else
         txtBegin->SetBackgroundColour(*wxWHITE);
     sbBegin->SetValue(startTime.time);
 
     txtEnd->SetLabel((endTime + _offset).toString());
-    if(_offset != TimeStamp(0))
+    if(_offset != TimeOffsetType(0))
         txtEnd->SetBackgroundColour(*wxRED);
     else
         txtEnd->SetBackgroundColour(*wxWHITE);
@@ -180,18 +180,26 @@ void TimeTablePanel::refresh()
             gdTimetable->SetCellValue(0, i, "x");
     }
 
-    typedef std::list<TimeStamp> TimeList;
+    for(int col = 0; col < gdTimetable->GetCols(); ++col)
+    {
+        for(int row = 1; row < gdTimetable->GetRows(); ++row)
+        {
+            gdTimetable->SetCellBackgroundColour(*wxWHITE);
+        }
+    }
+
+    typedef std::list<WeekTimeType> TimeList;
     TimeList timeList;
 
     for(unsigned int nPlan = 0; nPlan < (int)PLAN_NUM; ++nPlan)
     {
         Timetable::Plan plan(_timetable.getPlan(nPlan));
 
-        TimeStamp planStart = plan.getBegin();// + _offset;
-        TimeStamp planEnd = plan.getEnd();// + _offset;
+        DayTimeType planStart = plan.getStartTime();
+        DayTimeType planEnd = plan.getEndTime();
 
-        TimeStamp planInterval = plan.getInterval();
-        if(planInterval == TimeStamp(0)) continue;
+        IntervalType planInterval = plan.getInterval();
+        if(planInterval == IntervalType(0)) continue;
 
         DayFlags dayFlag = F_DAY_MON_TO_THU;
         for(unsigned int day = 0; day < DAY_NUM; ++day)
@@ -200,19 +208,19 @@ void TimeTablePanel::refresh()
             {
 
 
-                TimeStamp dayStart(TIME_RESOLUTION * day);
-                TimeStamp dayPlanStart(dayStart+planStart);
-                TimeStamp dayPlanEnd;
+                WeekTimeType dayStart(TIME_RESOLUTION * day);
+                WeekTimeType dayPlanStart(dayStart+planStart);
+                WeekTimeType dayPlanEnd;
                 if(planEnd < planStart)
-                    dayPlanEnd = TimeStamp(TIME_RESOLUTION * (day+1)) + planEnd;
+                    dayPlanEnd = WeekTimeType(TIME_RESOLUTION * (day+1)) + planEnd;
                 else
                     dayPlanEnd = dayPlanStart + (planEnd - planStart);
 
-                for(TimeStamp t = dayPlanStart; (t <= dayPlanEnd) && (t < TimeStamp(TIME_RESOLUTION * 4)); t+=planInterval)
+                for(WeekTimeType t = dayPlanStart; (t <= dayPlanEnd) && (t < _timetable.getEndOfWeek()); t+=planInterval)
                 {
                     timeList.push_back(t);
-                    if(dayFlag == F_DAY_MON_TO_THU && t >= TimeStamp(TIME_RESOLUTION))
-                        timeList.push_back(t-TimeStamp(TIME_RESOLUTION));
+                    if(dayFlag == F_DAY_MON_TO_THU && t >= WeekTimeType(TIME_RESOLUTION))
+                        timeList.push_back(t-WeekTimeType(TIME_RESOLUTION));
                 }
             }
             dayFlag = dayFlag << 1;
@@ -223,8 +231,8 @@ void TimeTablePanel::refresh()
 
     for(TimeList::iterator i = timeList.begin(); i != timeList.end(); ++i)
     {
-        TimeStamp actualTime((*i) + _offset);
-        if(actualTime >= TimeStamp(TIME_RESOLUTION * 4))
+        WeekTimeType actualTime((*i) + _offset);
+        if(actualTime >= _timetable.getEndOfWeek())
             actualTime.normalize();
 
         int col=actualTime.time/TIME_RESOLUTION;
@@ -239,17 +247,17 @@ void TimeTablePanel::refresh()
 
 }
 
-void TimeTablePanel::setOffset(const TimeStamp& off)
+void TimeTablePanel::setOffset(const TimeTablePanel::TimeOffsetType& off)
 {
     _offset = off;
 }
 
-TimeStamp& TimeTablePanel::getOffset()
+TimeTablePanel::TimeOffsetType& TimeTablePanel::getOffset()
 {
     return _offset;
 }
 
-const TimeStamp& TimeTablePanel::getOffset()const
+const TimeTablePanel::TimeOffsetType& TimeTablePanel::getOffset()const
 {
     return _offset;
 
@@ -271,13 +279,13 @@ void TimeTablePanel::OngdTimetableResize(wxSizeEvent& event)
 
 void TimeTablePanel::OnsbBeginChange(wxSpinEvent& event)
 {
-    _timetable.getPlan(_currentPlan).setBegin(TimeStamp(event.GetValue()));
+    _timetable.getPlan(_currentPlan).setStartTime(DayTimeType(event.GetValue()));
     refresh();
 }
 
 void TimeTablePanel::OnsbEndChange(wxSpinEvent& event)
 {
-    _timetable.getPlan(_currentPlan).setEnd(TimeStamp(event.GetValue()));
+    _timetable.getPlan(_currentPlan).setEndTime(DayTimeType(event.GetValue()));
     refresh();
 }
 

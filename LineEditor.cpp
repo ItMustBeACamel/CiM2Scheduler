@@ -222,7 +222,7 @@ void LineEditor::apply()
     _line.clearStops();
     for(long i = 1; i < lvStops->GetItemCount(); ++i)
     {
-        TimeStamp t;
+        TimeOffset t;
         const Station& station = Stations::instance()->getStation((Station::ID)lvStops->GetItemData(i));
         t.parse(lvStops->GetItemText(i).c_str());
         _line.addStop(station.getID(), t);
@@ -294,7 +294,7 @@ void LineEditor::OnbtRemoveStopClick(wxCommandEvent& event)
 
 void LineEditor::OnlvStopsEndLabelEdit(wxListEvent& event)
 {
-    TimeStamp t;
+    TimeOffset t;
     std::string s(event.GetText());
 
 
@@ -312,6 +312,6 @@ void LineEditor::OnlvStationsItemSelect(wxListEvent& event)
 
 void LineEditor::OnlvStopsItemSelect(wxListEvent& event)
 {
-    panTimetable->setOffset(TimeStamp(event.GetText()));
+    panTimetable->setOffset(TimeOffset(event.GetText()));
     panTimetable->refresh();
 }

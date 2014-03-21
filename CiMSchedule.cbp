@@ -68,6 +68,8 @@
 			<Add option="-mthreads" />
 			<Add library="libwxmsw30u_adv.a" />
 		</Linker>
+		<Unit filename="./timestamp.cpp" />
+		<Unit filename="./timetable.cpp" />
 		<Unit filename="CiMScheduleApp.cpp" />
 		<Unit filename="CiMScheduleApp.h" />
 		<Unit filename="CiMScheduleMain.cpp" />
@@ -76,6 +78,7 @@
 		<Unit filename="LineEditor.h" />
 		<Unit filename="TimeTablePanel.cpp" />
 		<Unit filename="TimeTablePanel.h" />
+		<Unit filename="known_bugs.txt" />
 		<Unit filename="lines.cpp" />
 		<Unit filename="lines.h" />
 		<Unit filename="resource.rc">

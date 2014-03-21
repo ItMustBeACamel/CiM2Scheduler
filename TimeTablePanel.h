@@ -16,6 +16,11 @@
 class TimeTablePanel: public wxPanel
 {
 	public:
+	    typedef Timetable TimetableType;
+	    typedef TimetableType::DayTimeType DayTimeType;
+	    typedef TimetableType::IntervalType IntervalType;
+	    typedef TimeOffset TimeOffsetType;
+	    typedef WeekTime WeekTimeType;
 
 		TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~TimeTablePanel();
@@ -37,9 +42,9 @@ class TimeTablePanel: public wxPanel
 		//*)
 
 		void refresh();
-		void setOffset(const TimeStamp& off);
-		TimeStamp& getOffset();
-		const TimeStamp& getOffset()const;
+		void setOffset(const TimeOffset& off);
+		TimeOffset& getOffset();
+		const TimeOffset& getOffset()const;
 
 
 	protected:
@@ -63,7 +68,7 @@ class TimeTablePanel: public wxPanel
 	private:
         Timetable _timetable;
         PlanName _currentPlan;
-        TimeStamp _offset;
+        TimeOffset _offset;
 
 		//(*Handlers(TimeTablePanel)
 		void OnrbPlansSelect(wxCommandEvent& event);
