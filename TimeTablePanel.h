@@ -2,6 +2,7 @@
 #define TIMETABLEPANEL_H
 
 #include "timetable.h"
+#include "timetable_view.h"
 
 //(*Headers(TimeTablePanel)
 #include <wx/sizer.h>
@@ -20,7 +21,8 @@ class TimeTablePanel: public wxPanel
 	    typedef TimetableType::DayTimeType DayTimeType;
 	    typedef TimetableType::IntervalType IntervalType;
 	    typedef TimeOffset TimeOffsetType;
-	    typedef WeekTime WeekTimeType;
+	    typedef TimetableView TimetableViewType;
+	    typedef TimetableViewType::WeekTimeType WeekTimeType;
 
 		TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~TimeTablePanel();

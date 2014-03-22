@@ -71,6 +71,11 @@ inline WeekTime normalize(const WeekTime& weekTime)
     return WeekTime(weekTime.time % TIME_SLICES_PER_WEEK);
 }
 
+inline DayName getDayFromWeekTime(const WeekTime& time)
+{
+    return time.time / TIME_SLICES_PER_DAY;
+}
+
 /** \brief
  * Class representing a timetable
  *

@@ -2,6 +2,7 @@
 #define TIMETABLE_VIEW_H_INCLUDED
 
 #include "timetable.h"
+#include <list>
 
 class TimetableView
 {
@@ -111,6 +112,9 @@ private:
     TimeOffsetType _offset;
 
 };
+
+
+
 
 
 

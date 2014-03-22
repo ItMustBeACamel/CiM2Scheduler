@@ -2,7 +2,7 @@
 #include <list>
 #include <sstream>
 
-#include "timetable_view.h"
+
 
 //(*InternalHeaders(TimeTablePanel)
 #include <wx/intl.h>
@@ -190,62 +190,24 @@ void TimeTablePanel::refresh()
         }
     }
 
-    typedef std::list<WeekTimeType> TimeList;
-    TimeList timeList;
+    TimetableView timetableView(_timetable);
+    typedef TimetableView::StopList StopList;
+    typedef TimetableView::StopList::value_type StopType;
+    StopList stopList = timetableView(_offset);
 
-    for(unsigned int nPlan = 0; nPlan < (int)PLAN_NUM; ++nPlan)
+    for(StopList::iterator i = stopList.begin(); i != stopList.end(); ++i)
     {
-        Timetable::Plan plan(_timetable.getPlan(nPlan));
 
-        DayTimeType planStart = plan.getStartTime();
-        DayTimeType planEnd = plan.getEndTime();
+        int col = getDayFromWeekTime((*i).weekTime);
 
-        IntervalType planInterval = plan.getInterval();
-        if(planInterval == IntervalType(0)) continue;
+        DayTimeType dayTime((*i).weekTime.makeDaytime());
 
-        DayFlags dayFlag = F_DAY_MON_TO_THU;
-        for(unsigned int day = 0; day < DAY_NUM; ++day)
-        {
-            if(plan.activeAtDays(dayFlag))
-            {
+        int row = dayTime.getHour() + 1;
 
-
-                WeekTimeType dayStart(TIME_RESOLUTION * day);
-                WeekTimeType dayPlanStart(dayStart+planStart);
-                WeekTimeType dayPlanEnd;
-                if(planEnd < planStart)
-                    dayPlanEnd = WeekTimeType(TIME_RESOLUTION * (day+1)) + planEnd;
-                else
-                    dayPlanEnd = dayPlanStart + (planEnd - planStart);
-
-                for(WeekTimeType t = dayPlanStart; (t <= dayPlanEnd) && (t < _timetable.getEndOfWeek()); t+=planInterval)
-                {
-                    timeList.push_back(t);
-                    if(dayFlag == F_DAY_MON_TO_THU && t >= WeekTimeType(TIME_RESOLUTION))
-                        timeList.push_back(t-WeekTimeType(TIME_RESOLUTION));
-                }
-            }
-            dayFlag = dayFlag << 1;
-        }
-
-    }
-    timeList.sort();
-
-    for(TimeList::iterator i = timeList.begin(); i != timeList.end(); ++i)
-    {
-        WeekTimeType actualTime((*i) + _offset);
-        if(actualTime >= _timetable.getEndOfWeek())
-            actualTime.normalize();
-
-        int col=actualTime.time/TIME_RESOLUTION;
-
-        actualTime.normalize();
-        int row = actualTime.getHour()+1;
         std::stringstream ss;
-        ss << gdTimetable->GetCellValue(row,col) << " " << actualTime.getMinute();
-       gdTimetable->SetCellValue(row,col, ss.str());
+        ss << gdTimetable->GetCellValue(row,col) << " " << dayTime.getMinute();
+        gdTimetable->SetCellValue(row,col, ss.str());
     }
-
 
 }
 
