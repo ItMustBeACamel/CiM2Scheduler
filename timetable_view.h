@@ -49,10 +49,13 @@ public:
 
     }
 
-    StopList operator()(const TimeOffsetType& offset)
+    void setOffset(const TimeOffsetType& offset)
     {
         _offset = offset;
+    }
 
+    StopList getStopList()
+    {
         StopList stopList;
 
         for(PlanNameType nPlan = 0; nPlan < (Timetable::PlanName)PLAN_NUM; ++nPlan)
@@ -65,14 +68,10 @@ public:
             IntervalType planInterval = plan.getInterval();
             if(planInterval == IntervalType(0)) continue;
 
-            //DayFlags dayFlag = F_DAY_MON_TO_THU;
-
             for(DayName day = 0; day < DAY_NUM; ++day)
             {
                 if(plan.activeAtDay(day))
                 {
-
-
                     WeekTimeType dayStart(dayBegin(day));
                     WeekTimeType dayPlanStart(dayStart+planStart);
                     WeekTimeType dayPlanEnd;
@@ -94,15 +93,31 @@ public:
                             wrappedTime+= _offset;
                             stopList.push_back(StopListEntry(nPlan, wrappedTime));
                         }
-
-                    }
-                }
-                //dayFlag = dayFlag << 1;
-            }
+                    } // for t
+                }// if plan
+            }// for day
         }
         stopList.sort();
         return stopList;
+    }
 
+    WeekTimeType getPlanStart(const PlanNameType& plan, const DayName& day)
+    {
+        return normalize(dayBegin(day) + _timetable.getPlan(plan).getStartTime() + _offset);
+    }
+
+    WeekTimeType getPlanEnd(const PlanNameType& plan, const DayName& day)
+    {
+        if((_timetable.getPlan(plan).getEndTime()) < (_timetable.getPlan(plan).getStartTime()))
+        {
+            if(day+1 >= DAY_NUM)
+                return _timetable.getPlan(plan).getEndTime() + _offset;
+            else
+            return normalize(dayBegin(day+1) + _timetable.getPlan(plan).getEndTime() + _offset);
+
+        }
+        else
+            return normalize(dayBegin(day) + _timetable.getPlan(plan).getEndTime() + _offset);
     }
 
 
