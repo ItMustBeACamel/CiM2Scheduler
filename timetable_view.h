@@ -103,11 +103,13 @@ public:
 
     WeekTimeType getPlanStart(const PlanNameType& plan, const DayName& day)
     {
+        assert(day < DAY_NUM);
         return normalize(dayBegin(day) + _timetable.getPlan(plan).getStartTime() + _offset);
     }
 
     WeekTimeType getPlanEnd(const PlanNameType& plan, const DayName& day)
     {
+        assert(day < DAY_NUM);
         if((_timetable.getPlan(plan).getEndTime()) < (_timetable.getPlan(plan).getStartTime()))
         {
             if(day+1 >= DAY_NUM)

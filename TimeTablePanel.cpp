@@ -205,12 +205,20 @@ void TimeTablePanel::refresh()
         {
             for(int row = 1; row < gdTimetable->GetRows(); ++row)
             {
-                WeekTimeType cellTime(dayBegin(col).time + (row-1) * TIME_SLICES_PER_HOUR);
-                if(cellTime >= timetableView.getPlanStart(_currentPlan, day) && cellTime <= timetableView.getPlanEnd(_currentPlan, day))
+                WeekTimeType cellStartTime(dayBegin(col).time + (row-1) * TIME_SLICES_PER_HOUR);
+                WeekTimeType cellEndTime = cellStartTime + TimeOffsetType(TIME_SLICES_PER_HOUR - 1);
+                if(cellStartTime <= timetableView.getPlanEnd(_currentPlan, day) && cellEndTime >= timetableView.getPlanStart(_currentPlan, day))
                 {
                     gdTimetable->SetCellBackgroundColour(row, col, *wxYELLOW);
                 }
-                if(day == DAY_MON_TO_THU && cellTime + )
+                else
+                {
+                    if(day == DAY_MON_TO_THU && _timetable.getPlan(_currentPlan).getEndTime() < _timetable.getPlan(_currentPlan).getStartTime())
+                        if(cellStartTime <= _timetable.getPlan(_currentPlan).getEndTime() ||  cellEndTime <= _timetable.getPlan(_currentPlan).getEndTime())
+                            gdTimetable->SetCellBackgroundColour(row, col, *wxYELLOW);
+
+                }
+                //if(day == DAY_MON_TO_THU && cellTime + )
 
 
             }
