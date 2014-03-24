@@ -5,30 +5,39 @@
 
 #include <cassert>
 
-#define DAY_NUM 4
+enum E_Days
+{
+    DAY_MONDAY,
+    DAY_TUESDAY,
+    DAY_WEDNESDAY,
+    DAY_THURSDAY,
+    DAY_FRIDAY,
+    DAY_SATURDAY,
+    DAY_SUNDAY,
+    DAY_NUM
+};
 
 #define TIME_SLICES_PER_WEEK    (TIME_SLICES_PER_DAY * DAY_NUM)
 
-#define DAY_MON_TO_THU 0
-#define DAY_FRIDAY 1
-#define DAY_SATURDAY 2
-#define DAY_SUNDAY 3
 
-#define F_DAY_NONE 0x00000000
-#define F_DAY_MON_TO_THU 0x00000001
-#define F_DAY_FRIDAY 0x00000002
-#define F_DAY_SATURDAY 0x00000004
-#define F_DAY_SUNDAY 0x00000008
-#define F_DAY_EVERY_DAY 0xFFFFFF
+#define F_DAY_NONE          0x00000000
+#define F_DAY_MON_TO_THU    0x0000000F
+#define F_DAY_MONDAY        0x00000001
+#define F_DAY_TUESDAY       0x00000002
+#define F_DAY_WEDNESDAY     0x00000004
+#define F_DAY_THURSDAY      0x00000008
+#define F_DAY_FRIDAY        0x00000010
+#define F_DAY_SATURDAY      0x00000020
+#define F_DAY_SUNDAY        0x00000040
+#define F_DAY_EVERY_DAY     0xFFFFFFFF
 
 #define F_DAY_FIRST_DAY 0x00000001
-#define F_DAY_LAST_DAY 0x00000008
+#define F_DAY_LAST_DAY 0x00000040
+
 typedef unsigned int DayFlags;
-
-
 typedef unsigned int DayName;
 
-enum PlanLabel
+enum E_PlanLabel
 {
     PLAN_WEEKDAY,
     PLAN_MORNING_RUSH,
@@ -39,6 +48,17 @@ enum PlanLabel
     PLAN_NUM
 };
 
+/*
+std::string PlanLab[] =
+{
+    std::string("Weekday"),
+    std::string("Morning Rush"),
+    std::string("Evening Rush"),
+    std::string("Weekend"),
+    std::string("Night"),
+    std::string("Custom")
+};
+*/
 /** \brief
  *
  * \return the first time slice of the week
@@ -123,6 +143,10 @@ public:
         {
             return _endTime;
         }
+        void setInterval(const IntervalType& interval)
+        {
+            _interval = interval;
+        }
         TimeInterval& getInterval()
         {
             return _interval;
@@ -131,6 +155,8 @@ public:
         {
             return _interval;
         }
+
+
 
         const bool activeAtDay(const DayName& day)const /**< returns true if the given day is active in the plan */
         {

@@ -147,7 +147,7 @@ LineEditor::LineEditor(Line& line, wxWindow* parent,wxWindowID id)
 	BoxSizer1->Fit(this);
 	BoxSizer1->SetSizeHints(this);
 
-	Connect(ID_LISTVIEW1,wxEVT_COMMAND_LIST_BEGIN_DRAG,(wxObjectEventFunction)&LineEditor::OnListView1BeginDrag);
+	Connect(ID_LISTVIEW1,wxEVT_COMMAND_LIST_BEGIN_LABEL_EDIT,(wxObjectEventFunction)&LineEditor::OnlvStopsBeginLabelEdit);
 	Connect(ID_LISTVIEW1,wxEVT_COMMAND_LIST_END_LABEL_EDIT,(wxObjectEventFunction)&LineEditor::OnlvStopsEndLabelEdit);
 	Connect(ID_LISTVIEW1,wxEVT_COMMAND_LIST_ITEM_SELECTED,(wxObjectEventFunction)&LineEditor::OnlvStopsItemSelect);
 	Connect(ID_BUTTON6,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&LineEditor::OnbtRemoveStopClick);
@@ -219,6 +219,7 @@ LineEditor::~LineEditor()
 
 void LineEditor::apply()
 {
+    _line.setTimetable(panTimetable->getTimetable());
     _line.clearStops();
     for(long i = 1; i < lvStops->GetItemCount(); ++i)
     {
@@ -228,10 +229,6 @@ void LineEditor::apply()
         _line.addStop(station.getID(), t);
     }
 
-}
-
-void LineEditor::OnListView1BeginDrag(wxListEvent& event)
-{
 }
 
 void LineEditor::OnbtOKClick(wxCommandEvent& event)
@@ -314,4 +311,14 @@ void LineEditor::OnlvStopsItemSelect(wxListEvent& event)
 {
     panTimetable->setOffset(TimeOffset(event.GetText()));
     panTimetable->refresh();
+}
+
+void LineEditor::OnlvStationsBeginLabelEdit(wxListEvent& event)
+{
+
+}
+
+void LineEditor::OnlvStopsBeginLabelEdit(wxListEvent& event)
+{
+    if(event.GetIndex() == 0) event.Veto();
 }

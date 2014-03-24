@@ -12,12 +12,13 @@ public:
     typedef TimeTableType::DayTimeType DayTimeType;
     typedef TimeTableType::IntervalType IntervalType;
     typedef WeekTime WeekTimeType;
+    typedef DayName DayNameType;
 
     struct StopListEntry
     {
         typedef TimeTableType::PlanName PlanNameType;
-        StopListEntry(const PlanNameType& p, const WeekTimeType& t)
-            : plan(p), weekTime(t)
+        StopListEntry(const PlanNameType& p, const DayNameType& day, const WeekTimeType& t)
+            : plan(p), day(day), weekTime(t)
         {
 
         }
@@ -38,6 +39,7 @@ public:
         }
 
         PlanNameType plan;
+        DayNameType day;
         WeekTimeType weekTime;
     };
     typedef StopListEntry::PlanNameType PlanNameType;
@@ -80,19 +82,11 @@ public:
                     else
                         dayPlanEnd = dayPlanStart + (planEnd - planStart);
 
-                    for(WeekTimeType t = dayPlanStart; (t <= dayPlanEnd) && (t < weekEnd()); t+=planInterval)
+                    for(WeekTimeType t = dayPlanStart; (t <= dayPlanEnd) /*&& (t < weekEnd())*/; t+=planInterval)
                     {
                         WeekTimeType newTime(normalize(t+_offset));
 
-                        stopList.push_back(StopListEntry(nPlan, newTime));
-
-                        if(day == DAY_MON_TO_THU && t >= dayEnd(day))
-                        {
-                            WeekTimeType wrappedTime(t);
-                            wrappedTime.makeDaytime();
-                            wrappedTime+= _offset;
-                            stopList.push_back(StopListEntry(nPlan, wrappedTime));
-                        }
+                        stopList.push_back(StopListEntry(nPlan, day, newTime));
                     } // for t
                 }// if plan
             }// for day
@@ -116,7 +110,7 @@ public:
         if((_timetable.getPlan(plan).getEndTime()) < (_timetable.getPlan(plan).getStartTime()))
         {
             if(day+1 >= DAY_NUM)
-                return normalize((--weekEnd() + _offset));
+                return normalize((weekBegin() + _timetable.getPlan(plan).getEndTime() + _offset));
             else
             return normalize(dayBegin(day+1) + _timetable.getPlan(plan).getEndTime() + _offset);
 
@@ -130,9 +124,9 @@ public:
         WeekTimeType planStart = getPlanStart(plan, day);
         WeekTimeType planEnd = getPlanEnd(plan, day);
         if(!_timetable.getPlan(plan).activeAtDay(day)) return false;
-        if(day == DAY_MON_TO_THU && _timetable.getPlan(plan).getEndTime() < _timetable.getPlan(plan).getStartTime() && time <= _timetable.getPlan(plan).getEndTime() + _offset) return true;
 
-        if(planStart < planEnd && planStart != planEnd)
+
+        if(planStart <= planEnd /*&& planStart != planEnd*/)
         {
             return (time <= planEnd && time >= planStart);
         }

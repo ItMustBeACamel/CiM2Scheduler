@@ -9,10 +9,12 @@
 #include <wx/stattext.h>
 #include <wx/radiobox.h>
 #include <wx/textctrl.h>
+#include <wx/checklst.h>
 #include <wx/panel.h>
 #include <wx/grid.h>
 #include <wx/spinbutt.h>
 //*)
+
 
 class TimeTablePanel: public wxPanel
 {
@@ -23,6 +25,7 @@ class TimeTablePanel: public wxPanel
 	    typedef TimeOffset TimeOffsetType;
 	    typedef TimetableView TimetableViewType;
 	    typedef TimetableViewType::WeekTimeType WeekTimeType;
+	    typedef TimetableType::PlanName PlanNameType;
 
 		TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~TimeTablePanel();
@@ -39,14 +42,19 @@ class TimeTablePanel: public wxPanel
 		wxStaticText* StaticText1;
 		wxStaticText* StaticText3;
 		wxTextCtrl* txtEnd;
+		wxPanel* Panel3;
 		wxSpinButton* sbEnd;
 		wxPanel* Panel2;
+		wxCheckListBox* clbOptions;
 		//*)
 
 		void refresh();
 		void setOffset(const TimeOffset& off);
 		TimeOffset& getOffset();
 		const TimeOffset& getOffset()const;
+		void setCollapsed(const bool collapsed);
+		const bool isCollapsed();
+		Timetable& getTimetable();
 
 
 	protected:
@@ -65,12 +73,15 @@ class TimeTablePanel: public wxPanel
 		static const long ID_SPINBUTTON3;
 		static const long ID_PANEL2;
 		static const long ID_GRID1;
+		static const long ID_CHECKLISTBOX1;
+		static const long ID_PANEL3;
 		//*)
 
 	private:
         Timetable _timetable;
-        PlanLabel _currentPlan;
+        PlanNameType _currentPlan;
         TimeOffset _offset;
+        bool _collapsed;
 
 		//(*Handlers(TimeTablePanel)
 		void OnrbPlansSelect(wxCommandEvent& event);
@@ -84,6 +95,7 @@ class TimeTablePanel: public wxPanel
 		void OngdTimetableCellLeftClick(wxGridEvent& event);
 		void OnsbIntervalChangeUp(wxSpinEvent& event);
 		void OnsbIntervalChangeDown(wxSpinEvent& event);
+		void OnclbOptionsToggled(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

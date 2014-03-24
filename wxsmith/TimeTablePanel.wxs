@@ -22,13 +22,12 @@
 								<style>wxRA_VERTICAL</style>
 								<handler function="OnrbPlansSelect" entry="EVT_RADIOBOX" />
 							</object>
-							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+							<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 							<border>5</border>
 						</object>
 					</object>
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-				<border>5</border>
 			</object>
 			<object class="sizeritem">
 				<object class="wxPanel" name="ID_PANEL2" variable="Panel2" member="yes">
@@ -103,16 +102,18 @@
 					</object>
 				</object>
 				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-				<border>5</border>
 			</object>
 			<object class="sizeritem">
 				<object class="wxGrid" name="ID_GRID1" variable="gdTimetable" member="yes">
-					<cols>4</cols>
+					<cols>7</cols>
 					<rows>25</rows>
 					<readonly>1</readonly>
 					<labelcolwidth>20</labelcolwidth>
 					<collabels>
-						<item>Monday-Thursday</item>
+						<item>Monday</item>
+						<item>Tuesday</item>
+						<item>Wednesday</item>
+						<item>Thursday</item>
 						<item>Friday</item>
 						<item>Saturday</item>
 						<item>Sunday</item>
@@ -150,6 +151,25 @@
 				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 				<border>5</border>
 				<option>1</option>
+			</object>
+			<object class="sizeritem">
+				<object class="wxPanel" name="ID_PANEL3" variable="Panel3" member="yes">
+					<object class="wxBoxSizer" variable="BoxSizer4" member="no">
+						<object class="sizeritem">
+							<object class="wxCheckListBox" name="ID_CHECKLISTBOX1" variable="clbOptions" member="yes">
+								<content>
+									<item>Expand</item>
+								</content>
+								<handler function="OnclbOptionsToggled" entry="EVT_CHECKLISTBOX" />
+							</object>
+							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+							<border>5</border>
+							<option>1</option>
+						</object>
+					</object>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+				<border>5</border>
 			</object>
 		</object>
 	</object>

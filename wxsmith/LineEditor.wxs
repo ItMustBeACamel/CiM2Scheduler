@@ -80,7 +80,7 @@
 															<object class="sizeritem">
 																<object class="wxListView" name="ID_LISTVIEW1" variable="lvStops" member="yes">
 																	<style>wxLC_REPORT|wxLC_EDIT_LABELS</style>
-																	<handler function="OnListView1BeginDrag" entry="EVT_LIST_BEGIN_DRAG" />
+																	<handler function="OnlvStopsBeginLabelEdit" entry="EVT_LIST_BEGIN_LABEL_EDIT" />
 																	<handler function="OnlvStopsEndLabelEdit" entry="EVT_LIST_END_LABEL_EDIT" />
 																	<handler function="OnlvStopsItemSelect" entry="EVT_LIST_ITEM_SELECTED" />
 																</object>

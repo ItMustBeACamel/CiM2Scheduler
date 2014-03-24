@@ -23,6 +23,8 @@ const long TimeTablePanel::ID_TEXTCTRL3 = wxNewId();
 const long TimeTablePanel::ID_SPINBUTTON3 = wxNewId();
 const long TimeTablePanel::ID_PANEL2 = wxNewId();
 const long TimeTablePanel::ID_GRID1 = wxNewId();
+const long TimeTablePanel::ID_CHECKLISTBOX1 = wxNewId();
+const long TimeTablePanel::ID_PANEL3 = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(TimeTablePanel,wxPanel)
@@ -31,9 +33,10 @@ BEGIN_EVENT_TABLE(TimeTablePanel,wxPanel)
 END_EVENT_TABLE()
 
 TimeTablePanel::TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
-    : _timetable(timetable), _currentPlan(PLAN_WEEKDAY), _offset(0)
+    : _timetable(timetable), _currentPlan(PLAN_WEEKDAY), _offset(0), _collapsed(true)
 {
     //(*Initialize(TimeTablePanel)
+    wxBoxSizer* BoxSizer4;
     wxBoxSizer* BoxSizer2;
     wxBoxSizer* BoxSizer1;
     wxBoxSizer* BoxSizer3;
@@ -44,20 +47,20 @@ TimeTablePanel::TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID
     BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
     wxString __wxRadioBoxChoices_1[6] =
     {
-        _("Weekday"),
-        _("Morning Rush"),
-        _("Evening Rush"),
-        _("Weekend"),
-        _("Night"),
-        _("Custom")
+    	_("Weekday"),
+    	_("Morning Rush"),
+    	_("Evening Rush"),
+    	_("Weekend"),
+    	_("Night"),
+    	_("Custom")
     };
     rbPlans = new wxRadioBox(Panel1, ID_RADIOBOX1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 6, __wxRadioBoxChoices_1, 1, wxRA_VERTICAL, wxDefaultValidator, _T("ID_RADIOBOX1"));
     rbPlans->SetSelection(0);
-    BoxSizer2->Add(rbPlans, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    BoxSizer2->Add(rbPlans, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     Panel1->SetSizer(BoxSizer2);
     BoxSizer2->Fit(Panel1);
     BoxSizer2->SetSizeHints(Panel1);
-    BoxSizer1->Add(Panel1, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    BoxSizer1->Add(Panel1, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
     Panel2 = new wxPanel(this, ID_PANEL2, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL2"));
     BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
     StaticText1 = new wxStaticText(Panel2, ID_STATICTEXT1, _("Start time:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT1"));
@@ -84,16 +87,19 @@ TimeTablePanel::TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID
     Panel2->SetSizer(BoxSizer3);
     BoxSizer3->Fit(Panel2);
     BoxSizer3->SetSizeHints(Panel2);
-    BoxSizer1->Add(Panel2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    BoxSizer1->Add(Panel2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
     gdTimetable = new wxGrid(this, ID_GRID1, wxDefaultPosition, wxDefaultSize, 0, _T("ID_GRID1"));
-    gdTimetable->CreateGrid(25,4);
+    gdTimetable->CreateGrid(25,7);
     gdTimetable->EnableEditing(false);
     gdTimetable->EnableGridLines(true);
     gdTimetable->SetRowLabelSize(20);
-    gdTimetable->SetColLabelValue(0, _("Monday-Thursday"));
-    gdTimetable->SetColLabelValue(1, _("Friday"));
-    gdTimetable->SetColLabelValue(2, _("Saturday"));
-    gdTimetable->SetColLabelValue(3, _("Sunday"));
+    gdTimetable->SetColLabelValue(0, _("Monday"));
+    gdTimetable->SetColLabelValue(1, _("Tuesday"));
+    gdTimetable->SetColLabelValue(2, _("Wednesday"));
+    gdTimetable->SetColLabelValue(3, _("Thursday"));
+    gdTimetable->SetColLabelValue(4, _("Friday"));
+    gdTimetable->SetColLabelValue(5, _("Saturday"));
+    gdTimetable->SetColLabelValue(6, _("Sunday"));
     gdTimetable->SetRowLabelValue(0, _("x"));
     gdTimetable->SetRowLabelValue(1, _("0"));
     gdTimetable->SetRowLabelValue(2, _("1"));
@@ -122,6 +128,15 @@ TimeTablePanel::TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID
     gdTimetable->SetDefaultCellFont( gdTimetable->GetFont() );
     gdTimetable->SetDefaultCellTextColour( gdTimetable->GetForegroundColour() );
     BoxSizer1->Add(gdTimetable, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    Panel3 = new wxPanel(this, ID_PANEL3, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL3"));
+    BoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
+    clbOptions = new wxCheckListBox(Panel3, ID_CHECKLISTBOX1, wxDefaultPosition, wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_CHECKLISTBOX1"));
+    clbOptions->Append(_("Expand"));
+    BoxSizer4->Add(clbOptions, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    Panel3->SetSizer(BoxSizer4);
+    BoxSizer4->Fit(Panel3);
+    BoxSizer4->SetSizeHints(Panel3);
+    BoxSizer1->Add(Panel3, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     SetSizer(BoxSizer1);
     BoxSizer1->Fit(this);
     BoxSizer1->SetSizeHints(this);
@@ -133,8 +148,9 @@ TimeTablePanel::TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID
     Connect(ID_SPINBUTTON3,wxEVT_SCROLL_LINEDOWN,(wxObjectEventFunction)&TimeTablePanel::OnsbIntervalChangeDown);
     Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&TimeTablePanel::OngdTimetableCellLeftClick);
     gdTimetable->Connect(wxEVT_SIZE,(wxObjectEventFunction)&TimeTablePanel::OngdTimetableResize,0,this);
+    Connect(ID_CHECKLISTBOX1,wxEVT_COMMAND_CHECKLISTBOX_TOGGLED,(wxObjectEventFunction)&TimeTablePanel::OnclbOptionsToggled);
     //*)
-    _currentPlan = (PlanLabel)rbPlans->GetSelection();
+    _currentPlan = (PlanNameType)rbPlans->GetSelection();
     gdTimetable->SetDefaultCellAlignment(wxALIGN_CENTRE, wxALIGN_CENTRE);
     sbBegin->SetMax(TIME_RESOLUTION-1);
     sbEnd->SetMax(TIME_RESOLUTION-1);
@@ -153,17 +169,15 @@ void TimeTablePanel::refresh()
     DayTimeType startTime = _timetable.getPlan(_currentPlan).getStartTime();
     DayTimeType endTime = _timetable.getPlan(_currentPlan).getEndTime();
     IntervalType interval = _timetable.getPlan(_currentPlan).getInterval();
-    //startTime.normalize();
-    //end.normalize();
 
-    txtBegin->SetLabel((startTime + _offset).toString());
+    txtBegin->SetLabel(normalize(startTime + _offset).makeDaytime().toString());
     if(_offset != TimeOffsetType(0))
         txtBegin->SetBackgroundColour(*wxRED);
     else
         txtBegin->SetBackgroundColour(*wxWHITE);
     sbBegin->SetValue(startTime.time);
 
-    txtEnd->SetLabel((endTime + _offset).toString());
+    txtEnd->SetLabel(normalize(endTime + _offset).makeDaytime().toString());
     if(_offset != TimeOffsetType(0))
         txtEnd->SetBackgroundColour(*wxRED);
     else
@@ -190,6 +204,11 @@ void TimeTablePanel::refresh()
         }
     }
 
+    if(_collapsed)
+        gdTimetable->SetColLabelValue(DAY_MONDAY, "Monday-Thursday");
+    else
+        gdTimetable->SetColLabelValue(DAY_MONDAY, "Monday");
+
 
 
     TimetableView timetableView(_timetable);
@@ -197,38 +216,6 @@ void TimeTablePanel::refresh()
     //typedef TimetableView::StopList::value_type StopType;
     timetableView.setOffset(TimeOffsetType(0));
 
-/*
-    for(DayName day = 0; day < DAY_NUM; ++day)
-    {
-        if(!_timetable.getPlan(_currentPlan).activeAtDay(day)) continue;
-        for(int col = 0; col < gdTimetable->GetCols(); ++col)
-        {
-            for(int row = 1; row < gdTimetable->GetRows(); ++row)
-            {
-                WeekTimeType cellStartTime(dayBegin(col).time + (row-1) * TIME_SLICES_PER_HOUR);
-                WeekTimeType cellEndTime = cellStartTime + TimeOffsetType(TIME_SLICES_PER_HOUR - 1);
-                WeekTimeType planStart = timetableView.getPlanStart(_currentPlan, day);
-                WeekTimeType planEnd = timetableView.getPlanEnd(_currentPlan, day);
-                if(planEnd < planStart) planEnd = --weekEnd();
-                if(cellStartTime <= planEnd && cellEndTime >= planStart)
-                {
-                    gdTimetable->SetCellBackgroundColour(row, col, *wxYELLOW);
-                }
-                else
-                {
-                    if(day == DAY_MON_TO_THU && _timetable.getPlan(_currentPlan).getEndTime() < _timetable.getPlan(_currentPlan).getStartTime())
-                        if(cellStartTime <= _timetable.getPlan(_currentPlan).getEndTime() ||  cellEndTime <= _timetable.getPlan(_currentPlan).getEndTime())
-                            gdTimetable->SetCellBackgroundColour(row, col, *wxYELLOW);
-
-                }
-
-
-
-            }
-        }
-    }
-*/
-
     for(DayName day = 0; day < DAY_NUM; ++day)
     {
         if(!_timetable.getPlan(_currentPlan).activeAtDay(day)) continue;
@@ -239,11 +226,21 @@ void TimeTablePanel::refresh()
                 WeekTimeType cellStartTime(dayBegin(col).time + (row-1) * TIME_SLICES_PER_HOUR);
                 WeekTimeType cellEndTime = cellStartTime + TimeOffsetType(TIME_SLICES_PER_HOUR - 1);
 
-                if(timetableView.isWithinPlan(cellStartTime, _currentPlan, day) || timetableView.isWithinPlan(cellEndTime, _currentPlan, day))
+                for( WeekTimeType time = cellStartTime; time <= cellEndTime; ++time)
                 {
-                    gdTimetable->SetCellBackgroundColour(row, col, *wxYELLOW);
-                }
+                    if(timetableView.isWithinPlan(time, _currentPlan, day))
+                    {
+                        gdTimetable->SetCellBackgroundColour(row, col, *wxYELLOW);
+                        break;
+                    }
 
+                    if(_collapsed && day == DAY_MONDAY && timetableView.isWithinPlan(time + dayBegin(DAY_TUESDAY), _currentPlan, day))
+                    {
+                        gdTimetable->SetCellBackgroundColour(row, col, *wxYELLOW);
+                        break;
+                    }
+
+                }
             }
         }
     }
@@ -263,9 +260,19 @@ void TimeTablePanel::refresh()
                     WeekTimeType cellStartTime(dayBegin(col).time + (row-1) * TIME_SLICES_PER_HOUR);
                     WeekTimeType cellEndTime = cellStartTime + TimeOffsetType(TIME_SLICES_PER_HOUR - 1);
 
-                    if(timetableView.isWithinPlan(cellStartTime, _currentPlan, day) || timetableView.isWithinPlan(cellEndTime, _currentPlan, day))
+                    for( WeekTimeType time = cellStartTime; time <= cellEndTime; ++time)
                     {
-                        gdTimetable->SetCellBackgroundColour(row, col, *wxRED);
+                        if(timetableView.isWithinPlan(time, _currentPlan, day))
+                        {
+                            gdTimetable->SetCellBackgroundColour(row, col, *wxRED);
+                            break;
+                        }
+
+                        if(_collapsed && day == DAY_MONDAY && timetableView.isWithinPlan(time + dayBegin(DAY_TUESDAY), _currentPlan, day))
+                        {
+                            gdTimetable->SetCellBackgroundColour(row, col, *wxRED);
+                            break;
+                        }
                     }
 
                 }
@@ -275,21 +282,42 @@ void TimeTablePanel::refresh()
 
     StopList stopList = timetableView.getStopList();
 
+    unsigned int nCells = H_PER_DAY * DAY_NUM;
+    StopList cellList[nCells];
 
     for(StopList::iterator i = stopList.begin(); i != stopList.end(); ++i)
     {
 
-        int col = getDayFromWeekTime((*i).weekTime);
 
-        DayTimeType dayTime((*i).weekTime.makeDaytime());
+        if(_collapsed && (*i).day == DAY_MONDAY && (*i).weekTime >= dayBegin(DAY_TUESDAY))
+        {
+            StopList::value_type stop(*i);
+            stop.weekTime.makeDaytime();
+            cellList[stop.weekTime.getHour()].push_back(stop);
 
-        int row = dayTime.getHour() + 1;
+        }
+        else
+            cellList[(*i).weekTime.getHour()].push_back((*i));
 
-        std::stringstream ss;
-        ss << gdTimetable->GetCellValue(row,col) << " " << dayTime.getMinute();
-        gdTimetable->SetCellValue(row,col, ss.str());
     }
 
+    for(unsigned int i = 0; i < nCells; ++i)
+        cellList[i].sort();
+
+    for(int col = 0; col < gdTimetable->GetCols(); ++col)
+    {
+        for(int row = 1; row < gdTimetable->GetRows(); ++row)
+        {
+            std::stringstream ss;
+            for(StopList::iterator i = cellList[col * H_PER_DAY + row - 1].begin(); i != cellList[col * H_PER_DAY + row - 1].end(); ++i)
+            {
+                if(ss.str().length() != 0) ss << " ";
+                ss << (*i).weekTime.getMinute();
+            }
+
+            gdTimetable->SetCellValue(row,col, ss.str());
+        }
+    }
 }
 
 void TimeTablePanel::setOffset(const TimeTablePanel::TimeOffsetType& off)
@@ -305,20 +333,49 @@ TimeTablePanel::TimeOffsetType& TimeTablePanel::getOffset()
 const TimeTablePanel::TimeOffsetType& TimeTablePanel::getOffset()const
 {
     return _offset;
+}
 
+void TimeTablePanel::setCollapsed(const bool collapsed)
+{
+    _collapsed = collapsed;
+    refresh();
+}
+
+const bool TimeTablePanel::isCollapsed()
+{
+    return _collapsed;
+}
+
+Timetable& TimeTablePanel::getTimetable()
+{
+    return _timetable;
 }
 
 void TimeTablePanel::OnrbPlansSelect(wxCommandEvent& event)
 {
-    _currentPlan = (PlanLabel)rbPlans->GetSelection();
+    _currentPlan = (PlanNameType)rbPlans->GetSelection();
     refresh();
 }
 
 void TimeTablePanel::OngdTimetableResize(wxSizeEvent& event)
 {
+    int nCols = _collapsed ? (DAY_NUM-3) : DAY_NUM;
     for(int i = 0; i < gdTimetable->GetCols(); ++i)
+        gdTimetable->SetColumnWidth(i,(event.GetSize().GetWidth() - gdTimetable->GetColLabelSize()) / nCols);
 
-        gdTimetable->SetColumnWidth(i,(event.GetSize().GetWidth() - gdTimetable->GetColLabelSize()) / 4);
+    if(_collapsed)
+    {
+        gdTimetable->HideCol(DAY_TUESDAY);
+        gdTimetable->HideCol(DAY_WEDNESDAY);
+        gdTimetable->HideCol(DAY_THURSDAY);
+    }
+    else
+    {
+        gdTimetable->ShowCol(DAY_TUESDAY);
+        gdTimetable->ShowCol(DAY_WEDNESDAY);
+        gdTimetable->ShowCol(DAY_THURSDAY);
+
+    }
     gdTimetable->ForceRefresh();
 }
 
@@ -338,9 +395,15 @@ void TimeTablePanel::OngdTimetableCellLeftClick(wxGridEvent& event)
 {
     if(event.GetRow() == 0)
     {
-        _timetable.getPlan(_currentPlan).toggleDays( 1 << event.GetCol());
+        if(event.GetCol() >= DAY_MONDAY && event.GetCol() <= DAY_THURSDAY)
+        {
+            _timetable.getPlan(_currentPlan).toggleDays( F_DAY_MON_TO_THU);
+        }
+        else
+            _timetable.getPlan(_currentPlan).toggleDays( 1 << event.GetCol());
         refresh();
     }
+
     event.Allow();
 
 }
@@ -348,6 +411,8 @@ void TimeTablePanel::OngdTimetableCellLeftClick(wxGridEvent& event)
 void TimeTablePanel::OnsbIntervalChangeUp(wxSpinEvent& event)
 {
     ++_timetable.getPlan(_currentPlan).getInterval();
+    if(_timetable.getPlan(_currentPlan).getInterval() < TimeInterval(0))
+        _timetable.getPlan(_currentPlan).setInterval(TimeInterval(0));
     refresh();
 
 }
@@ -356,4 +421,9 @@ void TimeTablePanel::OnsbIntervalChangeDown(wxSpinEvent& event)
 {
     --_timetable.getPlan(_currentPlan).getInterval();
     refresh();
+}
+
+void TimeTablePanel::OnclbOptionsToggled(wxCommandEvent& event)
+{
+    setCollapsed(!clbOptions->IsChecked(0));
 }

@@ -95,6 +95,8 @@ class LineEditor: public wxDialog
 		void OnlvStopsEndLabelEdit(wxListEvent& event);
 		void OnlvStationsItemSelect(wxListEvent& event);
 		void OnlvStopsItemSelect(wxListEvent& event);
+		void OnlvStationsBeginLabelEdit(wxListEvent& event);
+		void OnlvStopsBeginLabelEdit(wxListEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
