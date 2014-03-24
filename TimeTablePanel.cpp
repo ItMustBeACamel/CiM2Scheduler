@@ -197,7 +197,7 @@ void TimeTablePanel::refresh()
     //typedef TimetableView::StopList::value_type StopType;
     timetableView.setOffset(TimeOffsetType(0));
 
-
+/*
     for(DayName day = 0; day < DAY_NUM; ++day)
     {
         if(!_timetable.getPlan(_currentPlan).activeAtDay(day)) continue;
@@ -207,7 +207,10 @@ void TimeTablePanel::refresh()
             {
                 WeekTimeType cellStartTime(dayBegin(col).time + (row-1) * TIME_SLICES_PER_HOUR);
                 WeekTimeType cellEndTime = cellStartTime + TimeOffsetType(TIME_SLICES_PER_HOUR - 1);
-                if(cellStartTime <= timetableView.getPlanEnd(_currentPlan, day) && cellEndTime >= timetableView.getPlanStart(_currentPlan, day))
+                WeekTimeType planStart = timetableView.getPlanStart(_currentPlan, day);
+                WeekTimeType planEnd = timetableView.getPlanEnd(_currentPlan, day);
+                if(planEnd < planStart) planEnd = --weekEnd();
+                if(cellStartTime <= planEnd && cellEndTime >= planStart)
                 {
                     gdTimetable->SetCellBackgroundColour(row, col, *wxYELLOW);
                 }
@@ -218,8 +221,28 @@ void TimeTablePanel::refresh()
                             gdTimetable->SetCellBackgroundColour(row, col, *wxYELLOW);
 
                 }
-                //if(day == DAY_MON_TO_THU && cellTime + )
 
+
+
+            }
+        }
+    }
+*/
+
+    for(DayName day = 0; day < DAY_NUM; ++day)
+    {
+        if(!_timetable.getPlan(_currentPlan).activeAtDay(day)) continue;
+        for(int col = 0; col < gdTimetable->GetCols(); ++col)
+        {
+            for(int row = 1; row < gdTimetable->GetRows(); ++row)
+            {
+                WeekTimeType cellStartTime(dayBegin(col).time + (row-1) * TIME_SLICES_PER_HOUR);
+                WeekTimeType cellEndTime = cellStartTime + TimeOffsetType(TIME_SLICES_PER_HOUR - 1);
+
+                if(timetableView.isWithinPlan(cellStartTime, _currentPlan, day) || timetableView.isWithinPlan(cellEndTime, _currentPlan, day))
+                {
+                    gdTimetable->SetCellBackgroundColour(row, col, *wxYELLOW);
+                }
 
             }
         }
@@ -227,7 +250,28 @@ void TimeTablePanel::refresh()
 
     timetableView.setOffset(_offset);
 
-    // todo offset colors
+
+    if(_offset != TimeOffsetType(0))
+    {
+        for(DayName day = 0; day < DAY_NUM; ++day)
+        {
+            if(!_timetable.getPlan(_currentPlan).activeAtDay(day)) continue;
+            for(int col = 0; col < gdTimetable->GetCols(); ++col)
+            {
+                for(int row = 1; row < gdTimetable->GetRows(); ++row)
+                {
+                    WeekTimeType cellStartTime(dayBegin(col).time + (row-1) * TIME_SLICES_PER_HOUR);
+                    WeekTimeType cellEndTime = cellStartTime + TimeOffsetType(TIME_SLICES_PER_HOUR - 1);
+
+                    if(timetableView.isWithinPlan(cellStartTime, _currentPlan, day) || timetableView.isWithinPlan(cellEndTime, _currentPlan, day))
+                    {
+                        gdTimetable->SetCellBackgroundColour(row, col, *wxRED);
+                    }
+
+                }
+            }
+        }
+    }
 
     StopList stopList = timetableView.getStopList();
 

@@ -56,8 +56,6 @@ struct Time
     void parse(const std::string& str);
     HourType getHour() const;
     MinuteType getMinute() const;
-    //DEPRECATED(Time& normalize());
-        // use this function instead
     Time& makeDaytime();
 
 

@@ -97,6 +97,8 @@ public:
                 }// if plan
             }// for day
         }
+
+
         stopList.sort();
         return stopList;
     }
@@ -110,16 +112,32 @@ public:
     WeekTimeType getPlanEnd(const PlanNameType& plan, const DayName& day)
     {
         assert(day < DAY_NUM);
+
         if((_timetable.getPlan(plan).getEndTime()) < (_timetable.getPlan(plan).getStartTime()))
         {
             if(day+1 >= DAY_NUM)
-                return _timetable.getPlan(plan).getEndTime() + _offset;
+                return normalize((--weekEnd() + _offset));
             else
             return normalize(dayBegin(day+1) + _timetable.getPlan(plan).getEndTime() + _offset);
 
         }
         else
             return normalize(dayBegin(day) + _timetable.getPlan(plan).getEndTime() + _offset);
+    }
+
+    bool isWithinPlan(const WeekTimeType& time, const PlanNameType& plan, const DayName& day)
+    {
+        WeekTimeType planStart = getPlanStart(plan, day);
+        WeekTimeType planEnd = getPlanEnd(plan, day);
+        if(!_timetable.getPlan(plan).activeAtDay(day)) return false;
+        if(day == DAY_MON_TO_THU && _timetable.getPlan(plan).getEndTime() < _timetable.getPlan(plan).getStartTime() && time <= _timetable.getPlan(plan).getEndTime() + _offset) return true;
+
+        if(planStart < planEnd && planStart != planEnd)
+        {
+            return (time <= planEnd && time >= planStart);
+        }
+        else
+            return (time >= planStart || time <= planEnd);
     }
 
 

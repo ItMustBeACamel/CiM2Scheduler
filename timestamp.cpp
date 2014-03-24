@@ -178,13 +178,6 @@ Time::MinuteType Time::getMinute() const
     return ((time % TIME_SLICES_PER_HOUR) * TIME_SLICE_LENGTH);
 }
 
-/*
-Time& Time::normalize()
-{
-    return makeDaytime();
-}
-*/
-
 Time& Time::makeDaytime()
 {
     time = time % TIME_SLICES_PER_DAY;
