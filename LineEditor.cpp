@@ -17,6 +17,7 @@ const long LineEditor::ID_PANEL5 = wxNewId();
 const long LineEditor::ID_PANEL2 = wxNewId();
 const long LineEditor::ID_CUSTOM1 = wxNewId();
 const long LineEditor::ID_LISTVIEW1 = wxNewId();
+const long LineEditor::ID_BUTTON7 = wxNewId();
 const long LineEditor::ID_BUTTON6 = wxNewId();
 const long LineEditor::ID_PANEL10 = wxNewId();
 const long LineEditor::ID_PANEL8 = wxNewId();
@@ -87,10 +88,12 @@ LineEditor::LineEditor(Line& line, wxWindow* parent,wxWindowID id)
 	BoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
 	Panel8 = new wxPanel(Panel7, ID_PANEL8, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL8"));
 	StaticBoxSizer2 = new wxStaticBoxSizer(wxVERTICAL, Panel8, _("Stops"));
-	lvStops = new wxListView(Panel8, ID_LISTVIEW1, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_EDIT_LABELS, wxDefaultValidator, _T("ID_LISTVIEW1"));
+	lvStops = new wxListView(Panel8, ID_LISTVIEW1, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_EDIT_LABELS|wxLC_SINGLE_SEL, wxDefaultValidator, _T("ID_LISTVIEW1"));
 	StaticBoxSizer2->Add(lvStops, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	Panel10 = new wxPanel(Panel8, ID_PANEL10, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL10"));
 	BoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
+	btEditStop = new wxButton(Panel10, ID_BUTTON7, _("edit"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON7"));
+	BoxSizer8->Add(btEditStop, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	btRemoveStop = new wxButton(Panel10, ID_BUTTON6, _("-->"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON6"));
 	BoxSizer8->Add(btRemoveStop, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	Panel10->SetSizer(BoxSizer8);
@@ -150,6 +153,7 @@ LineEditor::LineEditor(Line& line, wxWindow* parent,wxWindowID id)
 	Connect(ID_LISTVIEW1,wxEVT_COMMAND_LIST_BEGIN_LABEL_EDIT,(wxObjectEventFunction)&LineEditor::OnlvStopsBeginLabelEdit);
 	Connect(ID_LISTVIEW1,wxEVT_COMMAND_LIST_END_LABEL_EDIT,(wxObjectEventFunction)&LineEditor::OnlvStopsEndLabelEdit);
 	Connect(ID_LISTVIEW1,wxEVT_COMMAND_LIST_ITEM_SELECTED,(wxObjectEventFunction)&LineEditor::OnlvStopsItemSelect);
+	Connect(ID_BUTTON7,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&LineEditor::OnbtEditStopClick);
 	Connect(ID_BUTTON6,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&LineEditor::OnbtRemoveStopClick);
 	Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&LineEditor::OnbtStopAtStationClick);
 	Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&LineEditor::OnbtAddStationClick);
@@ -291,13 +295,14 @@ void LineEditor::OnbtRemoveStopClick(wxCommandEvent& event)
 
 void LineEditor::OnlvStopsEndLabelEdit(wxListEvent& event)
 {
+    if(event.IsEditCancelled()) return;
     TimeOffset t;
     std::string s(event.GetText());
-
-
     t.parse(s);
 
     lvStops->SetItemText(event.GetItem().GetId(),std::string("+") + t.toString());
+    panTimetable->setOffset(t);
+    panTimetable->refresh();
     event.Veto();
 
 }
@@ -321,4 +326,11 @@ void LineEditor::OnlvStationsBeginLabelEdit(wxListEvent& event)
 void LineEditor::OnlvStopsBeginLabelEdit(wxListEvent& event)
 {
     if(event.GetIndex() == 0) event.Veto();
+}
+
+void LineEditor::OnbtEditStopClick(wxCommandEvent& event)
+{
+    long index = lvStops->GetFirstSelected();
+    if(index >= 0)
+        lvStops->EditLabel(index);
 }

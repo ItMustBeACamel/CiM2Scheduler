@@ -28,6 +28,7 @@ class LineEditor: public wxDialog
 		virtual ~LineEditor();
 
 		//(*Declarations(LineEditor)
+		wxButton* btEditStop;
 		wxButton* btOK;
 		wxButton* btRemoveStop;
 		wxButton* btAddStation;
@@ -64,6 +65,7 @@ class LineEditor: public wxDialog
 		static const long ID_PANEL2;
 		static const long ID_CUSTOM1;
 		static const long ID_LISTVIEW1;
+		static const long ID_BUTTON7;
 		static const long ID_BUTTON6;
 		static const long ID_PANEL10;
 		static const long ID_PANEL8;
@@ -97,6 +99,7 @@ class LineEditor: public wxDialog
 		void OnlvStopsItemSelect(wxListEvent& event);
 		void OnlvStationsBeginLabelEdit(wxListEvent& event);
 		void OnlvStopsBeginLabelEdit(wxListEvent& event);
+		void OnbtEditStopClick(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
