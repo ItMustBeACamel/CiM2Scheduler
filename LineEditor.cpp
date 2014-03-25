@@ -8,6 +8,18 @@
 #include <wx/string.h>
 //*)
 
+
+
+int wxCALLBACK StopCompareFuncASC(wxIntPtr item1, wxIntPtr item2, wxIntPtr WXUNUSED(sortData))
+{
+    if(TimeOffset(((wxListItem*)item1)->GetText().c_str()) < TimeOffset(((wxListItem*) item2)->GetText().c_str()))
+        return 1;
+
+    if(TimeOffset(((wxListItem*) item1)->GetText().c_str()) < TimeOffset(((wxListItem*) item2)->GetText().c_str()))
+        return -1;
+    return 0;
+}
+
 //(*IdInit(LineEditor)
 const long LineEditor::ID_STATICTEXT1 = wxNewId();
 const long LineEditor::ID_TEXTCTRL1 = wxNewId();
@@ -40,8 +52,8 @@ BEGIN_EVENT_TABLE(LineEditor,wxDialog)
 	//*)
 END_EVENT_TABLE()
 
-LineEditor::LineEditor(Line& line, wxWindow* parent,wxWindowID id)
-    :_line(line)
+LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxWindowID id)
+    :_line(line), _imageList(imageList)
 {
 	//(*Initialize(LineEditor)
 	wxBoxSizer* BoxSizer4;
@@ -161,6 +173,9 @@ LineEditor::LineEditor(Line& line, wxWindow* parent,wxWindowID id)
 	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&LineEditor::OnbtCancelClick);
 	//*)
 
+    //if(_imageList)
+    //    bcbIconSelect->Append("blah", _imageList->GetBitmap(0));
+
 	wxListItem colStation;
 	wxListItem colTime;
 
@@ -205,12 +220,15 @@ LineEditor::LineEditor(Line& line, wxWindow* parent,wxWindowID id)
             long itemIndex = lvStops->InsertItem(lvStations->GetItemCount(), t);
             lvStops->SetItemData(itemIndex, station.getID());
             lvStops->SetItem(itemIndex, 1, station.getName());
+            //lvStops->SetItem
         }
         catch(std::invalid_argument& e)
         {
             wxMessageBox(e.what());
         }
     }
+
+    //lvStops->SortItems(StopCompareFuncASC, 0);
 
 
 }
@@ -253,9 +271,13 @@ void LineEditor::OnbtStopAtStationClick(wxCommandEvent& event)
     {
         try
         {
+            //lvStops->GetItemText(lvStops->GetItemCount()-1);
+            TimeOffset offset(lvStops->GetItemText(lvStops->GetItemCount()-1));
+            ++offset;
+
             const Station& station = Stations::instance()->getStation((Station::ID)lvStations->GetItemData(i));
 
-            long itemIndex = lvStops->InsertItem(lvStops->GetItemCount(), "+0:00");
+            long itemIndex = lvStops->InsertItem(lvStops->GetItemCount(), std::string("+") + offset.toString());
             lvStops->SetItem(itemIndex, 1, station.getName());
             lvStops->SetItemData(itemIndex, station.getID());
         }

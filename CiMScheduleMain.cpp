@@ -162,7 +162,7 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     BoxSizer1->Add(MainPanel, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     Panel5 = new wxPanel(this, ID_PANEL9, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL9"));
     StaticBoxSizer3 = new wxStaticBoxSizer(wxHORIZONTAL, Panel5, _("Lines"));
-    lvLines = new wxListView(Panel5, ID_LISTVIEW1, wxDefaultPosition, wxDefaultSize, wxLC_LIST, wxDefaultValidator, _T("ID_LISTVIEW1"));
+    lvLines = new wxListView(Panel5, ID_LISTVIEW1, wxDefaultPosition, wxDefaultSize, wxLC_ICON, wxDefaultValidator, _T("ID_LISTVIEW1"));
     StaticBoxSizer3->Add(lvLines, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     Panel6 = new wxPanel(Panel5, ID_PANEL10, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL10"));
     BoxSizer7 = new wxBoxSizer(wxVERTICAL);
@@ -201,6 +201,8 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     StatusBar1->SetFieldsCount(1,__wxStatusBarWidths_1);
     StatusBar1->SetStatusStyles(1,__wxStatusBarStyles_1);
     SetStatusBar(StatusBar1);
+    ilIcons = new wxImageList(32, 32, 2);
+    ilIcons->Add(wxBitmap(ilIcons_0_XPM));
     BoxSizer1->Fit(this);
     BoxSizer1->SetSizeHints(this);
 
@@ -215,6 +217,8 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnAbout);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&CiMScheduleFrame::OnClose);
     //*)
+
+    this->lvLines->AssignImageList(ilIcons, wxIMAGE_LIST_NORMAL);
 }
 
 CiMScheduleFrame::~CiMScheduleFrame()
@@ -346,7 +350,7 @@ void CiMScheduleFrame::OnmiNewLineSelected(wxCommandEvent& event)
 
     Line newLine(ss.str());
 
-    LineEditor lineEditor(newLine, this);
+    LineEditor lineEditor(newLine, this, ilIcons);
 
     int rc = lineEditor.ShowModal();
 

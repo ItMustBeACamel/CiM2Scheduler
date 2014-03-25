@@ -96,6 +96,7 @@ class TimeTablePanel: public wxPanel
 		void OnsbIntervalChangeUp(wxSpinEvent& event);
 		void OnsbIntervalChangeDown(wxSpinEvent& event);
 		void OnclbOptionsToggled(wxCommandEvent& event);
+		void OnsbIntervalChange(wxSpinEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

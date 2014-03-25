@@ -14,7 +14,9 @@
 #include <wx/listctrl.h>
 #include <wx/sizer.h>
 #include <wx/menu.h>
+#include "./wximages/CiMScheduleMain_ilIcons.xpm"
 #include <wx/panel.h>
+#include <wx/imaglist.h>
 #include <wx/button.h>
 #include <wx/frame.h>
 #include <wx/statusbr.h>
@@ -99,6 +101,7 @@ class CiMScheduleFrame: public wxFrame
         wxPanel* MainPanel;
         wxPanel* Panel2;
         wxButton* btEditStation;
+        wxImageList* ilIcons;
         wxPanel* panLeft;
         //*)
 

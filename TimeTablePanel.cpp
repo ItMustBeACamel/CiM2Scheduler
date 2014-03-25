@@ -411,8 +411,7 @@ void TimeTablePanel::OngdTimetableCellLeftClick(wxGridEvent& event)
 void TimeTablePanel::OnsbIntervalChangeUp(wxSpinEvent& event)
 {
     ++_timetable.getPlan(_currentPlan).getInterval();
-    if(_timetable.getPlan(_currentPlan).getInterval() < TimeInterval(0))
-        _timetable.getPlan(_currentPlan).setInterval(TimeInterval(0));
+
     refresh();
 
 }
@@ -420,10 +419,16 @@ void TimeTablePanel::OnsbIntervalChangeUp(wxSpinEvent& event)
 void TimeTablePanel::OnsbIntervalChangeDown(wxSpinEvent& event)
 {
     --_timetable.getPlan(_currentPlan).getInterval();
+    if(_timetable.getPlan(_currentPlan).getInterval() < TimeInterval(0))
+        _timetable.getPlan(_currentPlan).setInterval(TimeInterval(0));
     refresh();
 }
 
 void TimeTablePanel::OnclbOptionsToggled(wxCommandEvent& event)
 {
     setCollapsed(!clbOptions->IsChecked(0));
+}
+
+void TimeTablePanel::OnsbIntervalChange(wxSpinEvent& event)
+{
 }

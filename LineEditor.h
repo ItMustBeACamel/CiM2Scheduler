@@ -3,6 +3,8 @@
 
 #include "lines.h"
 
+#include <wx/imaglist.h>
+
 //(*Headers(LineEditor)
 #include <wx/listctrl.h>
 #include <wx/sizer.h>
@@ -20,11 +22,14 @@ enum LE_RC
     LE_RC_CANCEL
 };
 
+int wxCALLBACK StopCompareFuncASC(wxIntPtr item1, wxIntPtr item2, wxIntPtr WXUNUSED(sortData));
+
+
 class LineEditor: public wxDialog
 {
 	public:
 
-		LineEditor(Line& line, wxWindow* parent,wxWindowID id=wxID_ANY);
+		LineEditor(Line& line, wxWindow* parent, wxImageList* imageList = 0, wxWindowID id=wxID_ANY);
 		virtual ~LineEditor();
 
 		//(*Declarations(LineEditor)
@@ -85,6 +90,7 @@ class LineEditor: public wxDialog
 
 	private:
 	    Line& _line;
+	    wxImageList* _imageList;
 	    void apply();
 
 		//(*Handlers(LineEditor)

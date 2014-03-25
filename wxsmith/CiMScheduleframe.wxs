@@ -142,7 +142,7 @@
 						<label>Lines</label>
 						<object class="sizeritem">
 							<object class="wxListView" name="ID_LISTVIEW1" variable="lvLines" member="yes">
-								<style>wxLC_LIST</style>
+								<style>wxLC_ICON</style>
 							</object>
 							<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 							<border>5</border>
@@ -221,6 +221,94 @@
 			<fields>1</fields>
 			<widths>-1</widths>
 			<styles>wxSB_NORMAL</styles>
+		</object>
+		<object class="wxImageList" variable="ilIcons" member="yes">
+			<image_list>
+				<item>32</item>
+				<item>32</item>
+				<item>static const char *xpm_data[] = {</item>
+				<item>&quot;32 32 2 1&quot;,</item>
+				<item>&quot;. c #FFFFFF&quot;,</item>
+				<item>&quot;_ c #7F7F7F&quot;,</item>
+				<item>&quot;____........................____&quot;,</item>
+				<item>&quot;_____......................_____&quot;,</item>
+				<item>&quot;______....................______&quot;,</item>
+				<item>&quot;_______.................._______&quot;,</item>
+				<item>&quot;._______................_______.&quot;,</item>
+				<item>&quot;.._______.............._______..&quot;,</item>
+				<item>&quot;..._______............_______...&quot;,</item>
+				<item>&quot;...._______.........._______....&quot;,</item>
+				<item>&quot;....._______........_______.....&quot;,</item>
+				<item>&quot;......_______......_______......&quot;,</item>
+				<item>&quot;......._______...._______.......&quot;,</item>
+				<item>&quot;........_______.._______........&quot;,</item>
+				<item>&quot;.........______________.........&quot;,</item>
+				<item>&quot;..........____________..........&quot;,</item>
+				<item>&quot;...........__________...........&quot;,</item>
+				<item>&quot;............________............&quot;,</item>
+				<item>&quot;............________............&quot;,</item>
+				<item>&quot;...........__________...........&quot;,</item>
+				<item>&quot;..........____________..........&quot;,</item>
+				<item>&quot;.........______________.........&quot;,</item>
+				<item>&quot;........_______.._______........&quot;,</item>
+				<item>&quot;......._______...._______.......&quot;,</item>
+				<item>&quot;......_______......_______......&quot;,</item>
+				<item>&quot;....._______........_______.....&quot;,</item>
+				<item>&quot;...._______.........._______....&quot;,</item>
+				<item>&quot;..._______............_______...&quot;,</item>
+				<item>&quot;.._______.............._______..&quot;,</item>
+				<item>&quot;._______................_______.&quot;,</item>
+				<item>&quot;_______.................._______&quot;,</item>
+				<item>&quot;______....................______&quot;,</item>
+				<item>&quot;_____......................_____&quot;,</item>
+				<item>&quot;____........................____&quot;</item>
+				<item>};</item>
+			</image_list>
+			<image_text>
+				<item2>32</item2>
+				<item2>32</item2>
+				<item2>static const char *xpm_data[] = {</item2>
+				<item2>&quot;32 32 2 1&quot;,</item2>
+				<item2>&quot;. c #FFFFFF&quot;,</item2>
+				<item2>&quot;_ c #7F7F7F&quot;,</item2>
+				<item2>&quot;____........................____&quot;,</item2>
+				<item2>&quot;_____......................_____&quot;,</item2>
+				<item2>&quot;______....................______&quot;,</item2>
+				<item2>&quot;_______.................._______&quot;,</item2>
+				<item2>&quot;._______................_______.&quot;,</item2>
+				<item2>&quot;.._______.............._______..&quot;,</item2>
+				<item2>&quot;..._______............_______...&quot;,</item2>
+				<item2>&quot;...._______.........._______....&quot;,</item2>
+				<item2>&quot;....._______........_______.....&quot;,</item2>
+				<item2>&quot;......_______......_______......&quot;,</item2>
+				<item2>&quot;......._______...._______.......&quot;,</item2>
+				<item2>&quot;........_______.._______........&quot;,</item2>
+				<item2>&quot;.........______________.........&quot;,</item2>
+				<item2>&quot;..........____________..........&quot;,</item2>
+				<item2>&quot;...........__________...........&quot;,</item2>
+				<item2>&quot;............________............&quot;,</item2>
+				<item2>&quot;............________............&quot;,</item2>
+				<item2>&quot;...........__________...........&quot;,</item2>
+				<item2>&quot;..........____________..........&quot;,</item2>
+				<item2>&quot;.........______________.........&quot;,</item2>
+				<item2>&quot;........_______.._______........&quot;,</item2>
+				<item2>&quot;......._______...._______.......&quot;,</item2>
+				<item2>&quot;......_______......_______......&quot;,</item2>
+				<item2>&quot;....._______........_______.....&quot;,</item2>
+				<item2>&quot;...._______.........._______....&quot;,</item2>
+				<item2>&quot;..._______............_______...&quot;,</item2>
+				<item2>&quot;.._______.............._______..&quot;,</item2>
+				<item2>&quot;._______................_______.&quot;,</item2>
+				<item2>&quot;_______.................._______&quot;,</item2>
+				<item2>&quot;______....................______&quot;,</item2>
+				<item2>&quot;_____......................_____&quot;,</item2>
+				<item2>&quot;____........................____&quot;</item2>
+				<item2>};</item2>
+			</image_text>
+			<image_width>32</image_width>
+			<image_height>32</image_height>
+			<image_count>1</image_count>
+			<use_include>1</use_include>
 		</object>
 	</object>
 </wxsmith>
