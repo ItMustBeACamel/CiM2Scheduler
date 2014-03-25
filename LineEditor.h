@@ -11,6 +11,7 @@
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
 #include <wx/panel.h>
+#include <wx/bmpcbox.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
 #include "TimeTablePanel.h"
@@ -45,6 +46,7 @@ class LineEditor: public wxDialog
 		wxPanel* Panel4;
 		wxButton* btStopAtStation;
 		wxPanel* Panel11;
+		wxBitmapComboBox* bcbIconSelect;
 		wxPanel* Panel9;
 		wxPanel* Panel8;
 		wxPanel* Panel1;
@@ -62,6 +64,7 @@ class LineEditor: public wxDialog
 	protected:
 
 		//(*Identifiers(LineEditor)
+		static const long ID_BITMAPCOMBOBOX1;
 		static const long ID_STATICTEXT1;
 		static const long ID_TEXTCTRL1;
 		static const long ID_STATICTEXT2;

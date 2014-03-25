@@ -10,17 +10,18 @@
 
 
 
-int wxCALLBACK StopCompareFuncASC(wxIntPtr item1, wxIntPtr item2, wxIntPtr WXUNUSED(sortData))
+int wxCALLBACK StopCompareFunc(wxIntPtr item1, wxIntPtr item2, wxIntPtr WXUNUSED(sortData))
 {
-    if(TimeOffset(((wxListItem*)item1)->GetText().c_str()) < TimeOffset(((wxListItem*) item2)->GetText().c_str()))
+    if(((Line::Stop*)item1)->time > ((Line::Stop*)item2)->time)
         return 1;
 
-    if(TimeOffset(((wxListItem*) item1)->GetText().c_str()) < TimeOffset(((wxListItem*) item2)->GetText().c_str()))
+    if(((Line::Stop*)item1)->time < ((Line::Stop*)item2)->time)
         return -1;
     return 0;
 }
 
 //(*IdInit(LineEditor)
+const long LineEditor::ID_BITMAPCOMBOBOX1 = wxNewId();
 const long LineEditor::ID_STATICTEXT1 = wxNewId();
 const long LineEditor::ID_TEXTCTRL1 = wxNewId();
 const long LineEditor::ID_STATICTEXT2 = wxNewId();
@@ -74,6 +75,8 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
 	BoxSizer2 = new wxBoxSizer(wxVERTICAL);
 	Panel2 = new wxPanel(Panel1, ID_PANEL2, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL2"));
 	BoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
+	bcbIconSelect = new wxBitmapComboBox(Panel2, ID_BITMAPCOMBOBOX1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY|wxCB_DROPDOWN, wxDefaultValidator, _T("ID_BITMAPCOMBOBOX1"));
+	BoxSizer4->Add(bcbIconSelect, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	Panel5 = new wxPanel(Panel2, ID_PANEL5, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL5"));
 	BoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
 	StaticText1 = new wxStaticText(Panel5, ID_STATICTEXT1, _("#"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT1"));
@@ -100,7 +103,7 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
 	BoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
 	Panel8 = new wxPanel(Panel7, ID_PANEL8, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL8"));
 	StaticBoxSizer2 = new wxStaticBoxSizer(wxVERTICAL, Panel8, _("Stops"));
-	lvStops = new wxListView(Panel8, ID_LISTVIEW1, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_EDIT_LABELS|wxLC_SINGLE_SEL, wxDefaultValidator, _T("ID_LISTVIEW1"));
+	lvStops = new wxListView(Panel8, ID_LISTVIEW1, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_EDIT_LABELS, wxDefaultValidator, _T("ID_LISTVIEW1"));
 	StaticBoxSizer2->Add(lvStops, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	Panel10 = new wxPanel(Panel8, ID_PANEL10, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL10"));
 	BoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
@@ -161,6 +164,8 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
 	SetSizer(BoxSizer1);
 	BoxSizer1->Fit(this);
 	BoxSizer1->SetSizeHints(this);
+	Center();
+
 
 	Connect(ID_LISTVIEW1,wxEVT_COMMAND_LIST_BEGIN_LABEL_EDIT,(wxObjectEventFunction)&LineEditor::OnlvStopsBeginLabelEdit);
 	Connect(ID_LISTVIEW1,wxEVT_COMMAND_LIST_END_LABEL_EDIT,(wxObjectEventFunction)&LineEditor::OnlvStopsEndLabelEdit);
@@ -173,8 +178,16 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
 	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&LineEditor::OnbtCancelClick);
 	//*)
 
-    //if(_imageList)
-    //    bcbIconSelect->Append("blah", _imageList->GetBitmap(0));
+    if(_imageList)
+    {
+        //bcbIconSelect
+        for(int i = -1; i < _imageList->GetImageCount();++i)
+        {
+            bcbIconSelect->Append("", _imageList->GetBitmap(i));
+        }
+        //bcbIconSelect->
+
+    }
 
 	wxListItem colStation;
 	wxListItem colTime;
@@ -208,19 +221,21 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
         wxFont font = lvStops->GetItemFont(itemIndex);
         font.MakeItalic();
         lvStops->SetItemFont(itemIndex, font);
+        lvStops->SetItemPtrData(itemIndex, (wxUIntPtr) new Line::Stop(NO_STATION, TimeOffset(0)));
 
     const Line::StopList& stops = _line.getStopsList();
 	for(Line::StopList::const_iterator i = stops.begin(); i != stops.end(); ++i )
     {
         try
         {
+
             wxString t(std::string("+") + (*i).time.toString());
             const Station& station = Stations::instance()->getStation((*i).station);
-
+            Line::Stop* newStop = new Line::Stop(station.getID(),(*i).time);
             long itemIndex = lvStops->InsertItem(lvStations->GetItemCount(), t);
-            lvStops->SetItemData(itemIndex, station.getID());
+            //lvStops->SetItemData(itemIndex, station.getID());
+            lvStops->SetItemPtrData(itemIndex,(wxUIntPtr) newStop);
             lvStops->SetItem(itemIndex, 1, station.getName());
-            //lvStops->SetItem
         }
         catch(std::invalid_argument& e)
         {
@@ -228,13 +243,18 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
         }
     }
 
-    //lvStops->SortItems(StopCompareFuncASC, 0);
+    lvStops->SortItems(StopCompareFunc, 0);
 
 
 }
 
 LineEditor::~LineEditor()
 {
+    for(long i = 0; i < lvStops->GetItemCount(); ++i)
+    {
+        delete (Line::Stop*)lvStops->GetItemData(i);
+        lvStops->SetItemPtrData(i, 0);
+    }
 	//(*Destroy(LineEditor)
 	//*)
 }
@@ -242,13 +262,17 @@ LineEditor::~LineEditor()
 void LineEditor::apply()
 {
     _line.setTimetable(panTimetable->getTimetable());
+    _line.SetIcon(bcbIconSelect->GetSelection()-1);
     _line.clearStops();
     for(long i = 1; i < lvStops->GetItemCount(); ++i)
     {
+        /*
         TimeOffset t;
         const Station& station = Stations::instance()->getStation((Station::ID)lvStops->GetItemData(i));
         t.parse(lvStops->GetItemText(i).c_str());
         _line.addStop(station.getID(), t);
+        */
+        _line.addStop(*((Line::Stop*)lvStops->GetItemData(i)));
     }
 
 }
@@ -276,10 +300,11 @@ void LineEditor::OnbtStopAtStationClick(wxCommandEvent& event)
             ++offset;
 
             const Station& station = Stations::instance()->getStation((Station::ID)lvStations->GetItemData(i));
-
+            Line::Stop* newStop = new Line::Stop(station.getID(),offset);
             long itemIndex = lvStops->InsertItem(lvStops->GetItemCount(), std::string("+") + offset.toString());
             lvStops->SetItem(itemIndex, 1, station.getName());
             lvStops->SetItemData(itemIndex, station.getID());
+            lvStops->SetItemPtrData(itemIndex, (wxUIntPtr)newStop);
         }
         catch( std::invalid_argument& e)
         {
@@ -309,10 +334,24 @@ void LineEditor::OnbtAddStationClick(wxCommandEvent& event)
 
 void LineEditor::OnbtRemoveStopClick(wxCommandEvent& event)
 {
-    for(long i = lvStops->GetFirstSelected(); -1 != i; i = lvStops->GetFirstSelected())
+
+    long i = lvStops->GetFirstSelected();
+
+    while(i != -1)
     {
-        lvStops->DeleteItem(i);
+        if( i == 0)
+        {
+            i = lvStops->GetNextSelected(i);
+        }
+        else
+        {
+            delete (Line::Stop*)lvStops->GetItemData(i);
+            lvStops->DeleteItem(i);
+            i = lvStops->GetFirstSelected();
+
+        }
     }
+
 }
 
 void LineEditor::OnlvStopsEndLabelEdit(wxListEvent& event)
@@ -323,8 +362,10 @@ void LineEditor::OnlvStopsEndLabelEdit(wxListEvent& event)
     t.parse(s);
 
     lvStops->SetItemText(event.GetItem().GetId(),std::string("+") + t.toString());
+    ((Line::Stop*)event.GetData())->time = t;
     panTimetable->setOffset(t);
     panTimetable->refresh();
+    lvStops->SortItems(StopCompareFunc, 0);
     event.Veto();
 
 }
@@ -336,7 +377,8 @@ void LineEditor::OnlvStationsItemSelect(wxListEvent& event)
 
 void LineEditor::OnlvStopsItemSelect(wxListEvent& event)
 {
-    panTimetable->setOffset(TimeOffset(event.GetText()));
+    //panTimetable->setOffset(TimeOffset(event.GetText()));
+    panTimetable->setOffset(((Line::Stop*)event.GetData())->time);
     panTimetable->refresh();
 }
 

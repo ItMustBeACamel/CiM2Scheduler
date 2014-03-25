@@ -201,8 +201,9 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     StatusBar1->SetFieldsCount(1,__wxStatusBarWidths_1);
     StatusBar1->SetStatusStyles(1,__wxStatusBarStyles_1);
     SetStatusBar(StatusBar1);
-    ilIcons = new wxImageList(32, 32, 2);
+    ilIcons = new wxImageList(32, 32, 3);
     ilIcons->Add(wxBitmap(ilIcons_0_XPM));
+    ilIcons->Add(wxBitmap(ilIcons_1_XPM));
     BoxSizer1->Fit(this);
     BoxSizer1->SetSizeHints(this);
 
@@ -249,7 +250,7 @@ void CiMScheduleFrame::refreshLinesList()
 
     for(LineList::const_iterator i = lines.begin(); i != lines.end(); ++i )
     {
-        long itemIndex = lvLines->InsertItem(lvLines->GetItemCount(), (*i).getName());
+        long itemIndex = lvLines->InsertItem(lvLines->GetItemCount(), (*i).getName(),(*i).getIcon());
         lvLines->SetItemData(itemIndex, (*i).getID());
     }
 
@@ -374,7 +375,7 @@ void CiMScheduleFrame::OnbtEditLineClick(wxCommandEvent& event)
     {
         Line& line = Lines::instance()->getLine((Line::ID)lvLines->GetItemData(i));
 
-        LineEditor lineEditor(line, this);
+        LineEditor lineEditor(line, this, ilIcons);
 
         lineEditor.ShowModal();
 

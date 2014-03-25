@@ -11,7 +11,13 @@
 #include "timetable.h"
 #include <stdexcept>
 
-
+#define IID_NO_ICON  -1
+#define IID_BUS       0
+#define IID_TROLLEY   1
+#define IID_TRAM      2
+#define IID_METRO     3
+#define IID_BOAT      4
+#define IID_MONORAIL  5
 
 class Line;
 
@@ -22,6 +28,7 @@ class Line
 public:
     typedef unsigned int ID;
     typedef unsigned int LineNumber;
+    typedef int IconID;
 
     struct Stop
     {
@@ -33,10 +40,11 @@ public:
         Station::ID station;
         TimeStampType time;
     };
-    typedef std::vector<Stop> StopList;
+    typedef std::list<Stop> StopList;
 
-    explicit Line(const char* n);
-    explicit Line(const std::string& n);
+    explicit Line(const char* n, const IconID& icon = IID_NO_ICON);
+    explicit Line(const std::string& n, const IconID& icon = IID_NO_ICON);
+
     ~Line();
 /*
     ID& getID()
@@ -49,6 +57,20 @@ public:
         return _id;
     }
 
+    IconID& getIcon()
+    {
+        return _icon;
+    }
+    const IconID& getIcon() const
+    {
+        return _icon;
+    }
+    void SetIcon(IconID icon)
+    {
+        _icon = icon;
+    }
+
+
     LineNumber& getNumber()
     {
         return _number;
@@ -57,12 +79,10 @@ public:
     {
         return _number;
     }
-
     void SetNumber(LineNumber number)
     {
         _number = number;
     }
-
     void setName(const std::string& n)
     {
         _name = std::string(n);
@@ -85,6 +105,13 @@ public:
     {
         assert(station!=NO_STATION);
         _list.push_back(Stop(station, time));
+        return &(_list.back());
+    }
+
+    Stop* addStop(const Stop& stop)
+    {
+        assert(stop.station!=NO_STATION);
+        _list.push_back(stop);
         return &(_list.back());
     }
 
@@ -125,6 +152,7 @@ private:
     LineNumber _number;
     StopList _list;
     Timetable _timetable;
+    IconID _icon;
 };
 
 typedef std::list<Line> LineList;

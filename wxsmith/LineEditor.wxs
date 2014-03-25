@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxDialog" name="LineEditor">
+		<centered>1</centered>
 		<style>wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER</style>
 		<object class="wxBoxSizer" variable="BoxSizer1" member="no">
 			<object class="sizeritem">
@@ -10,6 +11,22 @@
 						<object class="sizeritem">
 							<object class="wxPanel" name="ID_PANEL2" variable="Panel2" member="yes">
 								<object class="wxBoxSizer" variable="BoxSizer4" member="no">
+									<object class="sizeritem">
+										<object class="wxBitmapComboBox" name="ID_BITMAPCOMBOBOX1" variable="bcbIconSelect" member="yes">
+											<mImageList>ilIcons</mImageList>
+											<mItems>
+												<item>bcbIconSelect</item>
+												<item>ilIcons</item>
+											</mItems>
+											<mItemsText>
+												<item2>bcbIconSelect</item2>
+												<item2>ilIcons</item2>
+											</mItemsText>
+											<style>wxCB_READONLY|wxCB_DROPDOWN</style>
+										</object>
+										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<border>5</border>
+									</object>
 									<object class="sizeritem">
 										<object class="wxPanel" name="ID_PANEL5" variable="Panel5" member="yes">
 											<object class="wxBoxSizer" variable="BoxSizer5" member="no">
@@ -79,7 +96,7 @@
 															<orient>wxVERTICAL</orient>
 															<object class="sizeritem">
 																<object class="wxListView" name="ID_LISTVIEW1" variable="lvStops" member="yes">
-																	<style>wxLC_REPORT|wxLC_EDIT_LABELS|wxLC_SINGLE_SEL</style>
+																	<style>wxLC_REPORT|wxLC_EDIT_LABELS</style>
 																	<handler function="OnlvStopsBeginLabelEdit" entry="EVT_LIST_BEGIN_LABEL_EDIT" />
 																	<handler function="OnlvStopsEndLabelEdit" entry="EVT_LIST_END_LABEL_EDIT" />
 																	<handler function="OnlvStopsItemSelect" entry="EVT_LIST_ITEM_SELECTED" />

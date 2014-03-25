@@ -227,87 +227,181 @@
 				<item>32</item>
 				<item>32</item>
 				<item>static const char *xpm_data[] = {</item>
-				<item>&quot;32 32 2 1&quot;,</item>
-				<item>&quot;. c #FFFFFF&quot;,</item>
-				<item>&quot;_ c #7F7F7F&quot;,</item>
-				<item>&quot;____........................____&quot;,</item>
-				<item>&quot;_____......................_____&quot;,</item>
-				<item>&quot;______....................______&quot;,</item>
-				<item>&quot;_______.................._______&quot;,</item>
-				<item>&quot;._______................_______.&quot;,</item>
-				<item>&quot;.._______.............._______..&quot;,</item>
-				<item>&quot;..._______............_______...&quot;,</item>
-				<item>&quot;...._______.........._______....&quot;,</item>
-				<item>&quot;....._______........_______.....&quot;,</item>
-				<item>&quot;......_______......_______......&quot;,</item>
-				<item>&quot;......._______...._______.......&quot;,</item>
-				<item>&quot;........_______.._______........&quot;,</item>
-				<item>&quot;.........______________.........&quot;,</item>
-				<item>&quot;..........____________..........&quot;,</item>
-				<item>&quot;...........__________...........&quot;,</item>
-				<item>&quot;............________............&quot;,</item>
-				<item>&quot;............________............&quot;,</item>
-				<item>&quot;...........__________...........&quot;,</item>
-				<item>&quot;..........____________..........&quot;,</item>
-				<item>&quot;.........______________.........&quot;,</item>
-				<item>&quot;........_______.._______........&quot;,</item>
-				<item>&quot;......._______...._______.......&quot;,</item>
-				<item>&quot;......_______......_______......&quot;,</item>
-				<item>&quot;....._______........_______.....&quot;,</item>
-				<item>&quot;...._______.........._______....&quot;,</item>
-				<item>&quot;..._______............_______...&quot;,</item>
-				<item>&quot;.._______.............._______..&quot;,</item>
-				<item>&quot;._______................_______.&quot;,</item>
-				<item>&quot;_______.................._______&quot;,</item>
-				<item>&quot;______....................______&quot;,</item>
-				<item>&quot;_____......................_____&quot;,</item>
-				<item>&quot;____........................____&quot;</item>
+				<item>&quot;32 32 7 1&quot;,</item>
+				<item>&quot;@ c #C3C3C3&quot;,</item>
+				<item>&quot;. c #FBFBFF&quot;,</item>
+				<item>&quot;X c #0000FF&quot;,</item>
+				<item>&quot;O c #3F48CC&quot;,</item>
+				<item>&quot;o c #99D9EA&quot;,</item>
+				<item>&quot;_ c None&quot;,</item>
+				<item>&quot;+ c #7F7F7F&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;__.XXXXXXXXXXXXXXXXXXXXXXXXXXX__&quot;,</item>
+				<item>&quot;__XXoooXXXXXXXXXoooooXXoooooXX__&quot;,</item>
+				<item>&quot;__XooooXXoooooXXoooooXXoooooXX__&quot;,</item>
+				<item>&quot;__XooooXXoooooXXoooooXXoooooXX__&quot;,</item>
+				<item>&quot;__XooooXXoooooXXoooooXXoooooXX__&quot;,</item>
+				<item>&quot;__XXoooXXoooooXXoooooXXoooooXX__&quot;,</item>
+				<item>&quot;__XXXXXXXXXXXXXXXXXXXXXXXXXXXX__&quot;,</item>
+				<item>&quot;__XXXXXXXOOOOOXXXXXXXXXXXXXXXX__&quot;,</item>
+				<item>&quot;__XXXXXXXOOOOOXXXXXXXXXXXXXXXX__&quot;,</item>
+				<item>&quot;__XXXXXXXOOOOOXXXXXXXXXXXXXXXX__&quot;,</item>
+				<item>&quot;__XXXXXXXOOOOOXXXXXXXXXXXXXXXX__&quot;,</item>
+				<item>&quot;__XXXXXXXXOOOOXXXXXXXXXXXXXXXX__&quot;,</item>
+				<item>&quot;__XX++@++XXOOOXXXXXXXXX++@++XX__&quot;,</item>
+				<item>&quot;__XX+@@@+XXXXXXXXXXXXXX+@@@+XX__&quot;,</item>
+				<item>&quot;____+@@@+______________+@@@+____&quot;,</item>
+				<item>&quot;_____+++________________+++_____&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;</item>
+				<item>};</item>
+				<item>static const char *xpm_data[] = {</item>
+				<item>&quot;32 32 7 1&quot;,</item>
+				<item>&quot;@ c #C3C3C3&quot;,</item>
+				<item>&quot;X c #F3E8F4&quot;,</item>
+				<item>&quot;. c #A349A4&quot;,</item>
+				<item>&quot;O c #3F48CC&quot;,</item>
+				<item>&quot;o c #99D9EA&quot;,</item>
+				<item>&quot;_ c None&quot;,</item>
+				<item>&quot;+ c #7F7F7F&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;__________._____________________&quot;,</item>
+				<item>&quot;___________.____________________&quot;,</item>
+				<item>&quot;____________.___________________&quot;,</item>
+				<item>&quot;_____________.__________________&quot;,</item>
+				<item>&quot;______________._________________&quot;,</item>
+				<item>&quot;_______________.________________&quot;,</item>
+				<item>&quot;_____________.._________________&quot;,</item>
+				<item>&quot;____________.___________________&quot;,</item>
+				<item>&quot;__________..____________________&quot;,</item>
+				<item>&quot;__X...........................__&quot;,</item>
+				<item>&quot;__..ooo.........ooooo..ooooo..__&quot;,</item>
+				<item>&quot;__.oooo..ooooo..ooooo..ooooo..__&quot;,</item>
+				<item>&quot;__.oooo..ooooo..ooooo..ooooo..__&quot;,</item>
+				<item>&quot;__.oooo..ooooo..ooooo..ooooo..__&quot;,</item>
+				<item>&quot;__..ooo..ooooo..ooooo..ooooo..__&quot;,</item>
+				<item>&quot;__............................__&quot;,</item>
+				<item>&quot;__.......OOOOO................__&quot;,</item>
+				<item>&quot;__.......OOOOO................__&quot;,</item>
+				<item>&quot;__.......OOOOO................__&quot;,</item>
+				<item>&quot;__.......OOOOO................__&quot;,</item>
+				<item>&quot;__........OOOO................__&quot;,</item>
+				<item>&quot;__..++@++..OOO.........++@++..__&quot;,</item>
+				<item>&quot;__..+@@@+..............+@@@+..__&quot;,</item>
+				<item>&quot;____+@@@+______________+@@@+____&quot;,</item>
+				<item>&quot;_____+++________________+++_____&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;</item>
 				<item>};</item>
 			</image_list>
 			<image_text>
 				<item2>32</item2>
 				<item2>32</item2>
 				<item2>static const char *xpm_data[] = {</item2>
-				<item2>&quot;32 32 2 1&quot;,</item2>
-				<item2>&quot;. c #FFFFFF&quot;,</item2>
-				<item2>&quot;_ c #7F7F7F&quot;,</item2>
-				<item2>&quot;____........................____&quot;,</item2>
-				<item2>&quot;_____......................_____&quot;,</item2>
-				<item2>&quot;______....................______&quot;,</item2>
-				<item2>&quot;_______.................._______&quot;,</item2>
-				<item2>&quot;._______................_______.&quot;,</item2>
-				<item2>&quot;.._______.............._______..&quot;,</item2>
-				<item2>&quot;..._______............_______...&quot;,</item2>
-				<item2>&quot;...._______.........._______....&quot;,</item2>
-				<item2>&quot;....._______........_______.....&quot;,</item2>
-				<item2>&quot;......_______......_______......&quot;,</item2>
-				<item2>&quot;......._______...._______.......&quot;,</item2>
-				<item2>&quot;........_______.._______........&quot;,</item2>
-				<item2>&quot;.........______________.........&quot;,</item2>
-				<item2>&quot;..........____________..........&quot;,</item2>
-				<item2>&quot;...........__________...........&quot;,</item2>
-				<item2>&quot;............________............&quot;,</item2>
-				<item2>&quot;............________............&quot;,</item2>
-				<item2>&quot;...........__________...........&quot;,</item2>
-				<item2>&quot;..........____________..........&quot;,</item2>
-				<item2>&quot;.........______________.........&quot;,</item2>
-				<item2>&quot;........_______.._______........&quot;,</item2>
-				<item2>&quot;......._______...._______.......&quot;,</item2>
-				<item2>&quot;......_______......_______......&quot;,</item2>
-				<item2>&quot;....._______........_______.....&quot;,</item2>
-				<item2>&quot;...._______.........._______....&quot;,</item2>
-				<item2>&quot;..._______............_______...&quot;,</item2>
-				<item2>&quot;.._______.............._______..&quot;,</item2>
-				<item2>&quot;._______................_______.&quot;,</item2>
-				<item2>&quot;_______.................._______&quot;,</item2>
-				<item2>&quot;______....................______&quot;,</item2>
-				<item2>&quot;_____......................_____&quot;,</item2>
-				<item2>&quot;____........................____&quot;</item2>
+				<item2>&quot;32 32 7 1&quot;,</item2>
+				<item2>&quot;@ c #C3C3C3&quot;,</item2>
+				<item2>&quot;. c #FBFBFF&quot;,</item2>
+				<item2>&quot;X c #0000FF&quot;,</item2>
+				<item2>&quot;O c #3F48CC&quot;,</item2>
+				<item2>&quot;o c #99D9EA&quot;,</item2>
+				<item2>&quot;_ c None&quot;,</item2>
+				<item2>&quot;+ c #7F7F7F&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;__.XXXXXXXXXXXXXXXXXXXXXXXXXXX__&quot;,</item2>
+				<item2>&quot;__XXoooXXXXXXXXXoooooXXoooooXX__&quot;,</item2>
+				<item2>&quot;__XooooXXoooooXXoooooXXoooooXX__&quot;,</item2>
+				<item2>&quot;__XooooXXoooooXXoooooXXoooooXX__&quot;,</item2>
+				<item2>&quot;__XooooXXoooooXXoooooXXoooooXX__&quot;,</item2>
+				<item2>&quot;__XXoooXXoooooXXoooooXXoooooXX__&quot;,</item2>
+				<item2>&quot;__XXXXXXXXXXXXXXXXXXXXXXXXXXXX__&quot;,</item2>
+				<item2>&quot;__XXXXXXXOOOOOXXXXXXXXXXXXXXXX__&quot;,</item2>
+				<item2>&quot;__XXXXXXXOOOOOXXXXXXXXXXXXXXXX__&quot;,</item2>
+				<item2>&quot;__XXXXXXXOOOOOXXXXXXXXXXXXXXXX__&quot;,</item2>
+				<item2>&quot;__XXXXXXXOOOOOXXXXXXXXXXXXXXXX__&quot;,</item2>
+				<item2>&quot;__XXXXXXXXOOOOXXXXXXXXXXXXXXXX__&quot;,</item2>
+				<item2>&quot;__XX++@++XXOOOXXXXXXXXX++@++XX__&quot;,</item2>
+				<item2>&quot;__XX+@@@+XXXXXXXXXXXXXX+@@@+XX__&quot;,</item2>
+				<item2>&quot;____+@@@+______________+@@@+____&quot;,</item2>
+				<item2>&quot;_____+++________________+++_____&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;</item2>
+				<item2>};</item2>
+				<item2>static const char *xpm_data[] = {</item2>
+				<item2>&quot;32 32 7 1&quot;,</item2>
+				<item2>&quot;@ c #C3C3C3&quot;,</item2>
+				<item2>&quot;X c #F3E8F4&quot;,</item2>
+				<item2>&quot;. c #A349A4&quot;,</item2>
+				<item2>&quot;O c #3F48CC&quot;,</item2>
+				<item2>&quot;o c #99D9EA&quot;,</item2>
+				<item2>&quot;_ c None&quot;,</item2>
+				<item2>&quot;+ c #7F7F7F&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;__________._____________________&quot;,</item2>
+				<item2>&quot;___________.____________________&quot;,</item2>
+				<item2>&quot;____________.___________________&quot;,</item2>
+				<item2>&quot;_____________.__________________&quot;,</item2>
+				<item2>&quot;______________._________________&quot;,</item2>
+				<item2>&quot;_______________.________________&quot;,</item2>
+				<item2>&quot;_____________.._________________&quot;,</item2>
+				<item2>&quot;____________.___________________&quot;,</item2>
+				<item2>&quot;__________..____________________&quot;,</item2>
+				<item2>&quot;__X...........................__&quot;,</item2>
+				<item2>&quot;__..ooo.........ooooo..ooooo..__&quot;,</item2>
+				<item2>&quot;__.oooo..ooooo..ooooo..ooooo..__&quot;,</item2>
+				<item2>&quot;__.oooo..ooooo..ooooo..ooooo..__&quot;,</item2>
+				<item2>&quot;__.oooo..ooooo..ooooo..ooooo..__&quot;,</item2>
+				<item2>&quot;__..ooo..ooooo..ooooo..ooooo..__&quot;,</item2>
+				<item2>&quot;__............................__&quot;,</item2>
+				<item2>&quot;__.......OOOOO................__&quot;,</item2>
+				<item2>&quot;__.......OOOOO................__&quot;,</item2>
+				<item2>&quot;__.......OOOOO................__&quot;,</item2>
+				<item2>&quot;__.......OOOOO................__&quot;,</item2>
+				<item2>&quot;__........OOOO................__&quot;,</item2>
+				<item2>&quot;__..++@++..OOO.........++@++..__&quot;,</item2>
+				<item2>&quot;__..+@@@+..............+@@@+..__&quot;,</item2>
+				<item2>&quot;____+@@@+______________+@@@+____&quot;,</item2>
+				<item2>&quot;_____+++________________+++_____&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;</item2>
 				<item2>};</item2>
 			</image_text>
 			<image_width>32</image_width>
 			<image_height>32</image_height>
-			<image_count>1</image_count>
+			<image_count>2</image_count>
 			<use_include>1</use_include>
 		</object>
 	</object>
