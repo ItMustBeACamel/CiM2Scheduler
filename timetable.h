@@ -122,6 +122,7 @@ public:
         void setStartTime(const DayTimeType& startTime)
         {
             _startTime = startTime;
+            _startTime.makeDaytime();
         }
         DayTimeType& getStartTime()
         {
@@ -134,6 +135,7 @@ public:
         void setEndTime(const DayTimeType& endTime)
         {
             _endTime = endTime;
+            _endTime.makeDaytime();
         }
         DayTimeType& getEndTime()
         {

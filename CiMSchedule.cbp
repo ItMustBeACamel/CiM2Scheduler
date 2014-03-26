@@ -68,16 +68,15 @@
 			<Add option="-mthreads" />
 			<Add library="libwxmsw30u_adv.a" />
 		</Linker>
-		<Unit filename="./timestamp.cpp" />
-		<Unit filename="./timetable.cpp" />
-		<Unit filename="./timetable_view.h" />
-		<Unit filename="./utils.h" />
+		<Unit filename="./wxGridStopTable.h" />
 		<Unit filename="CiMScheduleApp.cpp" />
 		<Unit filename="CiMScheduleApp.h" />
 		<Unit filename="CiMScheduleMain.cpp" />
 		<Unit filename="CiMScheduleMain.h" />
 		<Unit filename="LineEditor.cpp" />
 		<Unit filename="LineEditor.h" />
+		<Unit filename="StationEditorPanel.cpp" />
+		<Unit filename="StationEditorPanel.h" />
 		<Unit filename="TimeTablePanel.cpp" />
 		<Unit filename="TimeTablePanel.h" />
 		<Unit filename="known_bugs.txt" />
@@ -88,11 +87,16 @@
 		</Unit>
 		<Unit filename="stations.cpp" />
 		<Unit filename="stations.h" />
+		<Unit filename="timestamp.cpp" />
 		<Unit filename="timestamp.h" />
+		<Unit filename="timetable.cpp" />
 		<Unit filename="timetable.h" />
+		<Unit filename="timetable_view.h" />
 		<Unit filename="todo.txt" />
+		<Unit filename="utils.h" />
 		<Unit filename="wxsmith/CiMScheduleframe.wxs" />
 		<Unit filename="wxsmith/LineEditor.wxs" />
+		<Unit filename="wxsmith/StationEditorPanel.wxs" />
 		<Unit filename="wxsmith/TimeTablePanel.wxs" />
 		<Extensions>
 			<code_completion />
@@ -105,6 +109,7 @@
 					<wxFrame wxs="wxsmith/CiMScheduleframe.wxs" src="CiMScheduleMain.cpp" hdr="CiMScheduleMain.h" fwddecl="0" i18n="1" name="CiMScheduleFrame" language="CPP" />
 					<wxDialog wxs="wxsmith/LineEditor.wxs" src="LineEditor.cpp" hdr="LineEditor.h" fwddecl="0" i18n="1" name="LineEditor" language="CPP" />
 					<wxPanel wxs="wxsmith/TimeTablePanel.wxs" src="TimeTablePanel.cpp" hdr="TimeTablePanel.h" fwddecl="0" i18n="1" name="TimeTablePanel" language="CPP" />
+					<wxPanel wxs="wxsmith/StationEditorPanel.wxs" src="StationEditorPanel.cpp" hdr="StationEditorPanel.h" fwddecl="0" i18n="1" name="StationEditorPanel" language="CPP" />
 				</resources>
 			</wxsmith>
 			<DoxyBlocks>

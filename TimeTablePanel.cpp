@@ -65,21 +65,21 @@ TimeTablePanel::TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID
     BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
     StaticText1 = new wxStaticText(Panel2, ID_STATICTEXT1, _("Start time:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT1"));
     BoxSizer3->Add(StaticText1, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    txtBegin = new wxTextCtrl(Panel2, ID_TEXTCTRL1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+    txtBegin = new wxTextCtrl(Panel2, ID_TEXTCTRL1, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER, wxDefaultValidator, _T("ID_TEXTCTRL1"));
     BoxSizer3->Add(txtBegin, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     sbBegin = new wxSpinButton(Panel2, ID_SPINBUTTON1, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP, _T("ID_SPINBUTTON1"));
     sbBegin->SetRange(0, 100);
     BoxSizer3->Add(sbBegin, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     StaticText2 = new wxStaticText(Panel2, ID_STATICTEXT2, _("End time:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
     BoxSizer3->Add(StaticText2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    txtEnd = new wxTextCtrl(Panel2, ID_TEXTCTRL2, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL2"));
+    txtEnd = new wxTextCtrl(Panel2, ID_TEXTCTRL2, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER, wxDefaultValidator, _T("ID_TEXTCTRL2"));
     BoxSizer3->Add(txtEnd, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     sbEnd = new wxSpinButton(Panel2, ID_SPINBUTTON2, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP, _T("ID_SPINBUTTON2"));
     sbEnd->SetRange(0, 100);
     BoxSizer3->Add(sbEnd, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     StaticText3 = new wxStaticText(Panel2, ID_STATICTEXT3, _("Interval:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT3"));
     BoxSizer3->Add(StaticText3, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    txtInterval = new wxTextCtrl(Panel2, ID_TEXTCTRL3, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL3"));
+    txtInterval = new wxTextCtrl(Panel2, ID_TEXTCTRL3, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER, wxDefaultValidator, _T("ID_TEXTCTRL3"));
     BoxSizer3->Add(txtInterval, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     sbInterval = new wxSpinButton(Panel2, ID_SPINBUTTON3, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP, _T("ID_SPINBUTTON3"));
     sbInterval->SetRange(0, 100);
@@ -142,8 +142,11 @@ TimeTablePanel::TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID
     BoxSizer1->SetSizeHints(this);
 
     Connect(ID_RADIOBOX1,wxEVT_COMMAND_RADIOBOX_SELECTED,(wxObjectEventFunction)&TimeTablePanel::OnrbPlansSelect);
+    Connect(ID_TEXTCTRL1,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&TimeTablePanel::OntxtBeginTextEnter);
     Connect(ID_SPINBUTTON1,wxEVT_SCROLL_THUMBTRACK,(wxObjectEventFunction)&TimeTablePanel::OnsbBeginChange);
+    Connect(ID_TEXTCTRL2,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&TimeTablePanel::OntxtEndTextEnter);
     Connect(ID_SPINBUTTON2,wxEVT_SCROLL_THUMBTRACK,(wxObjectEventFunction)&TimeTablePanel::OnsbEndChange);
+    Connect(ID_TEXTCTRL3,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&TimeTablePanel::OntxtIntervalTextEnter);
     Connect(ID_SPINBUTTON3,wxEVT_SCROLL_LINEUP,(wxObjectEventFunction)&TimeTablePanel::OnsbIntervalChangeUp);
     Connect(ID_SPINBUTTON3,wxEVT_SCROLL_LINEDOWN,(wxObjectEventFunction)&TimeTablePanel::OnsbIntervalChangeDown);
     Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&TimeTablePanel::OngdTimetableCellLeftClick);
@@ -320,6 +323,29 @@ void TimeTablePanel::refresh()
     }
 }
 
+void TimeTablePanel::refreshLayout()
+{
+    int nCols = _collapsed ? (DAY_NUM-3) : DAY_NUM;
+    for(int i = 0; i < gdTimetable->GetCols(); ++i)
+        //gdTimetable->SetColumnWidth(i,(event.GetSize().GetWidth() - gdTimetable->GetColLabelSize()) / nCols);
+        gdTimetable->SetColumnWidth(i, (_gridWidth - gdTimetable->GetColLabelSize()) / nCols);
+
+    if(_collapsed)
+    {
+        gdTimetable->HideCol(DAY_TUESDAY);
+        gdTimetable->HideCol(DAY_WEDNESDAY);
+        gdTimetable->HideCol(DAY_THURSDAY);
+    }
+    else
+    {
+        gdTimetable->ShowCol(DAY_TUESDAY);
+        gdTimetable->ShowCol(DAY_WEDNESDAY);
+        gdTimetable->ShowCol(DAY_THURSDAY);
+
+    }
+    gdTimetable->ForceRefresh();
+}
+
 void TimeTablePanel::setOffset(const TimeTablePanel::TimeOffsetType& off)
 {
     _offset = off;
@@ -359,6 +385,8 @@ void TimeTablePanel::OnrbPlansSelect(wxCommandEvent& event)
 
 void TimeTablePanel::OngdTimetableResize(wxSizeEvent& event)
 {
+    _gridWidth = event.GetSize().GetWidth();
+    /*
     int nCols = _collapsed ? (DAY_NUM-3) : DAY_NUM;
     for(int i = 0; i < gdTimetable->GetCols(); ++i)
         gdTimetable->SetColumnWidth(i,(event.GetSize().GetWidth() - gdTimetable->GetColLabelSize()) / nCols);
@@ -377,6 +405,8 @@ void TimeTablePanel::OngdTimetableResize(wxSizeEvent& event)
 
     }
     gdTimetable->ForceRefresh();
+    */
+    refreshLayout();
 }
 
 void TimeTablePanel::OnsbBeginChange(wxSpinEvent& event)
@@ -427,8 +457,28 @@ void TimeTablePanel::OnsbIntervalChangeDown(wxSpinEvent& event)
 void TimeTablePanel::OnclbOptionsToggled(wxCommandEvent& event)
 {
     setCollapsed(!clbOptions->IsChecked(0));
+    refreshLayout();
+    refresh();
 }
 
 void TimeTablePanel::OnsbIntervalChange(wxSpinEvent& event)
 {
+}
+
+void TimeTablePanel::OntxtBeginTextEnter(wxCommandEvent& event)
+{
+    _timetable.getPlan(_currentPlan).setStartTime(TimeOffsetType(txtBegin->GetValue().c_str()) - _offset);
+    refresh();
+}
+
+void TimeTablePanel::OntxtEndTextEnter(wxCommandEvent& event)
+{
+    _timetable.getPlan(_currentPlan).setEndTime(TimeOffsetType(txtEnd->GetValue().c_str()) - _offset);
+    refresh();
+}
+
+void TimeTablePanel::OntxtIntervalTextEnter(wxCommandEvent& event)
+{
+    _timetable.getPlan(_currentPlan).setInterval(TimeOffsetType(txtInterval->GetValue().c_str()));
+    refresh();
 }

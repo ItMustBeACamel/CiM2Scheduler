@@ -20,6 +20,7 @@
 													<object class="wxListView" name="ID_LV_STATIONS" variable="lvStations" member="yes">
 														<style>wxLC_LIST|wxLC_ALIGN_LEFT|wxLC_EDIT_LABELS</style>
 														<handler function="OnlvStationsEndLabelEdit" entry="EVT_LIST_END_LABEL_EDIT" />
+														<handler function="OnlvStationsItemSelect" entry="EVT_LIST_ITEM_SELECTED" />
 													</object>
 													<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 													<border>5</border>
@@ -63,18 +64,30 @@
 												</object>
 											</object>
 										</object>
-										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 										<border>5</border>
 									</object>
 								</object>
 							</object>
 							<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 							<border>5</border>
-							<option>1</option>
 						</object>
 						<object class="sizeritem">
-							<object class="wxPanel" name="ID_PANEL3" variable="panMiddle" member="yes" />
-							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+							<object class="wxPanel" name="ID_PANEL3" variable="panMiddle" member="yes">
+								<object class="wxBoxSizer" variable="BoxSizer8" member="no">
+									<object class="sizeritem">
+										<object class="Custom" name="ID_CUSTOM1" subclass="StationEditorPanel" variable="panStationEditor" member="yes">
+											<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),$(POS),$(SIZE));</creating_code>
+											<include_file>StationEditorPanel.h</include_file>
+											<local_include>1</local_include>
+										</object>
+										<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
+								</object>
+							</object>
+							<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 							<border>5</border>
 							<option>1</option>
 						</object>
@@ -128,7 +141,6 @@
 							</object>
 							<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 							<border>5</border>
-							<option>1</option>
 						</object>
 					</object>
 				</object>
@@ -187,7 +199,6 @@
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 				<border>5</border>
-				<option>1</option>
 			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar" member="no">
@@ -310,6 +321,169 @@
 				<item>&quot;________________________________&quot;,</item>
 				<item>&quot;________________________________&quot;</item>
 				<item>};</item>
+				<item>static const char *xpm_data[] = {</item>
+				<item>&quot;32 32 6 1&quot;,</item>
+				<item>&quot;O c #880015&quot;,</item>
+				<item>&quot;X c #FBFBFF&quot;,</item>
+				<item>&quot;. c #ED1C24&quot;,</item>
+				<item>&quot;o c #99D9EA&quot;,</item>
+				<item>&quot;_ c None&quot;,</item>
+				<item>&quot;+ c #7F7F7F&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;______________________._________&quot;,</item>
+				<item>&quot;_______________________...______&quot;,</item>
+				<item>&quot;______________________.._.______&quot;,</item>
+				<item>&quot;____________________..__________&quot;,</item>
+				<item>&quot;__________________..____________&quot;,</item>
+				<item>&quot;________________..______________&quot;,</item>
+				<item>&quot;_____________...............____&quot;,</item>
+				<item>&quot;____________.................___&quot;,</item>
+				<item>&quot;_____X_.........................&quot;,</item>
+				<item>&quot;______.ooo..ooooo.OoooooOOoooooO&quot;,</item>
+				<item>&quot;_____.oooo..ooooo.OoooooOOoooooO&quot;,</item>
+				<item>&quot;____.ooooo..ooooo.OoooooOOoooooO&quot;,</item>
+				<item>&quot;___.oooooo..ooooo.OoooooOOoooooO&quot;,</item>
+				<item>&quot;__.ooooooo..ooooo.OoooooOOoooooO&quot;,</item>
+				<item>&quot;_.................O.....OO.....O&quot;,</item>
+				<item>&quot;_.................O.....OO.....O&quot;,</item>
+				<item>&quot;_.................O.....OO.....O&quot;,</item>
+				<item>&quot;__................O.....OO.....O&quot;,</item>
+				<item>&quot;__................O.....OO.....O&quot;,</item>
+				<item>&quot;___...............O.....OO.....O&quot;,</item>
+				<item>&quot;____...+++++_+++++O.....OO....++&quot;,</item>
+				<item>&quot;_____..+++++_+++++OOOOOOOOOOOO++&quot;,</item>
+				<item>&quot;_______+++++_+++++____________++&quot;,</item>
+				<item>&quot;________+++___+++______________+&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;</item>
+				<item>};</item>
+				<item>static const char *xpm_data[] = {</item>
+				<item>&quot;32 32 6 1&quot;,</item>
+				<item>&quot;O c #7092BE&quot;,</item>
+				<item>&quot;X c #FBFBFF&quot;,</item>
+				<item>&quot;. c #22B14C&quot;,</item>
+				<item>&quot;o c #99D9EA&quot;,</item>
+				<item>&quot;_ c None&quot;,</item>
+				<item>&quot;+ c #7F7F7F&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;_________.......................&quot;,</item>
+				<item>&quot;________........................&quot;,</item>
+				<item>&quot;_____X_.........................&quot;,</item>
+				<item>&quot;______.ooo..ooooo.OoooooOOoooooO&quot;,</item>
+				<item>&quot;_____.oooo..ooooo.OoooooOOoooooO&quot;,</item>
+				<item>&quot;____.ooooo..ooooo.OoooooOOoooooO&quot;,</item>
+				<item>&quot;___.oooooo..ooooo.OoooooOOoooooO&quot;,</item>
+				<item>&quot;__.ooooooo..ooooo.OoooooOOoooooO&quot;,</item>
+				<item>&quot;_.................O.....OO.....O&quot;,</item>
+				<item>&quot;_.................O.....OO.....O&quot;,</item>
+				<item>&quot;_.................O.....OO.....O&quot;,</item>
+				<item>&quot;__................O.....OO.....O&quot;,</item>
+				<item>&quot;__................O.....OO.....O&quot;,</item>
+				<item>&quot;___...............O.....OO.....O&quot;,</item>
+				<item>&quot;____...+++++_+++++O.....OO....++&quot;,</item>
+				<item>&quot;_____..+++++_+++++OOOOOOOOOOOO++&quot;,</item>
+				<item>&quot;_______+++++_+++++____________++&quot;,</item>
+				<item>&quot;________+++___+++______________+&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;</item>
+				<item>};</item>
+				<item>static const char *xpm_data[] = {</item>
+				<item>&quot;32 32 5 1&quot;,</item>
+				<item>&quot;O c #00A2E8&quot;,</item>
+				<item>&quot;X c #FBFBFF&quot;,</item>
+				<item>&quot;o c #99D9EA&quot;,</item>
+				<item>&quot;_ c None&quot;,</item>
+				<item>&quot;. c #FFF200&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;_________.......................&quot;,</item>
+				<item>&quot;________........................&quot;,</item>
+				<item>&quot;_____X_.........................&quot;,</item>
+				<item>&quot;______.ooo..ooooo..ooooo..ooooo.&quot;,</item>
+				<item>&quot;_____.oooo..ooooo..ooooo..ooooo.&quot;,</item>
+				<item>&quot;____.ooooo..ooooo..ooooo..ooooo.&quot;,</item>
+				<item>&quot;___.oooooo..ooooo..ooooo..ooooo.&quot;,</item>
+				<item>&quot;__.ooooooo..ooooo..ooooo..ooooo.&quot;,</item>
+				<item>&quot;_...............................&quot;,</item>
+				<item>&quot;_...............................&quot;,</item>
+				<item>&quot;_...............................&quot;,</item>
+				<item>&quot;__..............................&quot;,</item>
+				<item>&quot;__..............................&quot;,</item>
+				<item>&quot;OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO&quot;,</item>
+				<item>&quot;OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO&quot;,</item>
+				<item>&quot;OOoooooOOOoOOOOOOOOOooooOOOOoooo&quot;,</item>
+				<item>&quot;OOOOOOOOOOooooooOOOOOOOOOOOOOOOO&quot;,</item>
+				<item>&quot;OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO&quot;,</item>
+				<item>&quot;OOOooooooOOOOOOOOOOOOOoooooOOOOO&quot;,</item>
+				<item>&quot;OOOOOOOOOOOOOOOoooooOOOOOOOOOOOO&quot;,</item>
+				<item>&quot;OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO&quot;,</item>
+				<item>&quot;OOOOOOOOOoooOOOOOOOOOOOOOOOOOOOO&quot;,</item>
+				<item>&quot;oooOOOOOOOOOOOOOOOooooooOOOOOooo&quot;,</item>
+				<item>&quot;OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO&quot;</item>
+				<item>};</item>
+				<item>static const char *xpm_data[] = {</item>
+				<item>&quot;32 32 6 1&quot;,</item>
+				<item>&quot;O c #B97A57&quot;,</item>
+				<item>&quot;. c #FF7F27&quot;,</item>
+				<item>&quot;X c #FBFBFF&quot;,</item>
+				<item>&quot;o c #99D9EA&quot;,</item>
+				<item>&quot;_ c None&quot;,</item>
+				<item>&quot;+ c #7F7F7F&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________________________&quot;,</item>
+				<item>&quot;________________..______________&quot;,</item>
+				<item>&quot;_____________...............____&quot;,</item>
+				<item>&quot;____________.................___&quot;,</item>
+				<item>&quot;_____X_.........................&quot;,</item>
+				<item>&quot;______.ooo..ooooo.OoooooOOoooooO&quot;,</item>
+				<item>&quot;_____.oooo..ooooo.OoooooOOoooooO&quot;,</item>
+				<item>&quot;____.ooooo..ooooo.OoooooOOoooooO&quot;,</item>
+				<item>&quot;___.oooooo..ooooo.OoooooOOoooooO&quot;,</item>
+				<item>&quot;__.ooooooo..ooooo.OoooooOOoooooO&quot;,</item>
+				<item>&quot;_.................O.....OO.....O&quot;,</item>
+				<item>&quot;_.................O.....OO.....O&quot;,</item>
+				<item>&quot;_.................O.....OO.....O&quot;,</item>
+				<item>&quot;__................O.....OO.....O&quot;,</item>
+				<item>&quot;__................O.....OO.....O&quot;,</item>
+				<item>&quot;___...............O.....OO.....O&quot;,</item>
+				<item>&quot;____..............O.....OO.....O&quot;,</item>
+				<item>&quot;_____.............OOOOOOOOOOOOOO&quot;,</item>
+				<item>&quot;+++++...........................&quot;,</item>
+				<item>&quot;++++............................&quot;,</item>
+				<item>&quot;++++............................&quot;,</item>
+				<item>&quot;++++++++++++++++++++++++++++++++&quot;,</item>
+				<item>&quot;++++++++++++++++++++++++++++++++&quot;,</item>
+				<item>&quot;__++++++______________________++&quot;,</item>
+				<item>&quot;__++++++______________________++&quot;,</item>
+				<item>&quot;__++++++______________________++&quot;</item>
+				<item>};</item>
 			</image_list>
 			<image_text>
 				<item2>32</item2>
@@ -398,10 +572,883 @@
 				<item2>&quot;________________________________&quot;,</item2>
 				<item2>&quot;________________________________&quot;</item2>
 				<item2>};</item2>
+				<item2>static const char *xpm_data[] = {</item2>
+				<item2>&quot;32 32 6 1&quot;,</item2>
+				<item2>&quot;O c #880015&quot;,</item2>
+				<item2>&quot;X c #FBFBFF&quot;,</item2>
+				<item2>&quot;. c #ED1C24&quot;,</item2>
+				<item2>&quot;o c #99D9EA&quot;,</item2>
+				<item2>&quot;_ c None&quot;,</item2>
+				<item2>&quot;+ c #7F7F7F&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;______________________._________&quot;,</item2>
+				<item2>&quot;_______________________...______&quot;,</item2>
+				<item2>&quot;______________________.._.______&quot;,</item2>
+				<item2>&quot;____________________..__________&quot;,</item2>
+				<item2>&quot;__________________..____________&quot;,</item2>
+				<item2>&quot;________________..______________&quot;,</item2>
+				<item2>&quot;_____________...............____&quot;,</item2>
+				<item2>&quot;____________.................___&quot;,</item2>
+				<item2>&quot;_____X_.........................&quot;,</item2>
+				<item2>&quot;______.ooo..ooooo.OoooooOOoooooO&quot;,</item2>
+				<item2>&quot;_____.oooo..ooooo.OoooooOOoooooO&quot;,</item2>
+				<item2>&quot;____.ooooo..ooooo.OoooooOOoooooO&quot;,</item2>
+				<item2>&quot;___.oooooo..ooooo.OoooooOOoooooO&quot;,</item2>
+				<item2>&quot;__.ooooooo..ooooo.OoooooOOoooooO&quot;,</item2>
+				<item2>&quot;_.................O.....OO.....O&quot;,</item2>
+				<item2>&quot;_.................O.....OO.....O&quot;,</item2>
+				<item2>&quot;_.................O.....OO.....O&quot;,</item2>
+				<item2>&quot;__................O.....OO.....O&quot;,</item2>
+				<item2>&quot;__................O.....OO.....O&quot;,</item2>
+				<item2>&quot;___...............O.....OO.....O&quot;,</item2>
+				<item2>&quot;____...+++++_+++++O.....OO....++&quot;,</item2>
+				<item2>&quot;_____..+++++_+++++OOOOOOOOOOOO++&quot;,</item2>
+				<item2>&quot;_______+++++_+++++____________++&quot;,</item2>
+				<item2>&quot;________+++___+++______________+&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;</item2>
+				<item2>};</item2>
+				<item2>static const char *xpm_data[] = {</item2>
+				<item2>&quot;32 32 6 1&quot;,</item2>
+				<item2>&quot;O c #7092BE&quot;,</item2>
+				<item2>&quot;X c #FBFBFF&quot;,</item2>
+				<item2>&quot;. c #22B14C&quot;,</item2>
+				<item2>&quot;o c #99D9EA&quot;,</item2>
+				<item2>&quot;_ c None&quot;,</item2>
+				<item2>&quot;+ c #7F7F7F&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;_________.......................&quot;,</item2>
+				<item2>&quot;________........................&quot;,</item2>
+				<item2>&quot;_____X_.........................&quot;,</item2>
+				<item2>&quot;______.ooo..ooooo.OoooooOOoooooO&quot;,</item2>
+				<item2>&quot;_____.oooo..ooooo.OoooooOOoooooO&quot;,</item2>
+				<item2>&quot;____.ooooo..ooooo.OoooooOOoooooO&quot;,</item2>
+				<item2>&quot;___.oooooo..ooooo.OoooooOOoooooO&quot;,</item2>
+				<item2>&quot;__.ooooooo..ooooo.OoooooOOoooooO&quot;,</item2>
+				<item2>&quot;_.................O.....OO.....O&quot;,</item2>
+				<item2>&quot;_.................O.....OO.....O&quot;,</item2>
+				<item2>&quot;_.................O.....OO.....O&quot;,</item2>
+				<item2>&quot;__................O.....OO.....O&quot;,</item2>
+				<item2>&quot;__................O.....OO.....O&quot;,</item2>
+				<item2>&quot;___...............O.....OO.....O&quot;,</item2>
+				<item2>&quot;____...+++++_+++++O.....OO....++&quot;,</item2>
+				<item2>&quot;_____..+++++_+++++OOOOOOOOOOOO++&quot;,</item2>
+				<item2>&quot;_______+++++_+++++____________++&quot;,</item2>
+				<item2>&quot;________+++___+++______________+&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;</item2>
+				<item2>};</item2>
+				<item2>static const char *xpm_data[] = {</item2>
+				<item2>&quot;32 32 5 1&quot;,</item2>
+				<item2>&quot;O c #00A2E8&quot;,</item2>
+				<item2>&quot;X c #FBFBFF&quot;,</item2>
+				<item2>&quot;o c #99D9EA&quot;,</item2>
+				<item2>&quot;_ c None&quot;,</item2>
+				<item2>&quot;. c #FFF200&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;_________.......................&quot;,</item2>
+				<item2>&quot;________........................&quot;,</item2>
+				<item2>&quot;_____X_.........................&quot;,</item2>
+				<item2>&quot;______.ooo..ooooo..ooooo..ooooo.&quot;,</item2>
+				<item2>&quot;_____.oooo..ooooo..ooooo..ooooo.&quot;,</item2>
+				<item2>&quot;____.ooooo..ooooo..ooooo..ooooo.&quot;,</item2>
+				<item2>&quot;___.oooooo..ooooo..ooooo..ooooo.&quot;,</item2>
+				<item2>&quot;__.ooooooo..ooooo..ooooo..ooooo.&quot;,</item2>
+				<item2>&quot;_...............................&quot;,</item2>
+				<item2>&quot;_...............................&quot;,</item2>
+				<item2>&quot;_...............................&quot;,</item2>
+				<item2>&quot;__..............................&quot;,</item2>
+				<item2>&quot;__..............................&quot;,</item2>
+				<item2>&quot;OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO&quot;,</item2>
+				<item2>&quot;OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO&quot;,</item2>
+				<item2>&quot;OOoooooOOOoOOOOOOOOOooooOOOOoooo&quot;,</item2>
+				<item2>&quot;OOOOOOOOOOooooooOOOOOOOOOOOOOOOO&quot;,</item2>
+				<item2>&quot;OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO&quot;,</item2>
+				<item2>&quot;OOOooooooOOOOOOOOOOOOOoooooOOOOO&quot;,</item2>
+				<item2>&quot;OOOOOOOOOOOOOOOoooooOOOOOOOOOOOO&quot;,</item2>
+				<item2>&quot;OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO&quot;,</item2>
+				<item2>&quot;OOOOOOOOOoooOOOOOOOOOOOOOOOOOOOO&quot;,</item2>
+				<item2>&quot;oooOOOOOOOOOOOOOOOooooooOOOOOooo&quot;,</item2>
+				<item2>&quot;OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO&quot;</item2>
+				<item2>};</item2>
+				<item2>static const char *xpm_data[] = {</item2>
+				<item2>&quot;32 32 6 1&quot;,</item2>
+				<item2>&quot;O c #B97A57&quot;,</item2>
+				<item2>&quot;. c #FF7F27&quot;,</item2>
+				<item2>&quot;X c #FBFBFF&quot;,</item2>
+				<item2>&quot;o c #99D9EA&quot;,</item2>
+				<item2>&quot;_ c None&quot;,</item2>
+				<item2>&quot;+ c #7F7F7F&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________________________&quot;,</item2>
+				<item2>&quot;________________..______________&quot;,</item2>
+				<item2>&quot;_____________...............____&quot;,</item2>
+				<item2>&quot;____________.................___&quot;,</item2>
+				<item2>&quot;_____X_.........................&quot;,</item2>
+				<item2>&quot;______.ooo..ooooo.OoooooOOoooooO&quot;,</item2>
+				<item2>&quot;_____.oooo..ooooo.OoooooOOoooooO&quot;,</item2>
+				<item2>&quot;____.ooooo..ooooo.OoooooOOoooooO&quot;,</item2>
+				<item2>&quot;___.oooooo..ooooo.OoooooOOoooooO&quot;,</item2>
+				<item2>&quot;__.ooooooo..ooooo.OoooooOOoooooO&quot;,</item2>
+				<item2>&quot;_.................O.....OO.....O&quot;,</item2>
+				<item2>&quot;_.................O.....OO.....O&quot;,</item2>
+				<item2>&quot;_.................O.....OO.....O&quot;,</item2>
+				<item2>&quot;__................O.....OO.....O&quot;,</item2>
+				<item2>&quot;__................O.....OO.....O&quot;,</item2>
+				<item2>&quot;___...............O.....OO.....O&quot;,</item2>
+				<item2>&quot;____..............O.....OO.....O&quot;,</item2>
+				<item2>&quot;_____.............OOOOOOOOOOOOOO&quot;,</item2>
+				<item2>&quot;+++++...........................&quot;,</item2>
+				<item2>&quot;++++............................&quot;,</item2>
+				<item2>&quot;++++............................&quot;,</item2>
+				<item2>&quot;++++++++++++++++++++++++++++++++&quot;,</item2>
+				<item2>&quot;++++++++++++++++++++++++++++++++&quot;,</item2>
+				<item2>&quot;__++++++______________________++&quot;,</item2>
+				<item2>&quot;__++++++______________________++&quot;,</item2>
+				<item2>&quot;__++++++______________________++&quot;</item2>
+				<item2>};</item2>
 			</image_text>
 			<image_width>32</image_width>
 			<image_height>32</image_height>
-			<image_count>2</image_count>
+			<image_count>6</image_count>
+			<use_include>1</use_include>
+		</object>
+		<object class="wxImageList" variable="ilIconSmall" member="yes">
+			<image_list>
+				<item>16</item>
+				<item>16</item>
+				<item>static const char *xpm_data[] = {</item>
+				<item>&quot;16 16 6 1&quot;,</item>
+				<item>&quot;O c #C3C3C3&quot;,</item>
+				<item>&quot;. c #0000FF&quot;,</item>
+				<item>&quot;o c #3F48CC&quot;,</item>
+				<item>&quot;X c #99D9EA&quot;,</item>
+				<item>&quot;_ c None&quot;,</item>
+				<item>&quot;+ c #7F7F7F&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;_.X.....XX.XXX._&quot;,</item>
+				<item>&quot;_XX.XXX.XX.XXX._&quot;,</item>
+				<item>&quot;_.X.XXX.XX.XXX._&quot;,</item>
+				<item>&quot;_...ooo........_&quot;,</item>
+				<item>&quot;_...ooo........_&quot;,</item>
+				<item>&quot;_....oo........_&quot;,</item>
+				<item>&quot;_.OO.......+O+._&quot;,</item>
+				<item>&quot;__++________+___&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;</item>
+				<item>};</item>
+				<item>static const char *xpm_data[] = {</item>
+				<item>&quot;16 16 6 1&quot;,</item>
+				<item>&quot;O c #C3C3C3&quot;,</item>
+				<item>&quot;. c #A349A4&quot;,</item>
+				<item>&quot;o c #3F48CC&quot;,</item>
+				<item>&quot;X c #99D9EA&quot;,</item>
+				<item>&quot;_ c None&quot;,</item>
+				<item>&quot;+ c #7F7F7F&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;______._________&quot;,</item>
+				<item>&quot;_____.__________&quot;,</item>
+				<item>&quot;_.X.....XX.XXX._&quot;,</item>
+				<item>&quot;_XX.XXX.XX.XXX._&quot;,</item>
+				<item>&quot;_.X.XXX.XX.XXX._&quot;,</item>
+				<item>&quot;_...ooo........_&quot;,</item>
+				<item>&quot;_...ooo........_&quot;,</item>
+				<item>&quot;_....oo........_&quot;,</item>
+				<item>&quot;_.OO.......+O+._&quot;,</item>
+				<item>&quot;__++________+___&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;</item>
+				<item>};</item>
+				<item>static const char *xpm_data[] = {</item>
+				<item>&quot;16 16 5 1&quot;,</item>
+				<item>&quot;o c #880015&quot;,</item>
+				<item>&quot;. c #ED1C24&quot;,</item>
+				<item>&quot;X c #99D9EA&quot;,</item>
+				<item>&quot;_ c None&quot;,</item>
+				<item>&quot;O c #7F7F7F&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;___________..___&quot;,</item>
+				<item>&quot;__________._____&quot;,</item>
+				<item>&quot;________._______&quot;,</item>
+				<item>&quot;______........__&quot;,</item>
+				<item>&quot;___XX.XX.XXXoXXo&quot;,</item>
+				<item>&quot;__XXX.XX.XXXoXXo&quot;,</item>
+				<item>&quot;_XXXX.XX.XXXoXXo&quot;,</item>
+				<item>&quot;............o..o&quot;,</item>
+				<item>&quot;_...........o..o&quot;,</item>
+				<item>&quot;_...........o..o&quot;,</item>
+				<item>&quot;__.OOOOOOooooooO&quot;,</item>
+				<item>&quot;____O__O_______O&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;</item>
+				<item>};</item>
+				<item>static const char *xpm_data[] = {</item>
+				<item>&quot;16 16 81 1&quot;,</item>
+				<item>&quot;Y c #329575&quot;,</item>
+				<item>&quot;V c #16B745&quot;,</item>
+				<item>&quot;8 c #A2DFF6&quot;,</item>
+				<item>&quot;v c #1DB244&quot;,</item>
+				<item>&quot;o c #00A42B&quot;,</item>
+				<item>&quot;, c #43987F&quot;,</item>
+				<item>&quot;X c #00A430&quot;,</item>
+				<item>&quot;R c #30987D&quot;,</item>
+				<item>&quot;m c #4DA08C&quot;,</item>
+				<item>&quot;&gt; c #60C99D&quot;,</item>
+				<item>&quot;7 c #8DB0E0&quot;,</item>
+				<item>&quot;F c #38BD5F&quot;,</item>
+				<item>&quot;^ c #8F8F8F&quot;,</item>
+				<item>&quot;r c #B6E3FF&quot;,</item>
+				<item>&quot;b c #529E93&quot;,</item>
+				<item>&quot;6 c #55C58E&quot;,</item>
+				<item>&quot;a c #8AB4DB&quot;,</item>
+				<item>&quot;U c #349479&quot;,</item>
+				<item>&quot;$ c #5AC39E&quot;,</item>
+				<item>&quot;O c #02A630&quot;,</item>
+				<item>&quot;e c #B0E0FF&quot;,</item>
+				<item>&quot;&amp; c #13AC38&quot;,</item>
+				<item>&quot;l c #838ADA&quot;,</item>
+				<item>&quot;+ c #00A62D&quot;,</item>
+				<item>&quot;q c #88B1D9&quot;,</item>
+				<item>&quot;1 c #4DBF76&quot;,</item>
+				<item>&quot;T c #6780C4&quot;,</item>
+				<item>&quot;H c #907588&quot;,</item>
+				<item>&quot;p c #6580B3&quot;,</item>
+				<item>&quot;~ c #F3F3F3&quot;,</item>
+				<item>&quot;L c #82707D&quot;,</item>
+				<item>&quot;k c #09AF2A&quot;,</item>
+				<item>&quot;0 c #6A7EBA&quot;,</item>
+				<item>&quot;/ c #8B8B8B&quot;,</item>
+				<item>&quot;= c #61C69F&quot;,</item>
+				<item>&quot;j c #0EAD31&quot;,</item>
+				<item>&quot;&lt; c #52B18E&quot;,</item>
+				<item>&quot;- c #39BA6B&quot;,</item>
+				<item>&quot;! c #939393&quot;,</item>
+				<item>&quot;E c #887279&quot;,</item>
+				<item>&quot;* c #64C7A4&quot;,</item>
+				<item>&quot;W c #F4EBF2&quot;,</item>
+				<item>&quot;Q c #5F5F5F&quot;,</item>
+				<item>&quot;G c #3E8954&quot;,</item>
+				<item>&quot;9 c #A5E4F9&quot;,</item>
+				<item>&quot;# c #54C280&quot;,</item>
+				<item>&quot;5 c #A7DEFD&quot;,</item>
+				<item>&quot;f c #22B14C&quot;,</item>
+				<item>&quot;z c #469D82&quot;,</item>
+				<item>&quot;t c #59C693&quot;,</item>
+				<item>&quot;u c #AAE2FF&quot;,</item>
+				<item>&quot;_ c None&quot;,</item>
+				<item>&quot;@ c #01A92E&quot;,</item>
+				<item>&quot;K c #DECCD9&quot;,</item>
+				<item>&quot;N c #14AC40&quot;,</item>
+				<item>&quot;: c #5EC79C&quot;,</item>
+				<item>&quot;h c #4B9B89&quot;,</item>
+				<item>&quot;A c #509F8F&quot;,</item>
+				<item>&quot;3 c #AFE0FF&quot;,</item>
+				<item>&quot;i c #ADE6FF&quot;,</item>
+				<item>&quot;w c #5CC48A&quot;,</item>
+				<item>&quot;. c #36B858&quot;,</item>
+				<item>&quot;s c #8AD5A0&quot;,</item>
+				<item>&quot;D c #47A48C&quot;,</item>
+				<item>&quot;c c #06A735&quot;,</item>
+				<item>&quot;B c #1CB448&quot;,</item>
+				<item>&quot;4 c #04A724&quot;,</item>
+				<item>&quot;y c #8EB2E2&quot;,</item>
+				<item>&quot;S c #13B636&quot;,</item>
+				<item>&quot;x c #DCF2E3&quot;,</item>
+				<item>&quot;g c #15B03B&quot;,</item>
+				<item>&quot;I c #488EA1&quot;,</item>
+				<item>&quot;2 c #A1DBFC&quot;,</item>
+				<item>&quot;; c #54B092&quot;,</item>
+				<item>&quot;C c #0EAF3D&quot;,</item>
+				<item>&quot;Z c #11B93E&quot;,</item>
+				<item>&quot;d c #09A836&quot;,</item>
+				<item>&quot;P c #8A717D&quot;,</item>
+				<item>&quot;n c #18B43D&quot;,</item>
+				<item>&quot;J c #7E6C79&quot;,</item>
+				<item>&quot;M c #3EBA62&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;____.XooO+oo@oo+&quot;,</item>
+				<item>&quot;___#$&amp;*=-;:&gt;,&gt;:&lt;&quot;,</item>
+				<item>&quot;__1234356789098q&quot;,</item>
+				<item>&quot;_we5r4r3tyuipiua&quot;,</item>
+				<item>&quot;sd&amp;&amp;&amp;f&amp;&amp;ghjklkjz&quot;,</item>
+				<item>&quot;xcffffffvbvnlnvm&quot;,</item>
+				<item>&quot;_MNBVVCVZAnSlSnD&quot;,</item>
+				<item>&quot;__FGHJKLPIUYTYRE&quot;,</item>
+				<item>&quot;___WQ!~Q^______/&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;</item>
+				<item>};</item>
+				<item>static const char *xpm_data[] = {</item>
+				<item>&quot;16 16 54 1&quot;,</item>
+				<item>&quot;p c #0097F6&quot;,</item>
+				<item>&quot;&gt; c #8CD5FF&quot;,</item>
+				<item>&quot;; c #85D4FF&quot;,</item>
+				<item>&quot;z c #30B3E8&quot;,</item>
+				<item>&quot;+ c #ECEF4C&quot;,</item>
+				<item>&quot;4 c #FFF878&quot;,</item>
+				<item>&quot;3 c #CCE675&quot;,</item>
+				<item>&quot;8 c #FFF700&quot;,</item>
+				<item>&quot;&lt; c #E5EE5A&quot;,</item>
+				<item>&quot;* c #E8EC33&quot;,</item>
+				<item>&quot;h c #64C6E9&quot;,</item>
+				<item>&quot;d c #00A2E8&quot;,</item>
+				<item>&quot;o c #FFF100&quot;,</item>
+				<item>&quot;b c #69C7E9&quot;,</item>
+				<item>&quot;= c #F2F13D&quot;,</item>
+				<item>&quot;0 c #75C563&quot;,</item>
+				<item>&quot;f c #009CE7&quot;,</item>
+				<item>&quot;9 c #7FD1FF&quot;,</item>
+				<item>&quot;u c #20AEF7&quot;,</item>
+				<item>&quot;c c #0099E7&quot;,</item>
+				<item>&quot;e c #7FCA74&quot;,</item>
+				<item>&quot;i c #0099F6&quot;,</item>
+				<item>&quot;y c #54C1F7&quot;,</item>
+				<item>&quot;v c #26B0E8&quot;,</item>
+				<item>&quot;t c #59C2F7&quot;,</item>
+				<item>&quot;x c #2BB1E8&quot;,</item>
+				<item>&quot;- c #85D3FF&quot;,</item>
+				<item>&quot;n c #6DC9E9&quot;,</item>
+				<item>&quot;j c #5FC4E9&quot;,</item>
+				<item>&quot;6 c #FFF300&quot;,</item>
+				<item>&quot;, c #CFE66D&quot;,</item>
+				<item>&quot;O c #FFF000&quot;,</item>
+				<item>&quot;k c #009EE7&quot;,</item>
+				<item>&quot;g c #009BE7&quot;,</item>
+				<item>&quot;r c #0098E6&quot;,</item>
+				<item>&quot;w c #7AC873&quot;,</item>
+				<item>&quot;M c #56C0E9&quot;,</item>
+				<item>&quot;s c #4FBFF7&quot;,</item>
+				<item>&quot;1 c #79D0FF&quot;,</item>
+				<item>&quot;_ c None&quot;,</item>
+				<item>&quot;@ c #C2E27A&quot;,</item>
+				<item>&quot;: c #FFF800&quot;,</item>
+				<item>&quot;m c #5AC2E9&quot;,</item>
+				<item>&quot;# c #FFF500&quot;,</item>
+				<item>&quot;5 c #FFF200&quot;,</item>
+				<item>&quot;l c #00A0E7&quot;,</item>
+				<item>&quot;. c #FFF511&quot;,</item>
+				<item>&quot;X c #FFEF00&quot;,</item>
+				<item>&quot;$ c #C5E383&quot;,</item>
+				<item>&quot;2 c #7FD2FF&quot;,</item>
+				<item>&quot;q c #75C673&quot;,</item>
+				<item>&quot;a c #009DF6&quot;,</item>
+				<item>&quot;&amp; c #C8E47C&quot;,</item>
+				<item>&quot;7 c #FFFFD8&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;____.XooooooOooo&quot;,</item>
+				<item>&quot;___+@#$&amp;**&amp;$#$&amp;*&quot;,</item>
+				<item>&quot;__=-;:;&gt;,,&gt;;:;&gt;,&quot;,</item>
+				<item>&quot;_&lt;1&gt;2:2;33;2:2;3&quot;,</item>
+				<item>&quot;4o###5##66##5##6&quot;,</item>
+				<item>&quot;7#88888888888888&quot;,</item>
+				<item>&quot;90qweweeeeqqeeqq&quot;,</item>
+				<item>&quot;rtyuiupiaittiits&quot;,</item>
+				<item>&quot;dfgffhjhgkkgklkk&quot;,</item>
+				<item>&quot;lzhhxcfvhbgbhzld&quot;,</item>
+				<item>&quot;kkkfxnklkgkgkllk&quot;,</item>
+				<item>&quot;mxldlkddkjMjklxm&quot;</item>
+				<item>};</item>
+				<item>static const char *xpm_data[] = {</item>
+				<item>&quot;16 16 83 1&quot;,</item>
+				<item>&quot;, c #D29160&quot;,</item>
+				<item>&quot;O c #FF7413&quot;,</item>
+				<item>&quot;i c #7FEFFF&quot;,</item>
+				<item>&quot;K c #B97A57&quot;,</item>
+				<item>&quot;h c #FFBB8C&quot;,</item>
+				<item>&quot;5 c #F29A5A&quot;,</item>
+				<item>&quot;8 c #FF6800&quot;,</item>
+				<item>&quot;! c #B7774B&quot;,</item>
+				<item>&quot;o c #FF6500&quot;,</item>
+				<item>&quot;. c #FFAF78&quot;,</item>
+				<item>&quot;^ c #6F777C&quot;,</item>
+				<item>&quot;Q c #BF7F53&quot;,</item>
+				<item>&quot;I c #636F77&quot;,</item>
+				<item>&quot;* c #ECA066&quot;,</item>
+				<item>&quot;y c #E5A573&quot;,</item>
+				<item>&quot;E c #777F84&quot;,</item>
+				<item>&quot;g c #A4A9A4&quot;,</item>
+				<item>&quot;b c #A77863&quot;,</item>
+				<item>&quot;T c #FF7F1B&quot;,</item>
+				<item>&quot;Y c #FF7F1D&quot;,</item>
+				<item>&quot;D c #FF7F1E&quot;,</item>
+				<item>&quot;V c #FF7F21&quot;,</item>
+				<item>&quot;J c #FF7F22&quot;,</item>
+				<item>&quot;N c #FF7F24&quot;,</item>
+				<item>&quot;l c #FF7F27&quot;,</item>
+				<item>&quot;z c #FF7917&quot;,</item>
+				<item>&quot;a c #A0A9A7&quot;,</item>
+				<item>&quot;U c #E77B30&quot;,</item>
+				<item>&quot;k c #FF730E&quot;,</item>
+				<item>&quot;0 c #D3A980&quot;,</item>
+				<item>&quot;j c #FF700C&quot;,</item>
+				<item>&quot;= c #C2A079&quot;,</item>
+				<item>&quot;; c #C5AD8D&quot;,</item>
+				<item>&quot;1 c #CAB191&quot;,</item>
+				<item>&quot;F c #D97C40&quot;,</item>
+				<item>&quot;x c #D97638&quot;,</item>
+				<item>&quot;n c #DE7735&quot;,</item>
+				<item>&quot;C c #D77C42&quot;,</item>
+				<item>&quot;: c #C8AE8E&quot;,</item>
+				<item>&quot;G c #FF9F5A&quot;,</item>
+				<item>&quot;&amp; c #FFE9D7&quot;,</item>
+				<item>&quot;S c #D57C43&quot;,</item>
+				<item>&quot;B c #D37C45&quot;,</item>
+				<item>&quot;~ c #C7C7C7&quot;,</item>
+				<item>&quot;6 c #85E1FF&quot;,</item>
+				<item>&quot;H c #FF7B20&quot;,</item>
+				<item>&quot;# c #FF6F09&quot;,</item>
+				<item>&quot;M c #FF6F0C&quot;,</item>
+				<item>&quot;t c #A5A69F&quot;,</item>
+				<item>&quot;+ c #FF6C04&quot;,</item>
+				<item>&quot;@ c #FF6900&quot;,</item>
+				<item>&quot;( c #B7BFC4&quot;,</item>
+				<item>&quot;- c #FF6300&quot;,</item>
+				<item>&quot;2 c #E0702C&quot;,</item>
+				<item>&quot;W c #CB7F4A&quot;,</item>
+				<item>&quot;_ c None&quot;,</item>
+				<item>&quot;w c #90E4FF&quot;,</item>
+				<item>&quot;q c #A1A6A2&quot;,</item>
+				<item>&quot;e c #8EEAFF&quot;,</item>
+				<item>&quot;4 c #D58144&quot;,</item>
+				<item>&quot;$ c #FF5D00&quot;,</item>
+				<item>&quot;/ c #BFC7CC&quot;,</item>
+				<item>&quot;P c #6F6F6F&quot;,</item>
+				<item>&quot;m c #FFEBDD&quot;,</item>
+				<item>&quot;L c #BF7A52&quot;,</item>
+				<item>&quot;u c #79EDFF&quot;,</item>
+				<item>&quot;&lt; c #CBAE8D&quot;,</item>
+				<item>&quot;Z c #FF8F42&quot;,</item>
+				<item>&quot;r c #BC6135&quot;,</item>
+				<item>&quot;7 c #85E9FF&quot;,</item>
+				<item>&quot;R c #777777&quot;,</item>
+				<item>&quot;f c #C16232&quot;,</item>
+				<item>&quot;X c #FF8935&quot;,</item>
+				<item>&quot;p c #D0AC86&quot;,</item>
+				<item>&quot;9 c #8CE4FF&quot;,</item>
+				<item>&quot;s c #8AEAFF&quot;,</item>
+				<item>&quot;d c #88F0FF&quot;,</item>
+				<item>&quot;3 c #CBA278&quot;,</item>
+				<item>&quot;&gt; c #EA9250&quot;,</item>
+				<item>&quot;) c #7F7F7F&quot;,</item>
+				<item>&quot;v c #FF7408&quot;,</item>
+				<item>&quot;c c #FF740B&quot;,</item>
+				<item>&quot;A c #FF7719&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________________&quot;,</item>
+				<item>&quot;________._______&quot;,</item>
+				<item>&quot;______XoO+@@#$&amp;_&quot;,</item>
+				<item>&quot;___*=-;:&gt;,&lt;12134&quot;,</item>
+				<item>&quot;__5678790qwerewt&quot;,</item>
+				<item>&quot;_yu9i8i7pasdfdsg&quot;,</item>
+				<item>&quot;hjkkklkkzxcvbvcn&quot;,</item>
+				<item>&quot;mMllllllNBNVbVNC&quot;,</item>
+				<item>&quot;_ZAlllllNSVDbDVF&quot;,</item>
+				<item>&quot;__GHllllJKSCbCSL&quot;,</item>
+				<item>&quot;PIUDVVVVVYDDTDDY&quot;,</item>
+				<item>&quot;REWQ!!!!!!!!!!!Q&quot;,</item>
+				<item>&quot;~RE^/(((((((((/^&quot;,</item>
+				<item>&quot;_P)P___________P&quot;</item>
+				<item>};</item>
+			</image_list>
+			<image_text>
+				<item2>16</item2>
+				<item2>16</item2>
+				<item2>static const char *xpm_data[] = {</item2>
+				<item2>&quot;16 16 6 1&quot;,</item2>
+				<item2>&quot;O c #C3C3C3&quot;,</item2>
+				<item2>&quot;. c #0000FF&quot;,</item2>
+				<item2>&quot;o c #3F48CC&quot;,</item2>
+				<item2>&quot;X c #99D9EA&quot;,</item2>
+				<item2>&quot;_ c None&quot;,</item2>
+				<item2>&quot;+ c #7F7F7F&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;_.X.....XX.XXX._&quot;,</item2>
+				<item2>&quot;_XX.XXX.XX.XXX._&quot;,</item2>
+				<item2>&quot;_.X.XXX.XX.XXX._&quot;,</item2>
+				<item2>&quot;_...ooo........_&quot;,</item2>
+				<item2>&quot;_...ooo........_&quot;,</item2>
+				<item2>&quot;_....oo........_&quot;,</item2>
+				<item2>&quot;_.OO.......+O+._&quot;,</item2>
+				<item2>&quot;__++________+___&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;</item2>
+				<item2>};</item2>
+				<item2>static const char *xpm_data[] = {</item2>
+				<item2>&quot;16 16 6 1&quot;,</item2>
+				<item2>&quot;O c #C3C3C3&quot;,</item2>
+				<item2>&quot;. c #A349A4&quot;,</item2>
+				<item2>&quot;o c #3F48CC&quot;,</item2>
+				<item2>&quot;X c #99D9EA&quot;,</item2>
+				<item2>&quot;_ c None&quot;,</item2>
+				<item2>&quot;+ c #7F7F7F&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;______._________&quot;,</item2>
+				<item2>&quot;_____.__________&quot;,</item2>
+				<item2>&quot;_.X.....XX.XXX._&quot;,</item2>
+				<item2>&quot;_XX.XXX.XX.XXX._&quot;,</item2>
+				<item2>&quot;_.X.XXX.XX.XXX._&quot;,</item2>
+				<item2>&quot;_...ooo........_&quot;,</item2>
+				<item2>&quot;_...ooo........_&quot;,</item2>
+				<item2>&quot;_....oo........_&quot;,</item2>
+				<item2>&quot;_.OO.......+O+._&quot;,</item2>
+				<item2>&quot;__++________+___&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;</item2>
+				<item2>};</item2>
+				<item2>static const char *xpm_data[] = {</item2>
+				<item2>&quot;16 16 5 1&quot;,</item2>
+				<item2>&quot;o c #880015&quot;,</item2>
+				<item2>&quot;. c #ED1C24&quot;,</item2>
+				<item2>&quot;X c #99D9EA&quot;,</item2>
+				<item2>&quot;_ c None&quot;,</item2>
+				<item2>&quot;O c #7F7F7F&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;___________..___&quot;,</item2>
+				<item2>&quot;__________._____&quot;,</item2>
+				<item2>&quot;________._______&quot;,</item2>
+				<item2>&quot;______........__&quot;,</item2>
+				<item2>&quot;___XX.XX.XXXoXXo&quot;,</item2>
+				<item2>&quot;__XXX.XX.XXXoXXo&quot;,</item2>
+				<item2>&quot;_XXXX.XX.XXXoXXo&quot;,</item2>
+				<item2>&quot;............o..o&quot;,</item2>
+				<item2>&quot;_...........o..o&quot;,</item2>
+				<item2>&quot;_...........o..o&quot;,</item2>
+				<item2>&quot;__.OOOOOOooooooO&quot;,</item2>
+				<item2>&quot;____O__O_______O&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;</item2>
+				<item2>};</item2>
+				<item2>static const char *xpm_data[] = {</item2>
+				<item2>&quot;16 16 81 1&quot;,</item2>
+				<item2>&quot;Y c #329575&quot;,</item2>
+				<item2>&quot;V c #16B745&quot;,</item2>
+				<item2>&quot;8 c #A2DFF6&quot;,</item2>
+				<item2>&quot;v c #1DB244&quot;,</item2>
+				<item2>&quot;o c #00A42B&quot;,</item2>
+				<item2>&quot;, c #43987F&quot;,</item2>
+				<item2>&quot;X c #00A430&quot;,</item2>
+				<item2>&quot;R c #30987D&quot;,</item2>
+				<item2>&quot;m c #4DA08C&quot;,</item2>
+				<item2>&quot;&gt; c #60C99D&quot;,</item2>
+				<item2>&quot;7 c #8DB0E0&quot;,</item2>
+				<item2>&quot;F c #38BD5F&quot;,</item2>
+				<item2>&quot;^ c #8F8F8F&quot;,</item2>
+				<item2>&quot;r c #B6E3FF&quot;,</item2>
+				<item2>&quot;b c #529E93&quot;,</item2>
+				<item2>&quot;6 c #55C58E&quot;,</item2>
+				<item2>&quot;a c #8AB4DB&quot;,</item2>
+				<item2>&quot;U c #349479&quot;,</item2>
+				<item2>&quot;$ c #5AC39E&quot;,</item2>
+				<item2>&quot;O c #02A630&quot;,</item2>
+				<item2>&quot;e c #B0E0FF&quot;,</item2>
+				<item2>&quot;&amp; c #13AC38&quot;,</item2>
+				<item2>&quot;l c #838ADA&quot;,</item2>
+				<item2>&quot;+ c #00A62D&quot;,</item2>
+				<item2>&quot;q c #88B1D9&quot;,</item2>
+				<item2>&quot;1 c #4DBF76&quot;,</item2>
+				<item2>&quot;T c #6780C4&quot;,</item2>
+				<item2>&quot;H c #907588&quot;,</item2>
+				<item2>&quot;p c #6580B3&quot;,</item2>
+				<item2>&quot;~ c #F3F3F3&quot;,</item2>
+				<item2>&quot;L c #82707D&quot;,</item2>
+				<item2>&quot;k c #09AF2A&quot;,</item2>
+				<item2>&quot;0 c #6A7EBA&quot;,</item2>
+				<item2>&quot;/ c #8B8B8B&quot;,</item2>
+				<item2>&quot;= c #61C69F&quot;,</item2>
+				<item2>&quot;j c #0EAD31&quot;,</item2>
+				<item2>&quot;&lt; c #52B18E&quot;,</item2>
+				<item2>&quot;- c #39BA6B&quot;,</item2>
+				<item2>&quot;! c #939393&quot;,</item2>
+				<item2>&quot;E c #887279&quot;,</item2>
+				<item2>&quot;* c #64C7A4&quot;,</item2>
+				<item2>&quot;W c #F4EBF2&quot;,</item2>
+				<item2>&quot;Q c #5F5F5F&quot;,</item2>
+				<item2>&quot;G c #3E8954&quot;,</item2>
+				<item2>&quot;9 c #A5E4F9&quot;,</item2>
+				<item2>&quot;# c #54C280&quot;,</item2>
+				<item2>&quot;5 c #A7DEFD&quot;,</item2>
+				<item2>&quot;f c #22B14C&quot;,</item2>
+				<item2>&quot;z c #469D82&quot;,</item2>
+				<item2>&quot;t c #59C693&quot;,</item2>
+				<item2>&quot;u c #AAE2FF&quot;,</item2>
+				<item2>&quot;_ c None&quot;,</item2>
+				<item2>&quot;@ c #01A92E&quot;,</item2>
+				<item2>&quot;K c #DECCD9&quot;,</item2>
+				<item2>&quot;N c #14AC40&quot;,</item2>
+				<item2>&quot;: c #5EC79C&quot;,</item2>
+				<item2>&quot;h c #4B9B89&quot;,</item2>
+				<item2>&quot;A c #509F8F&quot;,</item2>
+				<item2>&quot;3 c #AFE0FF&quot;,</item2>
+				<item2>&quot;i c #ADE6FF&quot;,</item2>
+				<item2>&quot;w c #5CC48A&quot;,</item2>
+				<item2>&quot;. c #36B858&quot;,</item2>
+				<item2>&quot;s c #8AD5A0&quot;,</item2>
+				<item2>&quot;D c #47A48C&quot;,</item2>
+				<item2>&quot;c c #06A735&quot;,</item2>
+				<item2>&quot;B c #1CB448&quot;,</item2>
+				<item2>&quot;4 c #04A724&quot;,</item2>
+				<item2>&quot;y c #8EB2E2&quot;,</item2>
+				<item2>&quot;S c #13B636&quot;,</item2>
+				<item2>&quot;x c #DCF2E3&quot;,</item2>
+				<item2>&quot;g c #15B03B&quot;,</item2>
+				<item2>&quot;I c #488EA1&quot;,</item2>
+				<item2>&quot;2 c #A1DBFC&quot;,</item2>
+				<item2>&quot;; c #54B092&quot;,</item2>
+				<item2>&quot;C c #0EAF3D&quot;,</item2>
+				<item2>&quot;Z c #11B93E&quot;,</item2>
+				<item2>&quot;d c #09A836&quot;,</item2>
+				<item2>&quot;P c #8A717D&quot;,</item2>
+				<item2>&quot;n c #18B43D&quot;,</item2>
+				<item2>&quot;J c #7E6C79&quot;,</item2>
+				<item2>&quot;M c #3EBA62&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;____.XooO+oo@oo+&quot;,</item2>
+				<item2>&quot;___#$&amp;*=-;:&gt;,&gt;:&lt;&quot;,</item2>
+				<item2>&quot;__1234356789098q&quot;,</item2>
+				<item2>&quot;_we5r4r3tyuipiua&quot;,</item2>
+				<item2>&quot;sd&amp;&amp;&amp;f&amp;&amp;ghjklkjz&quot;,</item2>
+				<item2>&quot;xcffffffvbvnlnvm&quot;,</item2>
+				<item2>&quot;_MNBVVCVZAnSlSnD&quot;,</item2>
+				<item2>&quot;__FGHJKLPIUYTYRE&quot;,</item2>
+				<item2>&quot;___WQ!~Q^______/&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;</item2>
+				<item2>};</item2>
+				<item2>static const char *xpm_data[] = {</item2>
+				<item2>&quot;16 16 54 1&quot;,</item2>
+				<item2>&quot;p c #0097F6&quot;,</item2>
+				<item2>&quot;&gt; c #8CD5FF&quot;,</item2>
+				<item2>&quot;; c #85D4FF&quot;,</item2>
+				<item2>&quot;z c #30B3E8&quot;,</item2>
+				<item2>&quot;+ c #ECEF4C&quot;,</item2>
+				<item2>&quot;4 c #FFF878&quot;,</item2>
+				<item2>&quot;3 c #CCE675&quot;,</item2>
+				<item2>&quot;8 c #FFF700&quot;,</item2>
+				<item2>&quot;&lt; c #E5EE5A&quot;,</item2>
+				<item2>&quot;* c #E8EC33&quot;,</item2>
+				<item2>&quot;h c #64C6E9&quot;,</item2>
+				<item2>&quot;d c #00A2E8&quot;,</item2>
+				<item2>&quot;o c #FFF100&quot;,</item2>
+				<item2>&quot;b c #69C7E9&quot;,</item2>
+				<item2>&quot;= c #F2F13D&quot;,</item2>
+				<item2>&quot;0 c #75C563&quot;,</item2>
+				<item2>&quot;f c #009CE7&quot;,</item2>
+				<item2>&quot;9 c #7FD1FF&quot;,</item2>
+				<item2>&quot;u c #20AEF7&quot;,</item2>
+				<item2>&quot;c c #0099E7&quot;,</item2>
+				<item2>&quot;e c #7FCA74&quot;,</item2>
+				<item2>&quot;i c #0099F6&quot;,</item2>
+				<item2>&quot;y c #54C1F7&quot;,</item2>
+				<item2>&quot;v c #26B0E8&quot;,</item2>
+				<item2>&quot;t c #59C2F7&quot;,</item2>
+				<item2>&quot;x c #2BB1E8&quot;,</item2>
+				<item2>&quot;- c #85D3FF&quot;,</item2>
+				<item2>&quot;n c #6DC9E9&quot;,</item2>
+				<item2>&quot;j c #5FC4E9&quot;,</item2>
+				<item2>&quot;6 c #FFF300&quot;,</item2>
+				<item2>&quot;, c #CFE66D&quot;,</item2>
+				<item2>&quot;O c #FFF000&quot;,</item2>
+				<item2>&quot;k c #009EE7&quot;,</item2>
+				<item2>&quot;g c #009BE7&quot;,</item2>
+				<item2>&quot;r c #0098E6&quot;,</item2>
+				<item2>&quot;w c #7AC873&quot;,</item2>
+				<item2>&quot;M c #56C0E9&quot;,</item2>
+				<item2>&quot;s c #4FBFF7&quot;,</item2>
+				<item2>&quot;1 c #79D0FF&quot;,</item2>
+				<item2>&quot;_ c None&quot;,</item2>
+				<item2>&quot;@ c #C2E27A&quot;,</item2>
+				<item2>&quot;: c #FFF800&quot;,</item2>
+				<item2>&quot;m c #5AC2E9&quot;,</item2>
+				<item2>&quot;# c #FFF500&quot;,</item2>
+				<item2>&quot;5 c #FFF200&quot;,</item2>
+				<item2>&quot;l c #00A0E7&quot;,</item2>
+				<item2>&quot;. c #FFF511&quot;,</item2>
+				<item2>&quot;X c #FFEF00&quot;,</item2>
+				<item2>&quot;$ c #C5E383&quot;,</item2>
+				<item2>&quot;2 c #7FD2FF&quot;,</item2>
+				<item2>&quot;q c #75C673&quot;,</item2>
+				<item2>&quot;a c #009DF6&quot;,</item2>
+				<item2>&quot;&amp; c #C8E47C&quot;,</item2>
+				<item2>&quot;7 c #FFFFD8&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;____.XooooooOooo&quot;,</item2>
+				<item2>&quot;___+@#$&amp;**&amp;$#$&amp;*&quot;,</item2>
+				<item2>&quot;__=-;:;&gt;,,&gt;;:;&gt;,&quot;,</item2>
+				<item2>&quot;_&lt;1&gt;2:2;33;2:2;3&quot;,</item2>
+				<item2>&quot;4o###5##66##5##6&quot;,</item2>
+				<item2>&quot;7#88888888888888&quot;,</item2>
+				<item2>&quot;90qweweeeeqqeeqq&quot;,</item2>
+				<item2>&quot;rtyuiupiaittiits&quot;,</item2>
+				<item2>&quot;dfgffhjhgkkgklkk&quot;,</item2>
+				<item2>&quot;lzhhxcfvhbgbhzld&quot;,</item2>
+				<item2>&quot;kkkfxnklkgkgkllk&quot;,</item2>
+				<item2>&quot;mxldlkddkjMjklxm&quot;</item2>
+				<item2>};</item2>
+				<item2>static const char *xpm_data[] = {</item2>
+				<item2>&quot;16 16 83 1&quot;,</item2>
+				<item2>&quot;, c #D29160&quot;,</item2>
+				<item2>&quot;O c #FF7413&quot;,</item2>
+				<item2>&quot;i c #7FEFFF&quot;,</item2>
+				<item2>&quot;K c #B97A57&quot;,</item2>
+				<item2>&quot;h c #FFBB8C&quot;,</item2>
+				<item2>&quot;5 c #F29A5A&quot;,</item2>
+				<item2>&quot;8 c #FF6800&quot;,</item2>
+				<item2>&quot;! c #B7774B&quot;,</item2>
+				<item2>&quot;o c #FF6500&quot;,</item2>
+				<item2>&quot;. c #FFAF78&quot;,</item2>
+				<item2>&quot;^ c #6F777C&quot;,</item2>
+				<item2>&quot;Q c #BF7F53&quot;,</item2>
+				<item2>&quot;I c #636F77&quot;,</item2>
+				<item2>&quot;* c #ECA066&quot;,</item2>
+				<item2>&quot;y c #E5A573&quot;,</item2>
+				<item2>&quot;E c #777F84&quot;,</item2>
+				<item2>&quot;g c #A4A9A4&quot;,</item2>
+				<item2>&quot;b c #A77863&quot;,</item2>
+				<item2>&quot;T c #FF7F1B&quot;,</item2>
+				<item2>&quot;Y c #FF7F1D&quot;,</item2>
+				<item2>&quot;D c #FF7F1E&quot;,</item2>
+				<item2>&quot;V c #FF7F21&quot;,</item2>
+				<item2>&quot;J c #FF7F22&quot;,</item2>
+				<item2>&quot;N c #FF7F24&quot;,</item2>
+				<item2>&quot;l c #FF7F27&quot;,</item2>
+				<item2>&quot;z c #FF7917&quot;,</item2>
+				<item2>&quot;a c #A0A9A7&quot;,</item2>
+				<item2>&quot;U c #E77B30&quot;,</item2>
+				<item2>&quot;k c #FF730E&quot;,</item2>
+				<item2>&quot;0 c #D3A980&quot;,</item2>
+				<item2>&quot;j c #FF700C&quot;,</item2>
+				<item2>&quot;= c #C2A079&quot;,</item2>
+				<item2>&quot;; c #C5AD8D&quot;,</item2>
+				<item2>&quot;1 c #CAB191&quot;,</item2>
+				<item2>&quot;F c #D97C40&quot;,</item2>
+				<item2>&quot;x c #D97638&quot;,</item2>
+				<item2>&quot;n c #DE7735&quot;,</item2>
+				<item2>&quot;C c #D77C42&quot;,</item2>
+				<item2>&quot;: c #C8AE8E&quot;,</item2>
+				<item2>&quot;G c #FF9F5A&quot;,</item2>
+				<item2>&quot;&amp; c #FFE9D7&quot;,</item2>
+				<item2>&quot;S c #D57C43&quot;,</item2>
+				<item2>&quot;B c #D37C45&quot;,</item2>
+				<item2>&quot;~ c #C7C7C7&quot;,</item2>
+				<item2>&quot;6 c #85E1FF&quot;,</item2>
+				<item2>&quot;H c #FF7B20&quot;,</item2>
+				<item2>&quot;# c #FF6F09&quot;,</item2>
+				<item2>&quot;M c #FF6F0C&quot;,</item2>
+				<item2>&quot;t c #A5A69F&quot;,</item2>
+				<item2>&quot;+ c #FF6C04&quot;,</item2>
+				<item2>&quot;@ c #FF6900&quot;,</item2>
+				<item2>&quot;( c #B7BFC4&quot;,</item2>
+				<item2>&quot;- c #FF6300&quot;,</item2>
+				<item2>&quot;2 c #E0702C&quot;,</item2>
+				<item2>&quot;W c #CB7F4A&quot;,</item2>
+				<item2>&quot;_ c None&quot;,</item2>
+				<item2>&quot;w c #90E4FF&quot;,</item2>
+				<item2>&quot;q c #A1A6A2&quot;,</item2>
+				<item2>&quot;e c #8EEAFF&quot;,</item2>
+				<item2>&quot;4 c #D58144&quot;,</item2>
+				<item2>&quot;$ c #FF5D00&quot;,</item2>
+				<item2>&quot;/ c #BFC7CC&quot;,</item2>
+				<item2>&quot;P c #6F6F6F&quot;,</item2>
+				<item2>&quot;m c #FFEBDD&quot;,</item2>
+				<item2>&quot;L c #BF7A52&quot;,</item2>
+				<item2>&quot;u c #79EDFF&quot;,</item2>
+				<item2>&quot;&lt; c #CBAE8D&quot;,</item2>
+				<item2>&quot;Z c #FF8F42&quot;,</item2>
+				<item2>&quot;r c #BC6135&quot;,</item2>
+				<item2>&quot;7 c #85E9FF&quot;,</item2>
+				<item2>&quot;R c #777777&quot;,</item2>
+				<item2>&quot;f c #C16232&quot;,</item2>
+				<item2>&quot;X c #FF8935&quot;,</item2>
+				<item2>&quot;p c #D0AC86&quot;,</item2>
+				<item2>&quot;9 c #8CE4FF&quot;,</item2>
+				<item2>&quot;s c #8AEAFF&quot;,</item2>
+				<item2>&quot;d c #88F0FF&quot;,</item2>
+				<item2>&quot;3 c #CBA278&quot;,</item2>
+				<item2>&quot;&gt; c #EA9250&quot;,</item2>
+				<item2>&quot;) c #7F7F7F&quot;,</item2>
+				<item2>&quot;v c #FF7408&quot;,</item2>
+				<item2>&quot;c c #FF740B&quot;,</item2>
+				<item2>&quot;A c #FF7719&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________________&quot;,</item2>
+				<item2>&quot;________._______&quot;,</item2>
+				<item2>&quot;______XoO+@@#$&amp;_&quot;,</item2>
+				<item2>&quot;___*=-;:&gt;,&lt;12134&quot;,</item2>
+				<item2>&quot;__5678790qwerewt&quot;,</item2>
+				<item2>&quot;_yu9i8i7pasdfdsg&quot;,</item2>
+				<item2>&quot;hjkkklkkzxcvbvcn&quot;,</item2>
+				<item2>&quot;mMllllllNBNVbVNC&quot;,</item2>
+				<item2>&quot;_ZAlllllNSVDbDVF&quot;,</item2>
+				<item2>&quot;__GHllllJKSCbCSL&quot;,</item2>
+				<item2>&quot;PIUDVVVVVYDDTDDY&quot;,</item2>
+				<item2>&quot;REWQ!!!!!!!!!!!Q&quot;,</item2>
+				<item2>&quot;~RE^/(((((((((/^&quot;,</item2>
+				<item2>&quot;_P)P___________P&quot;</item2>
+				<item2>};</item2>
+			</image_text>
+			<image_count>6</image_count>
 			<use_include>1</use_include>
 		</object>
 	</object>

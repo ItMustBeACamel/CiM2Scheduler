@@ -49,6 +49,7 @@ class TimeTablePanel: public wxPanel
 		//*)
 
 		void refresh();
+		void refreshLayout();
 		void setOffset(const TimeOffset& off);
 		TimeOffset& getOffset();
 		const TimeOffset& getOffset()const;
@@ -82,6 +83,7 @@ class TimeTablePanel: public wxPanel
         PlanNameType _currentPlan;
         TimeOffset _offset;
         bool _collapsed;
+        int _gridWidth;
 
 		//(*Handlers(TimeTablePanel)
 		void OnrbPlansSelect(wxCommandEvent& event);
@@ -97,6 +99,9 @@ class TimeTablePanel: public wxPanel
 		void OnsbIntervalChangeDown(wxSpinEvent& event);
 		void OnclbOptionsToggled(wxCommandEvent& event);
 		void OnsbIntervalChange(wxSpinEvent& event);
+		void OntxtBeginTextEnter(wxCommandEvent& event);
+		void OntxtEndTextEnter(wxCommandEvent& event);
+		void OntxtIntervalTextEnter(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

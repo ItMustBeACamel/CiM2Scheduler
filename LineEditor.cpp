@@ -186,6 +186,7 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
             bcbIconSelect->Append("", _imageList->GetBitmap(i));
         }
         //bcbIconSelect->
+        this->bcbIconSelect->SetSelection(_line.getIcon()+1);
 
     }
 
@@ -193,10 +194,10 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
 	wxListItem colTime;
 
 	colStation.SetText("Station");
-	colStation.SetId(0);
+	colStation.SetId(1);
 
 	colTime.SetText("Time");
-	colTime.SetId(1);
+	colTime.SetId(0);
 
 	lvStops->InsertColumn(1,colStation);
 	lvStops->InsertColumn(0,colTime);
@@ -205,6 +206,7 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
     ss << _line.getNumber();
 	txtNumber->SetValue(ss.str());
 	txtName->SetValue(_line.getName());
+
 
 	const StationList& stations = Stations::instance()->getStationsList();
 
@@ -263,6 +265,13 @@ void LineEditor::apply()
 {
     _line.setTimetable(panTimetable->getTimetable());
     _line.SetIcon(bcbIconSelect->GetSelection()-1);
+    _line.setName(txtName->GetValue());
+
+    std::stringstream ss;
+    ss << txtNumber->GetValue();
+    Line::LineNumber number;
+    if(ss >> number) _line.SetNumber(number);
+
     _line.clearStops();
     for(long i = 1; i < lvStops->GetItemCount(); ++i)
     {

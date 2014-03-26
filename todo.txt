@@ -1,7 +1,8 @@
-* manual start- and endtime and interval values in line editors textboxes
+* make LinesList a member type of Lines
 
 
 
 
 done:
 *remove deprecated member function Time::normalize() as soon as every call to it is removed(no more deprecated messages when compiling)
+* manual start- and endtime and interval values in line editors textboxes

@@ -56,6 +56,7 @@ const long CiMScheduleFrame::ID_BUTTON2 = wxNewId();
 const long CiMScheduleFrame::ID_BUTTON3 = wxNewId();
 const long CiMScheduleFrame::ID_PANEL6 = wxNewId();
 const long CiMScheduleFrame::ID_PANEL2 = wxNewId();
+const long CiMScheduleFrame::ID_CUSTOM1 = wxNewId();
 const long CiMScheduleFrame::ID_PANEL3 = wxNewId();
 const long CiMScheduleFrame::ID_LISTVIEW2 = wxNewId();
 const long CiMScheduleFrame::ID_PANEL7 = wxNewId();
@@ -89,6 +90,7 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     wxBoxSizer* BoxSizer6;
     wxBoxSizer* BoxSizer5;
     wxBoxSizer* BoxSizer7;
+    wxBoxSizer* BoxSizer8;
     wxMenuItem* MenuItem2;
     wxMenuItem* MenuItem1;
     wxBoxSizer* BoxSizer2;
@@ -125,13 +127,19 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     Panel2->SetSizer(BoxSizer4);
     BoxSizer4->Fit(Panel2);
     BoxSizer4->SetSizeHints(Panel2);
-    StaticBoxSizer1->Add(Panel2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    StaticBoxSizer1->Add(Panel2, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     panLeft->SetSizer(StaticBoxSizer1);
     StaticBoxSizer1->Fit(panLeft);
     StaticBoxSizer1->SetSizeHints(panLeft);
-    BoxSizer2->Add(panLeft, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    BoxSizer2->Add(panLeft, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     panMiddle = new wxPanel(MainPanel, ID_PANEL3, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL3"));
-    BoxSizer2->Add(panMiddle, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    BoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
+    panStationEditor = new StationEditorPanel(panMiddle,ID_CUSTOM1,wxDefaultPosition,wxDefaultSize);
+    BoxSizer8->Add(panStationEditor, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    panMiddle->SetSizer(BoxSizer8);
+    BoxSizer8->Fit(panMiddle);
+    BoxSizer8->SetSizeHints(panMiddle);
+    BoxSizer2->Add(panMiddle, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     panRight = new wxPanel(MainPanel, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL4"));
     StaticBoxSizer2 = new wxStaticBoxSizer(wxVERTICAL, panRight, _("Stops"));
     Panel3 = new wxPanel(panRight, ID_PANEL7, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL7"));
@@ -155,7 +163,7 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     panRight->SetSizer(StaticBoxSizer2);
     StaticBoxSizer2->Fit(panRight);
     StaticBoxSizer2->SetSizeHints(panRight);
-    BoxSizer2->Add(panRight, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    BoxSizer2->Add(panRight, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     MainPanel->SetSizer(BoxSizer2);
     BoxSizer2->Fit(MainPanel);
     BoxSizer2->SetSizeHints(MainPanel);
@@ -179,7 +187,7 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     Panel5->SetSizer(StaticBoxSizer3);
     StaticBoxSizer3->Fit(Panel5);
     StaticBoxSizer3->SetSizeHints(Panel5);
-    BoxSizer1->Add(Panel5, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    BoxSizer1->Add(Panel5, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     SetSizer(BoxSizer1);
     MenuBar = new wxMenuBar();
     Menu1 = new wxMenu();
@@ -201,13 +209,25 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     StatusBar1->SetFieldsCount(1,__wxStatusBarWidths_1);
     StatusBar1->SetStatusStyles(1,__wxStatusBarStyles_1);
     SetStatusBar(StatusBar1);
-    ilIcons = new wxImageList(32, 32, 3);
+    ilIcons = new wxImageList(32, 32, 7);
     ilIcons->Add(wxBitmap(ilIcons_0_XPM));
     ilIcons->Add(wxBitmap(ilIcons_1_XPM));
+    ilIcons->Add(wxBitmap(ilIcons_2_XPM));
+    ilIcons->Add(wxBitmap(ilIcons_3_XPM));
+    ilIcons->Add(wxBitmap(ilIcons_4_XPM));
+    ilIcons->Add(wxBitmap(ilIcons_5_XPM));
+    ilIconSmall = new wxImageList(16, 16, 7);
+    ilIconSmall->Add(wxBitmap(ilIconSmall_0_XPM));
+    ilIconSmall->Add(wxBitmap(ilIconSmall_1_XPM));
+    ilIconSmall->Add(wxBitmap(ilIconSmall_2_XPM));
+    ilIconSmall->Add(wxBitmap(ilIconSmall_3_XPM));
+    ilIconSmall->Add(wxBitmap(ilIconSmall_4_XPM));
+    ilIconSmall->Add(wxBitmap(ilIconSmall_5_XPM));
     BoxSizer1->Fit(this);
     BoxSizer1->SetSizeHints(this);
 
     Connect(ID_LV_STATIONS,wxEVT_COMMAND_LIST_END_LABEL_EDIT,(wxObjectEventFunction)&CiMScheduleFrame::OnlvStationsEndLabelEdit);
+    Connect(ID_LV_STATIONS,wxEVT_COMMAND_LIST_ITEM_SELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnlvStationsItemSelect);
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtAddStationClick);
     Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtDelStationClick);
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtEditStationClick);
@@ -220,6 +240,11 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     //*)
 
     this->lvLines->AssignImageList(ilIcons, wxIMAGE_LIST_NORMAL);
+    this->lvStops->AssignImageList(ilIconSmall, wxIMAGE_LIST_SMALL);
+
+
+
+
 }
 
 CiMScheduleFrame::~CiMScheduleFrame()
@@ -246,12 +271,65 @@ void CiMScheduleFrame::refreshLinesList()
 {
     lvLines->ClearAll();
 
+
     const LineList& lines = Lines::instance()->getLinesList();
 
     for(LineList::const_iterator i = lines.begin(); i != lines.end(); ++i )
     {
         long itemIndex = lvLines->InsertItem(lvLines->GetItemCount(), (*i).getName(),(*i).getIcon());
         lvLines->SetItemData(itemIndex, (*i).getID());
+    }
+
+}
+
+void CiMScheduleFrame::refreshStopList()
+{
+    lvStops->ClearAll();
+    //lvStops->DeleteAllItems();
+
+    wxListItem colLine;
+	wxListItem colTime;
+
+	colLine.SetText("Line");
+	colLine.SetId(0);
+
+	colTime.SetText("Time");
+	colTime.SetId(1);
+
+    lvStops->InsertColumn(0,colLine);
+	lvStops->InsertColumn(1,colTime);
+
+    if(lvStations->GetFirstSelected() != -1)
+    {
+        Station::ID station = (Station::ID)lvStations->GetItemData(lvStations->GetFirstSelected());
+
+        std::list<Stop> newStops;
+
+        LineList& lines = Lines::instance()->getLinesList();
+        for(LineList::iterator line = lines.begin(); line != lines.end(); ++line)
+        {
+            const Line::StopList& stops = (*line).getStopsList();
+
+            for(Line::StopList::const_iterator stop = stops.begin(); stop != stops.end(); ++stop)
+            {
+                if((*stop).station == station)
+                {
+                    newStops.push_back(Stop(&(*line), &(*stop)));
+                }
+            }
+        }
+        newStops.sort();
+
+        for(std::list<Stop>::iterator i = newStops.begin(); i != newStops.end(); ++i )
+        {
+            std::stringstream ss;
+            ss << (*i).line->getNumber();
+            long itemIndex = lvStops->InsertItem(lvStops->GetItemCount(), ss.str(), (*i).line->getIcon());
+            lvStops->SetItem(itemIndex, 1, (*i).line->getName());
+            //lvStops->SetItemColumnImage(itemIndex,1, (*i).line->getIcon());
+        }
+
+
     }
 
 }
@@ -309,7 +387,7 @@ void CiMScheduleFrame::OnbtEditStationClick(wxCommandEvent& event)
     {
         try
         {
-            Station& station = Stations::instance()->getStation((Station::ID)lvStations->GetItemData(i));
+            Station& station = Stations::instance()->getStation(*((Station::ID*)lvStations->GetItemData(i)));
 
             wxString name = wxGetTextFromUser("Name for the station:", "scheduler", station.getName(), this);
             if(!name.empty())
@@ -328,16 +406,25 @@ void CiMScheduleFrame::OnbtEditStationClick(wxCommandEvent& event)
 
 void CiMScheduleFrame::OnClose(wxCloseEvent& event)
 {
-    Stations::destroy();
-    wxFrame::OnCloseWindow(event);
-    //Close();
+    if ( event.CanVeto())
+    {
+
+    }
+    Destroy(); // you may also do: event.Skip();
+
+// since the default event handler does call Destroy(), too
+    //Lines::destroy();
+    //Stations::destroy();
+    //wxFrame::OnCloseWindow(event);
+
 }
 
 void CiMScheduleFrame::OnlvStationsEndLabelEdit(wxListEvent& event)
 {
     if(!event.GetText().empty())
     {
-        ((Station*)event.GetData())->setName(event.GetText().c_str());
+        Stations::instance()->getStation((Station::ID)event.GetData()).setName(event.GetText().c_str());
+        //((Station*)event.GetData())->setName(event.GetText().c_str());
     }
     else
         event.Veto();
@@ -382,4 +469,9 @@ void CiMScheduleFrame::OnbtEditLineClick(wxCommandEvent& event)
     }
     refreshStationsList();
     refreshLinesList();
+}
+
+void CiMScheduleFrame::OnlvStationsItemSelect(wxListEvent& event)
+{
+    refreshStopList();
 }

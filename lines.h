@@ -37,6 +37,22 @@ public:
         Stop(Station::ID s, const TimeStampType& t)
             : station(s), time(t)
         {   }
+
+         const bool operator>(const Stop& x)const
+            {
+                if(station == x.station)
+                    return time > x.time;
+                else
+                    return station > x.station;
+            }
+
+            const bool operator<(const Stop& x)const
+            {
+                if(station == x.station)
+                    return time < x.time;
+                else
+                    return station < x.station;
+            }
         Station::ID station;
         TimeStampType time;
     };
@@ -167,6 +183,7 @@ public:
         if(!_instance) _instance = new Lines;
         return _instance;
     }
+    static void destroy();
 
     Line::ID peekNextFreeID()
     {
@@ -222,6 +239,11 @@ public:
     }
 
     const LineList& getLinesList() const
+    {
+        return _list;
+    }
+
+    LineList& getLinesList()
     {
         return _list;
     }

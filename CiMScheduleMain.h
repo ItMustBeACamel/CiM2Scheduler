@@ -16,7 +16,9 @@
 #include <wx/menu.h>
 #include "./wximages/CiMScheduleMain_ilIcons.xpm"
 #include <wx/panel.h>
+#include "StationEditorPanel.h"
 #include <wx/imaglist.h>
+#include "./wximages/CiMScheduleMain_ilIconSmall.xpm"
 #include <wx/button.h>
 #include <wx/frame.h>
 #include <wx/statusbr.h>
@@ -24,18 +26,49 @@
 
 #include <list>
 #include "stations.h"
+#include "lines.h"
+//#include "StationEditorPanel.h"
 
 class CiMScheduleFrame: public wxFrame
 {
     public:
-
         CiMScheduleFrame(wxWindow* parent,wxWindowID id = -1);
         virtual ~CiMScheduleFrame();
 
     private:
 
+        struct Stop
+        {
+            typedef Line const * const LinePtrType;
+            typedef Line::Stop const * const StopPtrType;
+            Stop(const LinePtrType& pLine, const StopPtrType& pStop)
+                : line(pLine), stop(pStop)
+            {
+
+            }
+
+            const bool operator>(const Stop& x)const
+            {
+                if(line->getNumber() == x.line->getNumber())
+                    return *stop > *x.stop;
+                else
+                    return line->getNumber() > x.line->getNumber();
+            }
+
+            const bool operator<(const Stop& x)const
+            {
+                if(line->getNumber() == x.line->getNumber())
+                    return *stop < *x.stop;
+                else
+                    return line->getNumber() < x.line->getNumber();
+            }
+            const LinePtrType line;
+            const StopPtrType stop;
+        };
+
         void refreshStationsList();
         void refreshLinesList();
+        void refreshStopList();
 
         //(*Handlers(CiMScheduleFrame)
         void OnQuit(wxCommandEvent& event);
@@ -47,6 +80,7 @@ class CiMScheduleFrame: public wxFrame
         void OnlvStationsEndLabelEdit(wxListEvent& event);
         void OnmiNewLineSelected(wxCommandEvent& event);
         void OnbtEditLineClick(wxCommandEvent& event);
+        void OnlvStationsItemSelect(wxListEvent& event);
         //*)
 
         //(*Identifiers(CiMScheduleFrame)
@@ -57,6 +91,7 @@ class CiMScheduleFrame: public wxFrame
         static const long ID_BUTTON3;
         static const long ID_PANEL6;
         static const long ID_PANEL2;
+        static const long ID_CUSTOM1;
         static const long ID_PANEL3;
         static const long ID_LISTVIEW2;
         static const long ID_PANEL7;
@@ -95,10 +130,12 @@ class CiMScheduleFrame: public wxFrame
         wxButton* Button6;
         wxButton* Button5;
         wxButton* btEditLine;
+        wxImageList* ilIconSmall;
         wxListView* lvStops;
         wxStatusBar* StatusBar1;
         wxPanel* panRight;
         wxPanel* MainPanel;
+        StationEditorPanel* panStationEditor;
         wxPanel* Panel2;
         wxButton* btEditStation;
         wxImageList* ilIcons;
