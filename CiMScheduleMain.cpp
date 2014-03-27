@@ -249,6 +249,8 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
 
 CiMScheduleFrame::~CiMScheduleFrame()
 {
+    Lines::destroy();
+    Stations::destroy();
     //(*Destroy(CiMScheduleFrame)
     //*)
 }
@@ -299,6 +301,8 @@ void CiMScheduleFrame::refreshStopList()
     lvStops->InsertColumn(0,colLine);
 	lvStops->InsertColumn(1,colTime);
 
+	panStationEditor->_stopTable->clearStopList();
+
     if(lvStations->GetFirstSelected() != -1)
     {
         Station::ID station = (Station::ID)lvStations->GetItemData(lvStations->GetFirstSelected());
@@ -326,11 +330,15 @@ void CiMScheduleFrame::refreshStopList()
             ss << (*i).line->getNumber();
             long itemIndex = lvStops->InsertItem(lvStops->GetItemCount(), ss.str(), (*i).line->getIcon());
             lvStops->SetItem(itemIndex, 1, (*i).line->getName());
-            //lvStops->SetItemColumnImage(itemIndex,1, (*i).line->getIcon());
+
+            this->panStationEditor->_stopTable->addStop((*i));
         }
 
 
     }
+
+    panStationEditor->_stopTable->refresh();
+    panStationEditor->gdTimetable->ForceRefresh();
 
 }
 

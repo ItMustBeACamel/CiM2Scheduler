@@ -1,15 +1,53 @@
 #ifndef WXGRIDSTOPTABLE_H_INCLUDED
 #define WXGRIDSTOPTABLE_H_INCLUDED
 
-
 #include <wx/grid.h>
+#include <list>
+#include <vector>
+#include <sstream>
+#include "timetable.h"
+#include "timestamp.h"
+#include "lines.h"
+#include "stopAtStation.h"
+#include "timetable_view.h"
 
+#define STOP_ITEM_LIST (wxString("stop item"))
 
 class wxGridStopTable : public wxGridTableBase
 {
 public:
-    wxGridStopTable(const int& rows, const int& cols)
-    : wxGridTableBase(), _rows(rows), _cols(cols)
+    typedef StopAtStation StationStopType;
+    typedef std::list<StationStopType> StationStopList;
+
+    struct Item
+    {
+        typedef Line::ID LineIDType;
+        typedef TimetableView::StopListEntry StopType;
+
+        Item(const LineIDType& ln, const StopType& s)
+        : line(ln), stop(s)
+        {
+
+        }
+
+        bool operator>(const Item& x) const
+        {
+            return stop.weekTime > x.stop.weekTime;
+        }
+
+        bool operator<(const Item& x) const
+        {
+            return stop.weekTime < x.stop.weekTime;
+        }
+
+        LineIDType line;
+        StopType stop;
+    };
+    typedef std::list<Item> ItemList;
+    typedef std::vector<ItemList> CellList;
+
+    wxGridStopTable()
+        : wxGridTableBase(), _rows(H_PER_DAY), _cols(DAY_NUM), _cells(_rows * _cols)
     {
 
     }
@@ -29,16 +67,88 @@ public:
 
     }
 
-    virtual wxString GetValue 	(int row, int  	col)
+    virtual wxString GetValue (int row, int  	col)
     {
-        return wxString() + "blah";
+        ItemList items = getCell(row, col);
+
+        wxString str;
+        std::stringstream ss;
+        for(ItemList::iterator i = items.begin(); i != items.end(); ++i)
+        {
+            if(!ss.str().empty())
+                ss << " ";
+            ss << (*i).stop.weekTime.getMinute();
+        }
+
+        return ss.str();
 
     }
 
+    virtual void * 	GetValueAsCustom (int row, int col, const wxString &typeName)
+    {
+        if(typeName == STOP_ITEM_LIST)
+        {
+            if(row >= 0 && row < GetNumberRows() && col >= 0 && col < GetNumberCols())
+            {
+                return (void*) &getCell(row, col);
+            }
+            else return (void*)0;
+
+        }
+        else
+            return wxGridTableBase::GetValueAsCustom(row, col, typeName);
+    }
+
+    void addStop(const StationStopType& stop)
+    {
+        _stopList.push_back(stop);
+    }
+
+    void clearStopList()
+    {
+        _stopList.clear();
+    }
+
+    void refresh()
+    {
+        ItemList newItems;
+
+        for(StationStopList::iterator stop = _stopList.begin(); stop != _stopList.end(); ++stop)
+        {
+            TimetableView view((*stop).line->getTimetable(), (*stop).stop->time);
+
+            TimetableView::StopList viewStopList = view.getStopList();
+
+            for(TimetableView::StopList::iterator viewItem = viewStopList.begin(); viewItem != viewStopList.end(); ++viewItem)
+            {
+                newItems.push_back(Item((*stop).line->getID(), (*viewItem)));
+            }
+        }
+
+        _cells = CellList(_rows * _cols);
+
+        for(ItemList::iterator item = newItems.begin(); item != newItems.end(); ++item)
+        {
+            _cells[(*item).stop.weekTime.getHour()].push_back((*item));
+        }
+
+        for(int i = 0; i < (_rows * _cols); ++i)
+            _cells[i].sort();
+
+
+    }
 
 private:
+
+    ItemList& getCell(const int& row, const int& col)
+    {
+        return _cells[col * H_PER_DAY + row];
+    }
+
     int _rows;
     int _cols;
+    StationStopList _stopList;
+    CellList _cells;
 
 
 };

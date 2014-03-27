@@ -51,6 +51,12 @@ public:
 
     }
 
+    TimetableView(const TimeTableType& timeTable, const TimeOffsetType& offset)
+    : _timetable(timeTable), _offset(offset)
+    {
+
+    }
+
     void setOffset(const TimeOffsetType& offset)
     {
         _offset = offset;

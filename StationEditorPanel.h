@@ -7,32 +7,35 @@
 #include <wx/grid.h>
 //*)
 
+#include "wxGridStopTable.h"
+
 class StationEditorPanel: public wxPanel
 {
-	public:
+public:
 
-		StationEditorPanel(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
-		virtual ~StationEditorPanel();
+    StationEditorPanel(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
+    virtual ~StationEditorPanel();
 
-		//(*Declarations(StationEditorPanel)
-		wxGrid* gdTimetable;
-		wxPanel* panTimetable;
-		//*)
+    //(*Declarations(StationEditorPanel)
+    wxGrid* gdTimetable;
+    wxPanel* panTimetable;
+    //*)
 
+    wxGridStopTable* _stopTable;
 
-	protected:
+protected:
 
-		//(*Identifiers(StationEditorPanel)
-		static const long ID_TIMETABLE_GRID;
-		static const long ID_PANEL1;
-		//*)
+    //(*Identifiers(StationEditorPanel)
+    static const long ID_TIMETABLE_GRID;
+    static const long ID_PANEL1;
+    //*)
 
-	private:
+private:
 
-		//(*Handlers(StationEditorPanel)
-		//*)
+    //(*Handlers(StationEditorPanel)
+    //*)
 
-		DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 #endif

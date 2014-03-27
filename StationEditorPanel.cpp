@@ -1,5 +1,6 @@
 #include "StationEditorPanel.h"
-#include "wxGridStopTable.h"
+
+#include "wxGridCellStopRenderer.h"
 
 //(*InternalHeaders(StationEditorPanel)
 #include <wx/intl.h>
@@ -37,8 +38,13 @@ StationEditorPanel::StationEditorPanel(wxWindow* parent,wxWindowID id,const wxPo
 	BoxSizer1->SetSizeHints(this);
 	//*)
 
-	wxGridStopTable* stopTable = new wxGridStopTable(3,3);
-	gdTimetable->SetTable(stopTable, true);
+	_stopTable = new wxGridStopTable();
+	gdTimetable->SetDefaultRenderer(new wxGridCellStopRenderer);
+	gdTimetable->SetTable(_stopTable, true);
+
+
+	//gdTimetable->AutoSize();
+
 
 
 }

@@ -27,6 +27,7 @@
 #include <list>
 #include "stations.h"
 #include "lines.h"
+#include "stopAtStation.h"
 //#include "StationEditorPanel.h"
 
 class CiMScheduleFrame: public wxFrame
@@ -36,35 +37,7 @@ class CiMScheduleFrame: public wxFrame
         virtual ~CiMScheduleFrame();
 
     private:
-
-        struct Stop
-        {
-            typedef Line const * const LinePtrType;
-            typedef Line::Stop const * const StopPtrType;
-            Stop(const LinePtrType& pLine, const StopPtrType& pStop)
-                : line(pLine), stop(pStop)
-            {
-
-            }
-
-            const bool operator>(const Stop& x)const
-            {
-                if(line->getNumber() == x.line->getNumber())
-                    return *stop > *x.stop;
-                else
-                    return line->getNumber() > x.line->getNumber();
-            }
-
-            const bool operator<(const Stop& x)const
-            {
-                if(line->getNumber() == x.line->getNumber())
-                    return *stop < *x.stop;
-                else
-                    return line->getNumber() < x.line->getNumber();
-            }
-            const LinePtrType line;
-            const StopPtrType stop;
-        };
+        typedef StopAtStation Stop;
 
         void refreshStationsList();
         void refreshLinesList();
