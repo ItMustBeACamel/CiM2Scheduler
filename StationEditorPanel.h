@@ -8,6 +8,7 @@
 //*)
 
 #include "wxGridStopTable.h"
+#include "wxGridCellStopRenderer.h"
 
 class StationEditorPanel: public wxPanel
 {
@@ -22,6 +23,9 @@ public:
     //*)
 
     wxGridStopTable* _stopTable;
+    wxGridCellStopRenderer* _renderer;
+
+    void setImageList(wxImageList* imageList);
 
 protected:
 

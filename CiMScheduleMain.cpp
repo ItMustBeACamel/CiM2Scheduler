@@ -118,16 +118,16 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     StaticBoxSizer1->Add(Panel1, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     Panel2 = new wxPanel(panLeft, ID_PANEL6, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL6"));
     BoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
-    btAddStation = new wxButton(Panel2, ID_BUTTON1, _("add"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
-    BoxSizer4->Add(btAddStation, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    btDelStation = new wxButton(Panel2, ID_BUTTON2, _("delete"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON2"));
-    BoxSizer4->Add(btDelStation, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    btEditStation = new wxButton(Panel2, ID_BUTTON3, _("edit"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON3"));
-    BoxSizer4->Add(btEditStation, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    btAddStation = new wxButton(Panel2, ID_BUTTON1, _("add"), wxDefaultPosition, wxSize(40,-1), 0, wxDefaultValidator, _T("ID_BUTTON1"));
+    BoxSizer4->Add(btAddStation, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    btDelStation = new wxButton(Panel2, ID_BUTTON2, _("delete"), wxDefaultPosition, wxSize(50,-1), 0, wxDefaultValidator, _T("ID_BUTTON2"));
+    BoxSizer4->Add(btDelStation, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    btEditStation = new wxButton(Panel2, ID_BUTTON3, _("edit"), wxDefaultPosition, wxSize(50,-1), 0, wxDefaultValidator, _T("ID_BUTTON3"));
+    BoxSizer4->Add(btEditStation, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     Panel2->SetSizer(BoxSizer4);
     BoxSizer4->Fit(Panel2);
     BoxSizer4->SetSizeHints(Panel2);
-    StaticBoxSizer1->Add(Panel2, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    StaticBoxSizer1->Add(Panel2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     panLeft->SetSizer(StaticBoxSizer1);
     StaticBoxSizer1->Fit(panLeft);
     StaticBoxSizer1->SetSizeHints(panLeft);
@@ -242,6 +242,7 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     this->lvLines->AssignImageList(ilIcons, wxIMAGE_LIST_NORMAL);
     this->lvStops->AssignImageList(ilIconSmall, wxIMAGE_LIST_SMALL);
 
+    panStationEditor->setImageList(ilIconSmall);
 
 
 
@@ -338,7 +339,8 @@ void CiMScheduleFrame::refreshStopList()
     }
 
     panStationEditor->_stopTable->refresh();
-    panStationEditor->gdTimetable->ForceRefresh();
+    panStationEditor->gdTimetable->AutoSize();
+    //panStationEditor->gdTimetable->ForceRefresh();
 
 }
 
@@ -387,6 +389,7 @@ void CiMScheduleFrame::OnbtDelStationClick(wxCommandEvent& event)
             wxMessageBox(e.what());
         }
     }
+    refreshStopList();
 }
 
 void CiMScheduleFrame::OnbtEditStationClick(wxCommandEvent& event)

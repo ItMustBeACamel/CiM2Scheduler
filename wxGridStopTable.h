@@ -62,12 +62,12 @@ public:
         return _cols;
     }
 
-    virtual void SetValue 	(int row, int  	col, const wxString &  	value )
+    virtual void SetValue (int row, int col, const wxString& value )
     {
 
     }
 
-    virtual wxString GetValue (int row, int  	col)
+    virtual wxString GetValue (int row, int col)
     {
         ItemList items = getCell(row, col);
 
@@ -136,6 +136,30 @@ public:
             _cells[i].sort();
 
 
+    }
+
+    virtual wxString 	GetRowLabelValue (int row)
+    {
+        std::stringstream ss;
+        ss << row;
+        return ss.str();
+    }
+
+    virtual wxString 	GetColLabelValue (int col)
+    {
+        std::string labels[] =
+        {
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+        };
+
+
+        return labels[col];
     }
 
 private:

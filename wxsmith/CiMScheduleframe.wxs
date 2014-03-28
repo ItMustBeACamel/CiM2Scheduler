@@ -38,33 +38,33 @@
 												<object class="sizeritem">
 													<object class="wxButton" name="ID_BUTTON1" variable="btAddStation" member="yes">
 														<label>add</label>
+														<size>40,-1</size>
 														<handler function="OnbtAddStationClick" entry="EVT_BUTTON" />
 													</object>
 													<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 													<border>5</border>
-													<option>1</option>
 												</object>
 												<object class="sizeritem">
 													<object class="wxButton" name="ID_BUTTON2" variable="btDelStation" member="yes">
 														<label>delete</label>
+														<size>50,-1</size>
 														<handler function="OnbtDelStationClick" entry="EVT_BUTTON" />
 													</object>
 													<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 													<border>5</border>
-													<option>1</option>
 												</object>
 												<object class="sizeritem">
 													<object class="wxButton" name="ID_BUTTON3" variable="btEditStation" member="yes">
 														<label>edit</label>
+														<size>50,-1</size>
 														<handler function="OnbtEditStationClick" entry="EVT_BUTTON" />
 													</object>
 													<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 													<border>5</border>
-													<option>1</option>
 												</object>
 											</object>
 										</object>
-										<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 										<border>5</border>
 									</object>
 								</object>
@@ -80,6 +80,7 @@
 											<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),$(POS),$(SIZE));</creating_code>
 											<include_file>StationEditorPanel.h</include_file>
 											<local_include>1</local_include>
+											<style></style>
 										</object>
 										<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 										<border>5</border>

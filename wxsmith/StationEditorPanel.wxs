@@ -12,6 +12,7 @@
 							<object class="Custom" name="ID_TIMETABLE_GRID" subclass="wxGrid" variable="gdTimetable" member="yes">
 								<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),$(POS),$(SIZE),$(STYLE),$(NAME));</creating_code>
 								<include_file>wx/grid.h</include_file>
+								<style>wxWANTS__CHARS</style>
 							</object>
 							<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 							<border>5</border>
