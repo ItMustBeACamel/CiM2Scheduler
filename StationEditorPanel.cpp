@@ -126,6 +126,7 @@ StationEditorPanel::StationStopType* StationEditorPanel::addStop(const StationEd
 void StationEditorPanel::setCurrentStop(StationEditorPanel::StationStopType* stop)
 {
     _currentStop = stop;
+    _renderer->setCurrentStop(_currentStop);
 }
 
 void StationEditorPanel::setImageList(wxImageList* imageList)

@@ -37,13 +37,13 @@ private:
         typedef Line::IconID IconID;
 
         RenderItem(const InputItemType& item, const int& border = 1, const bool& marked = false, wxImageList* imageList = 0 )
-            : _icon(Lines::instance()->getLine(item.line).getIcon()),
+            : _icon(Lines::instance()->getLine(item.getLine()).getIcon()),
               _imageList(imageList), _bitmap(wxBitmap()),
               _border(border), _marked(marked)
         {
             std::stringstream ss;
 
-            ss << "#" << Lines::instance()->getLine(item.line).getNumber();
+            ss << "#" << Lines::instance()->getLine(item.getLine()).getNumber();
             _number = ss.str();
             ss.str(std::string());
             ss.clear();
@@ -164,7 +164,7 @@ private:
 public:
 
     wxGridCellStopRenderer(wxImageList* imageList = 0)
-        : wxGridCellRenderer(), _imageList(imageList), _currentPlan(0)
+        : wxGridCellRenderer(), _imageList(imageList), _currentPlan(0), _currentStop(0)
     {
 
     }
@@ -179,11 +179,14 @@ public:
         RenderItemList renderItems;
         for(InputItemList::iterator i = input->begin(); i != input->end(); ++i)
         {
-            bool marked;
-            if((*i).stop.plan == _currentPlan)
-                marked = true;
-            else
-                marked = false;
+            bool marked = false;
+            if(_currentStop != 0)
+            {
+                if((*i).stop.plan == _currentPlan && (*i).stationStop == *_currentStop)
+                {
+                    marked = true;
+                }
+            }
 
             renderItems.push_back(RenderItem((*i), 1, marked, _imageList));
         }
@@ -240,10 +243,16 @@ public:
         _currentPlan = plan;
     }
 
+    void setCurrentStop(StopAtStation* stop)
+    {
+        _currentStop = stop;
+    }
+
 private:
 
     wxImageList* _imageList;
     PlanNameType _currentPlan;
+    StopAtStation* _currentStop;
 
 };
 

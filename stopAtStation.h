@@ -5,31 +5,43 @@
 
 struct StopAtStation
 {
-    typedef Line const * const LinePtrType;
-    typedef Line::Stop const * const StopPtrType;
-    StopAtStation(const LinePtrType& pLine, const StopPtrType& pStop)
-        : line(pLine), stop(pStop)
+    typedef Line::ID LineIDType;
+    typedef Line::Stop  StopType;
+    StopAtStation(const LineIDType& lineID, const StopType& st)
+        : line(lineID), stop(st)
     {
 
     }
 
     const bool operator>(const StopAtStation& x)const
     {
-        if(line->getNumber() == x.line->getNumber())
-            return *stop > *x.stop;
+        const Line& thisLine = Lines::instance()->getLine(line);
+        const Line& otherLine = Lines::instance()->getLine(x.line);
+
+        if(thisLine.getNumber() == otherLine.getNumber())
+            return stop > x.stop;
         else
-            return line->getNumber() > x.line->getNumber();
+            return thisLine.getNumber() > otherLine.getNumber();
     }
 
     const bool operator<(const StopAtStation& x)const
     {
-        if(line->getNumber() == x.line->getNumber())
-            return *stop < *x.stop;
+        const Line& thisLine = Lines::instance()->getLine(line);
+        const Line& otherLine = Lines::instance()->getLine(x.line);
+
+        if(thisLine.getNumber() == otherLine.getNumber())
+            return stop < x.stop;
         else
-            return line->getNumber() < x.line->getNumber();
+            return thisLine.getNumber() < otherLine.getNumber();
     }
-    const LinePtrType line;
-    const StopPtrType stop;
+
+    const bool operator==(const StopAtStation& x) const
+    {
+        return line == x.line && stop == x.stop;
+    }
+
+    const LineIDType line;
+    const StopType stop;
 };
 
 #endif // STOPATSTATION_H_INCLUDED

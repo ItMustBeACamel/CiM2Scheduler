@@ -24,8 +24,8 @@ public:
         typedef Line::ID LineIDType;
         typedef TimetableView::StopListEntry StopType;
 
-        Item(const LineIDType& ln, const StopType& s, StationStopType ss)
-        : line(ln), stop(s), stationStop(ss)
+        Item(/*const LineIDType& ln, */const StopType& s, StationStopType ss)
+        : /*line(ln),*/ stop(s), stationStop(ss)
         {
 
         }
@@ -40,7 +40,12 @@ public:
             return stop.weekTime < x.stop.weekTime;
         }
 
-        LineIDType line;
+        Line::ID getLine()const
+        {
+            return stationStop.line;
+        }
+
+        //LineIDType line;
         StopType stop;
         StationStopType stationStop;
     };
@@ -117,13 +122,22 @@ public:
 
         for(StationStopList::iterator stop = _stopList.begin(); stop != _stopList.end(); ++stop)
         {
-            TimetableView view((*stop).line->getTimetable(), (*stop).stop->time);
-
-            TimetableView::StopList viewStopList = view.getStopList();
-
-            for(TimetableView::StopList::iterator viewItem = viewStopList.begin(); viewItem != viewStopList.end(); ++viewItem)
+            try
             {
-                newItems.push_back(Item((*stop).line->getID(), (*viewItem), (*stop)));
+                const Line& line = Lines::instance()->getLine((*stop).line);
+
+                TimetableView view(line.getTimetable(), (*stop).stop.time);
+
+                TimetableView::StopList viewStopList = view.getStopList();
+
+                for(TimetableView::StopList::iterator viewItem = viewStopList.begin(); viewItem != viewStopList.end(); ++viewItem)
+                {
+                    newItems.push_back(Item(/*line.getID(),*/ (*viewItem), (*stop)));
+                }
+            }
+            catch(...)
+            {
+
             }
         }
 

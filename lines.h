@@ -38,21 +38,27 @@ public:
             : station(s), time(t)
         {   }
 
-         const bool operator>(const Stop& x)const
-            {
-                if(station == x.station)
-                    return time > x.time;
-                else
-                    return station > x.station;
-            }
+        const bool operator>(const Stop& x)const
+        {
+            if(station == x.station)
+                return time > x.time;
+            else
+                return station > x.station;
+        }
 
-            const bool operator<(const Stop& x)const
-            {
-                if(station == x.station)
-                    return time < x.time;
-                else
-                    return station < x.station;
-            }
+        const bool operator<(const Stop& x)const
+        {
+            if(station == x.station)
+                return time < x.time;
+            else
+                return station < x.station;
+        }
+
+        const bool operator==(const Stop& x)const
+        {
+            return station == x.station && time == x.time;
+        }
+
         Station::ID station;
         TimeStampType time;
     };
@@ -62,12 +68,12 @@ public:
     explicit Line(const std::string& n, const IconID& icon = IID_NO_ICON);
 
     ~Line();
-/*
-    ID& getID()
-    {
-        return _id;
-    }
-*/
+    /*
+        ID& getID()
+        {
+            return _id;
+        }
+    */
     const ID& getID() const
     {
         return _id;

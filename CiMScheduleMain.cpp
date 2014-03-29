@@ -320,7 +320,7 @@ void CiMScheduleFrame::refreshStopList()
             {
                 if((*stop).station == station)
                 {
-                    newStops.push_back(Stop(&(*line), &(*stop)));
+                    newStops.push_back(Stop((*line).getID(), (*stop)));
                 }
             }
         }
@@ -328,10 +328,11 @@ void CiMScheduleFrame::refreshStopList()
 
         for(std::list<Stop>::iterator i = newStops.begin(); i != newStops.end(); ++i )
         {
+            const Line& line = Lines::instance()->getLine((*i).line);
             std::stringstream ss;
-            ss << (*i).line->getNumber();
-            long itemIndex = lvStops->InsertItem(lvStops->GetItemCount(), ss.str(), (*i).line->getIcon());
-            lvStops->SetItem(itemIndex, 1, (*i).line->getName());
+            ss << line.getNumber();
+            long itemIndex = lvStops->InsertItem(lvStops->GetItemCount(), ss.str(), line.getIcon());
+            lvStops->SetItem(itemIndex, 1, line.getName());
             lvStops->SetItemPtrData(itemIndex, (wxUIntPtr) panStationEditor->addStop((*i)));
 
             //this->panStationEditor->_stopTable->addStop((*i));
@@ -491,5 +492,7 @@ void CiMScheduleFrame::OnlvStationsItemSelect(wxListEvent& event)
 
 void CiMScheduleFrame::OnlvStopsItemSelect(wxListEvent& event)
 {
-    panStationEditor->setCurrentStop((StationEditorPanel::StationStopType*)event.GetData());
+    panStationEditor->setCurrentStop(((StationEditorPanel::StationStopType*)event.GetData()));
+    //panStationEditor->_stopTable->refresh();
+    panStationEditor->gdTimetable->AutoSize();
 }
