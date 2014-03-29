@@ -54,6 +54,7 @@ class CiMScheduleFrame: public wxFrame
         void OnmiNewLineSelected(wxCommandEvent& event);
         void OnbtEditLineClick(wxCommandEvent& event);
         void OnlvStationsItemSelect(wxListEvent& event);
+        void OnlvStopsItemSelect(wxListEvent& event);
         //*)
 
         //(*Identifiers(CiMScheduleFrame)

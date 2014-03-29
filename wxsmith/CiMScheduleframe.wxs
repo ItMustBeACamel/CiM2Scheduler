@@ -103,6 +103,7 @@
 												<object class="sizeritem">
 													<object class="wxListView" name="ID_LISTVIEW2" variable="lvStops" member="yes">
 														<style>wxLC_REPORT</style>
+														<handler function="OnlvStopsItemSelect" entry="EVT_LIST_ITEM_SELECTED" />
 													</object>
 													<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 													<border>5</border>

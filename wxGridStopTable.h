@@ -24,8 +24,8 @@ public:
         typedef Line::ID LineIDType;
         typedef TimetableView::StopListEntry StopType;
 
-        Item(const LineIDType& ln, const StopType& s)
-        : line(ln), stop(s)
+        Item(const LineIDType& ln, const StopType& s, StationStopType ss)
+        : line(ln), stop(s), stationStop(ss)
         {
 
         }
@@ -42,6 +42,7 @@ public:
 
         LineIDType line;
         StopType stop;
+        StationStopType stationStop;
     };
     typedef std::list<Item> ItemList;
     typedef std::vector<ItemList> CellList;
@@ -99,9 +100,10 @@ public:
             return wxGridTableBase::GetValueAsCustom(row, col, typeName);
     }
 
-    void addStop(const StationStopType& stop)
+    StationStopType* addStop(const StationStopType& stop)
     {
         _stopList.push_back(stop);
+        return &_stopList.back();
     }
 
     void clearStopList()
@@ -121,7 +123,7 @@ public:
 
             for(TimetableView::StopList::iterator viewItem = viewStopList.begin(); viewItem != viewStopList.end(); ++viewItem)
             {
-                newItems.push_back(Item((*stop).line->getID(), (*viewItem)));
+                newItems.push_back(Item((*stop).line->getID(), (*viewItem), (*stop)));
             }
         }
 

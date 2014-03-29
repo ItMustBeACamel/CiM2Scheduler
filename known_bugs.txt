@@ -1,5 +1,11 @@
 Known bugs
 ==========
 
+
+
+
+
+fixed:
+
 1 set interval spin button in line editor to value under 0 results in crash
 2 wrong order of stops when edit line in line editor

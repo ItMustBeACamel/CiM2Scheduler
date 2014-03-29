@@ -231,6 +231,7 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtAddStationClick);
     Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtDelStationClick);
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtEditStationClick);
+    Connect(ID_LISTVIEW2,wxEVT_COMMAND_LIST_ITEM_SELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnlvStopsItemSelect);
     Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnmiNewLineSelected);
     Connect(ID_BUTTON7,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtEditLineClick);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnQuit);
@@ -331,8 +332,9 @@ void CiMScheduleFrame::refreshStopList()
             ss << (*i).line->getNumber();
             long itemIndex = lvStops->InsertItem(lvStops->GetItemCount(), ss.str(), (*i).line->getIcon());
             lvStops->SetItem(itemIndex, 1, (*i).line->getName());
+            lvStops->SetItemPtrData(itemIndex, (wxUIntPtr) panStationEditor->addStop((*i)));
 
-            this->panStationEditor->_stopTable->addStop((*i));
+            //this->panStationEditor->_stopTable->addStop((*i));
         }
 
 
@@ -485,4 +487,9 @@ void CiMScheduleFrame::OnbtEditLineClick(wxCommandEvent& event)
 void CiMScheduleFrame::OnlvStationsItemSelect(wxListEvent& event)
 {
     refreshStopList();
+}
+
+void CiMScheduleFrame::OnlvStopsItemSelect(wxListEvent& event)
+{
+    panStationEditor->setCurrentStop((StationEditorPanel::StationStopType*)event.GetData());
 }
