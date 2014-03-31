@@ -27,27 +27,27 @@ public:
     wxRadioBox* rbPlan;
     wxGrid* gdTimetable;
     wxStaticText* StaticText2;
+    wxSpinButton* sbInterval;
+    wxTextCtrl* txtInterval;
+    wxTextCtrl* txtStart;
     wxPanel* Panel1;
     wxStaticText* StaticText1;
     wxStaticText* StaticText3;
+    wxTextCtrl* txtEnd;
     wxPanel* panTimetable;
-    wxSpinButton* SpinButton1;
-    wxSpinButton* SpinButton2;
-    wxTextCtrl* TextCtrl2;
-    wxTextCtrl* TextCtrl1;
+    wxSpinButton* sbEnd;
     wxPanel* Panel2;
-    wxSpinButton* SpinButton3;
-    wxTextCtrl* TextCtrl3;
+    wxSpinButton* sbStart;
     //*)
 
     wxGridStopTable* _stopTable;
     wxGridCellStopRenderer* _renderer;
 
     void setImageList(wxImageList* imageList);
-
     StationStopType* addStop(const StationStopType& stop);
-
     void setCurrentStop(StationStopType* stop);
+
+    void refresh();
 
 protected:
 
@@ -76,6 +76,10 @@ private:
     //(*Handlers(StationEditorPanel)
     void OnrbPlanSelect(wxCommandEvent& event);
     void OnscStartChange(wxSpinEvent& event);
+    void OnsbStartChange(wxSpinEvent& event);
+    void OnsbEndChange(wxSpinEvent& event);
+    void OnsbIntervalChangeUp(wxSpinEvent& event);
+    void OnsbIntervalChangeDown(wxSpinEvent& event);
     //*)
 
     DECLARE_EVENT_TABLE()

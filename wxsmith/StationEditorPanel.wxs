@@ -44,12 +44,14 @@
 							<border>1</border>
 						</object>
 						<object class="sizeritem">
-							<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="TextCtrl1" member="yes" />
+							<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="txtStart" member="yes" />
 							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 						</object>
 						<object class="sizeritem">
-							<object class="wxSpinButton" name="ID_SPINBUTTON1" variable="SpinButton1" member="yes">
+							<object class="wxSpinButton" name="ID_SPINBUTTON1" variable="sbStart" member="yes">
 								<max>100</max>
+								<style>wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP</style>
+								<handler function="OnsbStartChange" entry="EVT_SPIN" />
 							</object>
 							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 						</object>
@@ -65,12 +67,14 @@
 							<border>1</border>
 						</object>
 						<object class="sizeritem">
-							<object class="wxTextCtrl" name="ID_TEXTCTRL2" variable="TextCtrl2" member="yes" />
+							<object class="wxTextCtrl" name="ID_TEXTCTRL2" variable="txtEnd" member="yes" />
 							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 						</object>
 						<object class="sizeritem">
-							<object class="wxSpinButton" name="ID_SPINBUTTON2" variable="SpinButton2" member="yes">
+							<object class="wxSpinButton" name="ID_SPINBUTTON2" variable="sbEnd" member="yes">
 								<max>100</max>
+								<style>wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP</style>
+								<handler function="OnsbEndChange" entry="EVT_SPIN" />
 							</object>
 							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 						</object>
@@ -86,12 +90,15 @@
 							<border>1</border>
 						</object>
 						<object class="sizeritem">
-							<object class="wxTextCtrl" name="ID_TEXTCTRL3" variable="TextCtrl3" member="yes" />
+							<object class="wxTextCtrl" name="ID_TEXTCTRL3" variable="txtInterval" member="yes" />
 							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 						</object>
 						<object class="sizeritem">
-							<object class="wxSpinButton" name="ID_SPINBUTTON3" variable="SpinButton3" member="yes">
+							<object class="wxSpinButton" name="ID_SPINBUTTON3" variable="sbInterval" member="yes">
 								<max>100</max>
+								<style>wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP</style>
+								<handler function="OnsbIntervalChangeUp" entry="EVT_SPIN_UP" />
+								<handler function="OnsbIntervalChangeDown" entry="EVT_SPIN_DOWN" />
 							</object>
 							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 						</object>

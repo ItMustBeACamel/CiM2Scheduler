@@ -61,27 +61,27 @@ StationEditorPanel::StationEditorPanel(wxWindow* parent,wxWindowID id,const wxPo
 	BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
 	StaticText1 = new wxStaticText(Panel2, ID_STATICTEXT1, _("Start Time"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT1"));
 	BoxSizer3->Add(StaticText1, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 1);
-	TextCtrl1 = new wxTextCtrl(Panel2, ID_TEXTCTRL1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL1"));
-	BoxSizer3->Add(TextCtrl1, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
-	SpinButton1 = new wxSpinButton(Panel2, ID_SPINBUTTON1, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS, _T("ID_SPINBUTTON1"));
-	SpinButton1->SetRange(0, 100);
-	BoxSizer3->Add(SpinButton1, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
-	BoxSizer3->Add(0,0,0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	txtStart = new wxTextCtrl(Panel2, ID_TEXTCTRL1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+	BoxSizer3->Add(txtStart, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
+	sbStart = new wxSpinButton(Panel2, ID_SPINBUTTON1, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP, _T("ID_SPINBUTTON1"));
+	sbStart->SetRange(0, 100);
+	BoxSizer3->Add(sbStart, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
+	BoxSizer3->Add(-1,-1,0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	StaticText2 = new wxStaticText(Panel2, ID_STATICTEXT2, _("End Time"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
 	BoxSizer3->Add(StaticText2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 1);
-	TextCtrl2 = new wxTextCtrl(Panel2, ID_TEXTCTRL2, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL2"));
-	BoxSizer3->Add(TextCtrl2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
-	SpinButton2 = new wxSpinButton(Panel2, ID_SPINBUTTON2, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS, _T("ID_SPINBUTTON2"));
-	SpinButton2->SetRange(0, 100);
-	BoxSizer3->Add(SpinButton2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
-	BoxSizer3->Add(0,0,0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	txtEnd = new wxTextCtrl(Panel2, ID_TEXTCTRL2, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL2"));
+	BoxSizer3->Add(txtEnd, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
+	sbEnd = new wxSpinButton(Panel2, ID_SPINBUTTON2, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP, _T("ID_SPINBUTTON2"));
+	sbEnd->SetRange(0, 100);
+	BoxSizer3->Add(sbEnd, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
+	BoxSizer3->Add(-1,-1,0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	StaticText3 = new wxStaticText(Panel2, ID_STATICTEXT3, _("Interval"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT3"));
 	BoxSizer3->Add(StaticText3, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 1);
-	TextCtrl3 = new wxTextCtrl(Panel2, ID_TEXTCTRL3, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL3"));
-	BoxSizer3->Add(TextCtrl3, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
-	SpinButton3 = new wxSpinButton(Panel2, ID_SPINBUTTON3, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS, _T("ID_SPINBUTTON3"));
-	SpinButton3->SetRange(0, 100);
-	BoxSizer3->Add(SpinButton3, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
+	txtInterval = new wxTextCtrl(Panel2, ID_TEXTCTRL3, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL3"));
+	BoxSizer3->Add(txtInterval, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
+	sbInterval = new wxSpinButton(Panel2, ID_SPINBUTTON3, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP, _T("ID_SPINBUTTON3"));
+	sbInterval->SetRange(0, 100);
+	BoxSizer3->Add(sbInterval, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
 	Panel2->SetSizer(BoxSizer3);
 	BoxSizer3->Fit(Panel2);
 	BoxSizer3->SetSizeHints(Panel2);
@@ -99,6 +99,10 @@ StationEditorPanel::StationEditorPanel(wxWindow* parent,wxWindowID id,const wxPo
 	BoxSizer1->SetSizeHints(this);
 
 	Connect(ID_RADIOBOX1,wxEVT_COMMAND_RADIOBOX_SELECTED,(wxObjectEventFunction)&StationEditorPanel::OnrbPlanSelect);
+	Connect(ID_SPINBUTTON1,wxEVT_SCROLL_THUMBTRACK,(wxObjectEventFunction)&StationEditorPanel::OnsbStartChange);
+	Connect(ID_SPINBUTTON2,wxEVT_SCROLL_THUMBTRACK,(wxObjectEventFunction)&StationEditorPanel::OnsbEndChange);
+	Connect(ID_SPINBUTTON3,wxEVT_SCROLL_LINEUP,(wxObjectEventFunction)&StationEditorPanel::OnsbIntervalChangeUp);
+	Connect(ID_SPINBUTTON3,wxEVT_SCROLL_LINEDOWN,(wxObjectEventFunction)&StationEditorPanel::OnsbIntervalChangeDown);
 	//*)
 
 	_stopTable = new wxGridStopTable();
@@ -107,7 +111,10 @@ StationEditorPanel::StationEditorPanel(wxWindow* parent,wxWindowID id,const wxPo
 	gdTimetable->SetTable(_stopTable, true);
 
 	//gdTimetable->AutoSize();
+    sbStart->SetRange(0, TIME_SLICES_PER_DAY-1);
+    sbEnd->SetRange(0, TIME_SLICES_PER_DAY-1);
 
+    refresh();
 
 
 }
@@ -116,6 +123,45 @@ StationEditorPanel::~StationEditorPanel()
 {
 	//(*Destroy(StationEditorPanel)
 	//*)
+}
+
+
+void StationEditorPanel::refresh()
+{
+    if(_currentStop == 0)
+    {
+        sbStart->Disable();
+        sbEnd->Disable();
+        sbInterval->Disable();
+        txtStart->Disable();
+        txtEnd->Disable();
+        txtInterval->Disable();
+    }
+    else
+    {
+        sbStart->Enable();
+        sbEnd->Enable();
+        sbInterval->Enable();
+        txtStart->Enable();
+        txtEnd->Enable();
+        txtInterval->Enable();
+
+        Line& line = Lines::instance()->getLine(_currentStop->line);
+        TimeOffset offset = _currentStop->stop.time;
+        sbStart->SetValue((line.getTimetable().getPlan(_currentPlan).getStartTime() + offset).makeDaytime().time);
+        sbEnd->SetValue((line.getTimetable().getPlan(_currentPlan).getEndTime() + offset).makeDaytime().time);
+
+        txtStart->SetValue(Time(sbStart->GetValue()).toString());
+        txtEnd->SetValue(Time(sbEnd->GetValue()).toString());
+        txtInterval->SetValue((line.getTimetable().getPlan(_currentPlan).getInterval()).toString());
+
+
+        //sbInterval->SetValue(line.getTimetable().getPlan(_currentPlan).getStartTime().time);
+    }
+
+
+    gdTimetable->ForceRefresh();
+
 }
 
 StationEditorPanel::StationStopType* StationEditorPanel::addStop(const StationEditorPanel::StationStopType& stop)
@@ -139,5 +185,61 @@ void StationEditorPanel::OnrbPlanSelect(wxCommandEvent& event)
 {
     _currentPlan = event.GetInt();
     _renderer->setCurrentPlan(_currentPlan);
+    refresh();
     gdTimetable->ForceRefresh();
+}
+
+void StationEditorPanel::OnsbStartChange(wxSpinEvent& event)
+{
+    txtStart->SetValue(Time(event.GetValue()).toString());
+
+    Line& line = Lines::instance()->getLine(_currentStop->line);
+    TimeOffset offset = _currentStop->stop.time;
+
+    line.getTimetable().getPlan(_currentPlan).setStartTime((Time(event.GetValue()) - offset).makeDaytime());
+    _stopTable->refresh();
+    gdTimetable->AutoSize();
+    //gdTimetable->ForceRefresh();
+}
+
+void StationEditorPanel::OnsbEndChange(wxSpinEvent& event)
+{
+    txtEnd->SetValue(Time(event.GetValue()).toString());
+
+    Line& line = Lines::instance()->getLine(_currentStop->line);
+    TimeOffset offset = _currentStop->stop.time;
+
+    line.getTimetable().getPlan(_currentPlan).setEndTime((Time(event.GetValue()) - offset).makeDaytime());
+    _stopTable->refresh();
+    gdTimetable->AutoSize();
+    //gdTimetable->ForceRefresh();
+}
+
+void StationEditorPanel::OnsbIntervalChangeUp(wxSpinEvent& event)
+{
+    Line& line = Lines::instance()->getLine(_currentStop->line);
+
+    TimeInterval interval(txtInterval->GetValue());
+    interval++;
+    txtInterval->SetValue(interval.toString());
+
+    line.getTimetable().getPlan(_currentPlan).setInterval(interval);
+
+    _stopTable->refresh();
+    gdTimetable->AutoSize();
+}
+
+void StationEditorPanel::OnsbIntervalChangeDown(wxSpinEvent& event)
+{
+    Line& line = Lines::instance()->getLine(_currentStop->line);
+
+    TimeInterval interval(txtInterval->GetValue());
+    interval--;
+    if(interval.time < 0) interval = TimeInterval(0);
+    txtInterval->SetValue(interval.toString());
+
+    line.getTimetable().getPlan(_currentPlan).setInterval(interval);
+
+    _stopTable->refresh();
+    gdTimetable->AutoSize();
 }

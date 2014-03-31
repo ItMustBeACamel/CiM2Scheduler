@@ -68,14 +68,13 @@
 			<Add option="-mthreads" />
 			<Add library="libwxmsw30u_adv.a" />
 		</Linker>
-		<Unit filename="./stopAtStation.h" />
-		<Unit filename="./wxGridCellStopRenderer.h" />
 		<Unit filename="CiMScheduleApp.cpp" />
 		<Unit filename="CiMScheduleApp.h" />
 		<Unit filename="CiMScheduleMain.cpp" />
 		<Unit filename="CiMScheduleMain.h" />
 		<Unit filename="LineEditor.cpp" />
 		<Unit filename="LineEditor.h" />
+		<Unit filename="README.md" />
 		<Unit filename="StationEditorPanel.cpp" />
 		<Unit filename="StationEditorPanel.h" />
 		<Unit filename="TimeTablePanel.cpp" />
@@ -88,6 +87,7 @@
 		</Unit>
 		<Unit filename="stations.cpp" />
 		<Unit filename="stations.h" />
+		<Unit filename="stopAtStation.h" />
 		<Unit filename="timestamp.cpp" />
 		<Unit filename="timestamp.h" />
 		<Unit filename="timetable.cpp" />
@@ -95,6 +95,7 @@
 		<Unit filename="timetable_view.h" />
 		<Unit filename="todo.txt" />
 		<Unit filename="utils.h" />
+		<Unit filename="wxGridCellStopRenderer.h" />
 		<Unit filename="wxGridStopTable.h" />
 		<Unit filename="wxsmith/CiMScheduleframe.wxs" />
 		<Unit filename="wxsmith/LineEditor.wxs" />
