@@ -56,6 +56,7 @@ class CiMScheduleFrame: public wxFrame
         void OnlvStationsItemSelect(wxListEvent& event);
         void OnlvStopsItemSelect(wxListEvent& event);
         void OnlvStopsItemDeselect(wxListEvent& event);
+        void OnlvStationsItemDeselect(wxListEvent& event);
         //*)
 
         //(*Identifiers(CiMScheduleFrame)

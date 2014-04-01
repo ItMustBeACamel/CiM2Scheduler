@@ -13,6 +13,8 @@
 
 #define STOP_ITEM_LIST (wxString("stop item"))
 
+#define DAY_ROW 1
+
 class wxGridStopTable : public wxGridTableBase
 {
 public:

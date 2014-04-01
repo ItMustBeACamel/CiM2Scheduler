@@ -228,6 +228,7 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
 
     Connect(ID_LV_STATIONS,wxEVT_COMMAND_LIST_END_LABEL_EDIT,(wxObjectEventFunction)&CiMScheduleFrame::OnlvStationsEndLabelEdit);
     Connect(ID_LV_STATIONS,wxEVT_COMMAND_LIST_ITEM_SELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnlvStationsItemSelect);
+    Connect(ID_LV_STATIONS,wxEVT_COMMAND_LIST_ITEM_DESELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnlvStationsItemDeselect);
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtAddStationClick);
     Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtDelStationClick);
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtEditStationClick);
@@ -269,7 +270,7 @@ void CiMScheduleFrame::refreshStationsList()
         long itemIndex = lvStations->InsertItem(lvStations->GetItemCount(), (*i).getName());
         lvStations->SetItemData(itemIndex, (*i).getID());
     }
-
+    refreshStopList();
 }
 
 void CiMScheduleFrame::refreshLinesList()
@@ -425,7 +426,7 @@ void CiMScheduleFrame::OnClose(wxCloseEvent& event)
     {
 
     }
-    Destroy(); // you may also do: event.Skip();
+    Destroy();
 
 // since the default event handler does call Destroy(), too
     //Lines::destroy();
@@ -503,4 +504,9 @@ void CiMScheduleFrame::OnlvStopsItemDeselect(wxListEvent& event)
 {
     panStationEditor->setCurrentStop(0);
     panStationEditor->refresh();
+}
+
+void CiMScheduleFrame::OnlvStationsItemDeselect(wxListEvent& event)
+{
+    refreshStopList();
 }

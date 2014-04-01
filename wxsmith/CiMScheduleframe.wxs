@@ -21,6 +21,7 @@
 														<style>wxLC_LIST|wxLC_ALIGN_LEFT|wxLC_EDIT_LABELS</style>
 														<handler function="OnlvStationsEndLabelEdit" entry="EVT_LIST_END_LABEL_EDIT" />
 														<handler function="OnlvStationsItemSelect" entry="EVT_LIST_ITEM_SELECTED" />
+														<handler function="OnlvStationsItemDeselect" entry="EVT_LIST_ITEM_DESELECTED" />
 													</object>
 													<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 													<border>5</border>
