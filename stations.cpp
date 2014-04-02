@@ -1,13 +1,13 @@
 #include "stations.h"
 #include "lines.h"
 #include <sstream>
+#include <boost/foreach.hpp>
+#include <boost/property_tree/exceptions.hpp>
+
+//using namespace Station;
+
 
 // Station
-
-
-
-
-
 
 // static members
 Stations* Stations::_instance = 0;
@@ -20,6 +20,11 @@ Station::Station(const char* n)
 Station::Station(const std::string& n)
     : _name(n), _id(NO_STATION)
 {   }
+
+Station::Station(const Serializable::PropertyTree& pt)
+{
+    deserialize(pt);
+}
 
 Station::~Station()
 {
@@ -60,6 +65,22 @@ const std::string& Station::getName() const
 
 
 
+Serializable::PropertyTree Station::serialize() const
+{
+    PropertyTree pt;
+
+     pt.put("id", _id);
+     pt.put("name", _name);
+
+     return pt;
+}
+
+void Station::deserialize(const Serializable::PropertyTree& pt)
+{
+    _id = pt.get<ID>("id");
+    _name = pt.get<std::string>("name", std::string("station"));
+}
+
 
 // Stations
 //-----------------------------------------------------------------------------------------
@@ -77,6 +98,7 @@ Stations* Stations::instance()
 void Stations::destroy()
 {
     if(_instance) delete _instance;
+    _instance = 0;
 }
 
 const StationList& Stations::getStationsList() const
@@ -86,7 +108,6 @@ const StationList& Stations::getStationsList() const
 
 Station& Stations::addStation(const Station& newStation)
 {
-    //newStation._id = getNextFreeID();
     _list.push_back(newStation);
 
     Station& s = _list.back();
@@ -173,4 +194,54 @@ bool Stations::deleteStation(Station::ID id)
 void Stations::freeID(Station::ID id)
 {
     _idStack.push(id);
+}
+
+Serializable::PropertyTree Stations::serialize() const
+{
+    PropertyTree pt;
+
+    pt.put("id-counter", _idCounter);
+
+    BOOST_FOREACH(const Station& i, _list)
+    {
+        pt.add_child("stations.station", i.serialize());
+    }
+
+    IDStack stackCopy(_idStack);
+
+    while(stackCopy.size() > 0)
+    {
+        pt.add("id-stack.id", stackCopy.top());
+        stackCopy.pop();
+    }
+
+    return pt;
+}
+
+void Stations::deserialize(const Serializable::PropertyTree& pt)
+{
+        _idCounter = pt.get<Station::ID>("id-counter");
+
+        boost::optional<PropertyTree> stationsTree;
+        stationsTree = pt.get_child_optional("stations");
+
+        if(stationsTree)
+        {
+            for(PropertyTree::iterator i = stationsTree.get().begin(); i != stationsTree.get().end(); ++i)
+            {
+                _list.push_back(Station((*i).second));
+            }
+        }
+
+
+        boost::optional<PropertyTree> idStackTree;
+        idStackTree = pt.get_child_optional("id-stack");
+
+        if(idStackTree)
+        {
+            for(PropertyTree::reverse_iterator i = idStackTree.get().rbegin(); i != idStackTree.get().rend(); ++i)
+            {
+                _idStack.push((*i).second.get_value<Station::ID>());
+            }
+        }
 }

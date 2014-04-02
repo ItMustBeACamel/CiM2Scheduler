@@ -9,11 +9,16 @@
 
 #include "CiMScheduleMain.h"
 #include <wx/msgdlg.h>
+#include <wx/filedlg.h>
+#include <wx/log.h>
 
 #include<sstream>
 #include <wx/textdlg.h>
 #include <wx/msgdlg.h>
 #include "LineEditor.h"
+#include "stations.h"
+#include "lines.h"
+#include "serializer.h"
 
 //(*InternalHeaders(CiMScheduleFrame)
 #include <wx/intl.h>
@@ -71,6 +76,10 @@ const long CiMScheduleFrame::ID_BUTTON7 = wxNewId();
 const long CiMScheduleFrame::ID_BUTTON8 = wxNewId();
 const long CiMScheduleFrame::ID_PANEL10 = wxNewId();
 const long CiMScheduleFrame::ID_PANEL9 = wxNewId();
+const long CiMScheduleFrame::ID_MENUITEM2 = wxNewId();
+const long CiMScheduleFrame::ID_MENUITEM_OPEN = wxNewId();
+const long CiMScheduleFrame::ID_MENU_SAVE = wxNewId();
+const long CiMScheduleFrame::ID_MENUITEM5 = wxNewId();
 const long CiMScheduleFrame::idMenuQuit = wxNewId();
 const long CiMScheduleFrame::ID_MENUITEM1 = wxNewId();
 const long CiMScheduleFrame::idMenuAbout = wxNewId();
@@ -83,6 +92,7 @@ BEGIN_EVENT_TABLE(CiMScheduleFrame,wxFrame)
 END_EVENT_TABLE()
 
 CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
+: _filename(wxString())
 {
     //(*Initialize(CiMScheduleFrame)
     wxBoxSizer* BoxSizer4;
@@ -102,7 +112,7 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     wxMenu* Menu2;
     wxMenuBar* MenuBar;
 
-    Create(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
+    Create(parent, wxID_ANY, _("Cities in Motion2 Scheduler"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
     BoxSizer1 = new wxBoxSizer(wxVERTICAL);
     MainPanel = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
@@ -191,6 +201,17 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     SetSizer(BoxSizer1);
     MenuBar = new wxMenuBar();
     Menu1 = new wxMenu();
+    miNew = new wxMenuItem(Menu1, ID_MENUITEM2, _("New"), wxEmptyString, wxITEM_NORMAL);
+    Menu1->Append(miNew);
+    Menu1->AppendSeparator();
+    miOpen = new wxMenuItem(Menu1, ID_MENUITEM_OPEN, _("Open"), wxEmptyString, wxITEM_NORMAL);
+    Menu1->Append(miOpen);
+    Menu1->AppendSeparator();
+    miSave = new wxMenuItem(Menu1, ID_MENU_SAVE, _("Save"), wxEmptyString, wxITEM_NORMAL);
+    Menu1->Append(miSave);
+    miSaveAs = new wxMenuItem(Menu1, ID_MENUITEM5, _("Save as..."), wxEmptyString, wxITEM_NORMAL);
+    Menu1->Append(miSaveAs);
+    Menu1->AppendSeparator();
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quit\tAlt-F4"), _("Quit the application"), wxITEM_NORMAL);
     Menu1->Append(MenuItem1);
     MenuBar->Append(Menu1, _("&File"));
@@ -236,6 +257,10 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_LISTVIEW2,wxEVT_COMMAND_LIST_ITEM_DESELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnlvStopsItemDeselect);
     Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnmiNewLineSelected);
     Connect(ID_BUTTON7,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtEditLineClick);
+    Connect(ID_MENUITEM2,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnmiNewSelected);
+    Connect(ID_MENUITEM_OPEN,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnmiOpenSelected);
+    Connect(ID_MENU_SAVE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnmiSaveSelected);
+    Connect(ID_MENUITEM5,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnmiSaveAsSelected);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnQuit);
     Connect(ID_MENUITEM1,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnmiNewLineSelected);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnAbout);
@@ -508,5 +533,78 @@ void CiMScheduleFrame::OnlvStopsItemDeselect(wxListEvent& event)
 
 void CiMScheduleFrame::OnlvStationsItemDeselect(wxListEvent& event)
 {
+    panStationEditor->setCurrentStop(0);
     refreshStopList();
+}
+
+void CiMScheduleFrame::OnmiSaveSelected(wxCommandEvent& event)
+{
+    if(_filename.IsEmpty())
+        OnmiSaveAsSelected(event);
+    else
+        Serializer::saveScheduleToFile(std::string(_filename));
+
+}
+
+void CiMScheduleFrame::OnmiOpenSelected(wxCommandEvent& event)
+{
+
+    wxFileDialog
+        openFileDialog(this, _("Open XYZ file"), "", "",
+            "scheduler files (*.sched)|*.sched", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+
+    if (openFileDialog.ShowModal() == wxID_CANCEL)
+        return; // the user changed idea...
+
+    // proceed loading the file chosen by the user;
+    try
+    {
+        Serializer::loadScheduleFromFile(std::string(openFileDialog.GetPath()));
+    }
+    catch(const boost::property_tree::xml_parser::xml_parser_error& e)
+    {
+        wxLogMessage("error parsing file");
+        return;
+    }
+    catch(const boost::property_tree::ptree_error& e)
+    {
+        wxLogMessage("error deserializing data");
+        Lines::destroy();
+        Stations::destroy();
+        refreshLinesList();
+        refreshStationsList();
+        return;
+    }
+
+    _filename = openFileDialog.GetPath();
+    SetTitle("Cities in Motion2 Scheduler - " + _filename);
+
+    refreshLinesList();
+    refreshStationsList();
+}
+
+void CiMScheduleFrame::OnmiSaveAsSelected(wxCommandEvent& event)
+{
+    wxFileDialog
+        saveFileDialog(this, _("Open XYZ file"), "", "",
+            "scheduler files (*.sched)|*.sched", wxFD_SAVE);
+
+    if (saveFileDialog.ShowModal() == wxID_CANCEL)
+        return; // the user changed idea...
+
+    // proceed loading the file chosen by the user;
+    Serializer::saveScheduleToFile(std::string(saveFileDialog.GetPath()));
+
+    _filename = saveFileDialog.GetPath();
+    SetTitle("Cities in Motion2 Scheduler - " + _filename);
+}
+
+void CiMScheduleFrame::OnmiNewSelected(wxCommandEvent& event)
+{
+    _filename = "";
+    SetTitle("Cities in Motion2 Scheduler");
+    Lines::destroy();
+    Stations::destroy();
+    refreshLinesList();
+    refreshStationsList();
 }

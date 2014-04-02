@@ -105,10 +105,31 @@ StationEditorPanel::StationEditorPanel(wxWindow* parent,wxWindowID id,const wxPo
 	Connect(ID_SPINBUTTON3,wxEVT_SCROLL_LINEDOWN,(wxObjectEventFunction)&StationEditorPanel::OnsbIntervalChangeDown);
 	//*)
 
+	Connect(ID_TIMETABLE_GRID, wxEVT_GRID_CELL_CHANGED,(wxObjectEventFunction)&StationEditorPanel::OngdTimetableChanged);
+
 	_stopTable = new wxGridStopTable();
 	_renderer = new wxGridCellStopRenderer;
 	gdTimetable->SetDefaultRenderer(_renderer);
 	gdTimetable->SetTable(_stopTable, true);
+
+    //wxGridCellBoolRenderer* boolRenderer = new wxGridCellBoolRenderer;
+	gdTimetable->SetCellRenderer(0,0, new wxGridCellBoolRenderer);
+	gdTimetable->SetCellRenderer(0,1, new wxGridCellBoolRenderer);
+	gdTimetable->SetCellRenderer(0,2, new wxGridCellBoolRenderer);
+	gdTimetable->SetCellRenderer(0,3, new wxGridCellBoolRenderer);
+	gdTimetable->SetCellRenderer(0,4, new wxGridCellBoolRenderer);
+	gdTimetable->SetCellRenderer(0,5, new wxGridCellBoolRenderer);
+	gdTimetable->SetCellRenderer(0,6, new wxGridCellBoolRenderer);
+
+	gdTimetable->SetCellEditor(0,0, new wxGridCellBoolEditor);
+	gdTimetable->SetCellEditor(0,1, new wxGridCellBoolEditor);
+	gdTimetable->SetCellEditor(0,2, new wxGridCellBoolEditor);
+	gdTimetable->SetCellEditor(0,3, new wxGridCellBoolEditor);
+	gdTimetable->SetCellEditor(0,4, new wxGridCellBoolEditor);
+	gdTimetable->SetCellEditor(0,5, new wxGridCellBoolEditor);
+	gdTimetable->SetCellEditor(0,6, new wxGridCellBoolEditor);
+
+	gdTimetable->SetRowLabelSize(30);
 
 	//gdTimetable->AutoSize();
     sbStart->SetRange(0, TIME_SLICES_PER_DAY-1);
@@ -173,6 +194,7 @@ void StationEditorPanel::setCurrentStop(StationEditorPanel::StationStopType* sto
 {
     _currentStop = stop;
     _renderer->setCurrentStop(_currentStop);
+    _stopTable->setCurrentStop(_currentStop);
 }
 
 void StationEditorPanel::setImageList(wxImageList* imageList)
@@ -185,6 +207,7 @@ void StationEditorPanel::OnrbPlanSelect(wxCommandEvent& event)
 {
     _currentPlan = event.GetInt();
     _renderer->setCurrentPlan(_currentPlan);
+    _stopTable->setCurrentPlan(_currentPlan);
     refresh();
     gdTimetable->ForceRefresh();
 }
@@ -241,5 +264,10 @@ void StationEditorPanel::OnsbIntervalChangeDown(wxSpinEvent& event)
     line.getTimetable().getPlan(_currentPlan).setInterval(interval);
 
     _stopTable->refresh();
+    gdTimetable->AutoSize();
+}
+
+void StationEditorPanel::OngdTimetableChanged(wxGridEvent& event)
+{
     gdTimetable->AutoSize();
 }

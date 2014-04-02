@@ -10,6 +10,8 @@
 #ifndef CIMSCHEDULEMAIN_H
 #define CIMSCHEDULEMAIN_H
 
+
+
 //(*Headers(CiMScheduleFrame)
 #include <wx/listctrl.h>
 #include <wx/sizer.h>
@@ -25,10 +27,9 @@
 //*)
 
 #include <list>
-#include "stations.h"
-#include "lines.h"
+
 #include "stopAtStation.h"
-//#include "StationEditorPanel.h"
+
 
 class CiMScheduleFrame: public wxFrame
 {
@@ -57,6 +58,10 @@ class CiMScheduleFrame: public wxFrame
         void OnlvStopsItemSelect(wxListEvent& event);
         void OnlvStopsItemDeselect(wxListEvent& event);
         void OnlvStationsItemDeselect(wxListEvent& event);
+        void OnmiSaveSelected(wxCommandEvent& event);
+        void OnmiOpenSelected(wxCommandEvent& event);
+        void OnmiSaveAsSelected(wxCommandEvent& event);
+        void OnmiNewSelected(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(CiMScheduleFrame)
@@ -82,6 +87,10 @@ class CiMScheduleFrame: public wxFrame
         static const long ID_BUTTON8;
         static const long ID_PANEL10;
         static const long ID_PANEL9;
+        static const long ID_MENUITEM2;
+        static const long ID_MENUITEM_OPEN;
+        static const long ID_MENU_SAVE;
+        static const long ID_MENUITEM5;
         static const long idMenuQuit;
         static const long ID_MENUITEM1;
         static const long idMenuAbout;
@@ -92,7 +101,9 @@ class CiMScheduleFrame: public wxFrame
         wxButton* btAddStation;
         wxPanel* Panel5;
         wxButton* btDeleteLine;
+        wxMenuItem* miOpen;
         wxListView* lvStations;
+        wxMenuItem* miSave;
         wxPanel* Panel4;
         wxListView* lvLines;
         wxMenu* Menu3;
@@ -112,11 +123,15 @@ class CiMScheduleFrame: public wxFrame
         wxPanel* panRight;
         wxPanel* MainPanel;
         StationEditorPanel* panStationEditor;
+        wxMenuItem* miNew;
         wxPanel* Panel2;
+        wxMenuItem* miSaveAs;
         wxButton* btEditStation;
         wxImageList* ilIcons;
         wxPanel* panLeft;
         //*)
+
+        wxString _filename;
 
         DECLARE_EVENT_TABLE()
 };

@@ -198,6 +198,8 @@ public:
         wxGridCellRenderer::Draw(grid, attr, dc, rect, row, col, isSelected);
 
         InputItemList* input = (InputItemList*)grid.GetTable()->GetValueAsCustom(row, col, STOP_ITEM_LIST);
+        if(input == 0) return;
+
         RenderItemList renderItems = getRenderItems(input);
 
         int x = 0;
@@ -211,6 +213,7 @@ public:
     virtual wxSize 	GetBestSize (wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, int row, int col)
     {
         InputItemList* input = (InputItemList*)grid.GetTable()->GetValueAsCustom(row, col, STOP_ITEM_LIST);
+        if(input == 0) return wxSize(0,0);
         RenderItemList renderItems = getRenderItems(input);
 
         wxSize result;
@@ -222,9 +225,6 @@ public:
             //result.IncTo(itemSize);
             result.y = std::max(result.y, itemSize.y);
             result.x += itemSize.x + 3;
-
-            //(*i).Draw(dc, rect.x + x, rect.y + rect.height / 2 - (*i).getSize(dc).GetHeight() / 2);
-            //x+= (*i).getSize(dc).GetWidth() + 3;
         }
 
 

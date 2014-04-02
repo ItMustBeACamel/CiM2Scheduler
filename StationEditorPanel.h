@@ -82,6 +82,8 @@ private:
     void OnsbIntervalChangeDown(wxSpinEvent& event);
     //*)
 
+    void OngdTimetableChanged(wxGridEvent& event);
+
     DECLARE_EVENT_TABLE()
 };
 

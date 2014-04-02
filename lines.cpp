@@ -5,6 +5,7 @@ Lines* Lines::_instance = 0;
 void Lines::destroy()
 {
     if(_instance) delete _instance;
+    _instance = 0;
 }
 
 Line::Line(const char* n, const IconID& icon)

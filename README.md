@@ -10,5 +10,13 @@
 
 <p>dependencies:</p>
 <ul>
-<li>wxWidgets 3.0</li>
+    <li>wxWidgets 3.0</li>
+    <li>boost (tested with ver. 1.55.0)</li>
+</ul>
+
+
+<p>currently supported systems:</p>
+<ul>
+    <li>Windows</li>
+
 </ul>

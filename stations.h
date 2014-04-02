@@ -6,20 +6,23 @@
 #include<stack>
 #include <stdexcept>
 
+#include "serializable.h"
+
 #define NO_STATION -1
 
 class Stations;
 
-class Station
+class Station : public Serializable
 {
     friend class Stations;
 
 public:
     typedef long ID;
 
+    explicit Station(const Serializable::PropertyTree& pt);
     explicit Station(const char* n);
     explicit Station(const std::string& n);
-    ~Station();
+    virtual ~Station();
 
     // operators
     bool operator==(const Station& x) const;
@@ -36,6 +39,9 @@ public:
 
     const std::string& getName() const;
 
+    virtual PropertyTree serialize() const;
+    virtual void deserialize(const PropertyTree& pt);
+
 private:
     std::string _name;
     ID _id;
@@ -43,7 +49,7 @@ private:
 
 typedef std::list<Station> StationList;
 
-class Stations
+class Stations: public Serializable
 {
     friend class Station;
 public:
@@ -57,18 +63,27 @@ public:
     const Station& getStation(Station::ID id) const;
     bool deleteStation(Station::ID id);
 
+    // inherited from Serializable
+    virtual PropertyTree serialize() const;
+    virtual void deserialize(const PropertyTree& pt);
+
 private:
+    typedef std::stack<Station::ID> IDStack;
 
     Station::ID getNextFreeID();
     void freeID(Station::ID id);
 
     Stations();
+    virtual ~Stations()
+    {
+
+    }
 
     static Stations* _instance;
     //----------------------------------
     StationList _list;
     Station::ID _idCounter;
-    std::stack<Station::ID> _idStack;
+    IDStack _idStack;
 };
 
 

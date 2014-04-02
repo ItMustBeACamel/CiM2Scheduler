@@ -10,6 +10,8 @@
 #include "timestamp.h"
 #include "timetable.h"
 #include <stdexcept>
+#include "serializable.h"
+#include <boost/foreach.hpp>
 
 #define IID_NO_ICON  -1
 #define IID_BUS       0
@@ -19,9 +21,9 @@
 #define IID_BOAT      4
 #define IID_MONORAIL  5
 
-class Line;
+//class Line;
 
-class Line
+class Line : public Serializable
 {
     friend class Lines;
 
@@ -30,13 +32,17 @@ public:
     typedef unsigned int LineNumber;
     typedef int IconID;
 
-    struct Stop
+    struct Stop : public Serializable
     {
         typedef TimeOffset TimeStampType;
         Stop() : station(0), time(0) {}
         Stop(Station::ID s, const TimeStampType& t)
             : station(s), time(t)
         {   }
+        Stop(const PropertyTree& pt)
+        {
+            deserialize(pt);
+        }
 
         const bool operator>(const Stop& x)const
         {
@@ -59,6 +65,22 @@ public:
             return station == x.station && time == x.time;
         }
 
+        virtual PropertyTree serialize() const
+        {
+            PropertyTree pt;
+
+            pt.put("station", station);
+            pt.put("time", time.time);
+
+            return pt;
+        }
+
+        virtual void deserialize(const PropertyTree& pt)
+        {
+            station = pt.get<Station::ID>("station");
+            time = TimeStampType(pt.get<TimeStampType::ValueType>("time"));
+        }
+
         Station::ID station;
         TimeStampType time;
     };
@@ -66,6 +88,11 @@ public:
 
     explicit Line(const char* n, const IconID& icon = IID_NO_ICON);
     explicit Line(const std::string& n, const IconID& icon = IID_NO_ICON);
+
+    explicit Line(const PropertyTree& pt)
+    {
+        deserialize(pt);
+    }
 
     ~Line();
     /*
@@ -168,6 +195,43 @@ public:
         _timetable = tt;
     }
 
+    virtual PropertyTree serialize() const
+        {
+            PropertyTree pt;
+
+            pt.put("id", _id);
+            pt.put("number", _number);
+            pt.put("name", _name);
+            pt.put("icon", _icon);
+            pt.put_child("timetable", _timetable.serialize());
+
+            BOOST_FOREACH(const Stop& stop, _list)
+                pt.add_child("stops.stop", stop.serialize());
+            return pt;
+        }
+
+        virtual void deserialize(const PropertyTree& pt)
+        {
+            _id = pt.get<ID>("id");
+            _number = pt.get<LineNumber>("number", 0);
+            _name = pt.get<std::string>("name");
+            _icon = pt.get<IconID>("icon");
+
+            _timetable = Timetable(pt.get_child("timetable"));
+
+            boost::optional<PropertyTree> stops;
+            stops = pt.get_child_optional("stops");
+
+            if(stops)
+            {
+                for(PropertyTree::iterator stop = stops.get().begin(); stop != stops.get().end(); ++stop)
+                    _list.push_back(Stop((*stop).second));
+            }
+
+
+
+        }
+
 private:
     std::string _name;
     ID _id;
@@ -179,7 +243,7 @@ private:
 
 typedef std::list<Line> LineList;
 
-class Lines
+class Lines : public Serializable
 {
     friend class Line;
 public:
@@ -264,7 +328,60 @@ public:
         }
     }
 
+    Serializable::PropertyTree serialize() const
+{
+    PropertyTree pt;
+
+    pt.put("id-counter", _idCounter);
+
+    BOOST_FOREACH(const Line& i, _list)
+    {
+        pt.add_child("lines.line", i.serialize());
+    }
+
+    IDStack stackCopy(_idStack);
+
+    while(stackCopy.size() > 0)
+    {
+        pt.add("id-stack.id", stackCopy.top());
+        stackCopy.pop();
+    }
+    return pt;
+}
+
+void deserialize(const Serializable::PropertyTree& pt)
+{
+    using boost::property_tree::ptree;
+    _idCounter = pt.get<Line::ID>("id-counter");
+
+    boost::optional<PropertyTree> idLinesTree;
+    idLinesTree = pt.get_child_optional("lines");
+
+    if(idLinesTree)
+    {
+        for(PropertyTree::iterator i = idLinesTree.get().begin(); i != idLinesTree.get().end(); ++i)
+        {
+            _list.push_back(Line((*i).second));
+        }
+    }
+
+
+
+    boost::optional<PropertyTree> idStackTree;
+    idStackTree = pt.get_child_optional("id-stack");
+
+    if(idStackTree)
+    {
+        for(PropertyTree::reverse_iterator i = idStackTree.get().rbegin(); i != idStackTree.get().rend(); ++i)
+        {
+            _idStack.push((*i).second.get_value<Line::ID>());
+        }
+    }
+
+}
+
 private:
+    typedef std::stack<Line::ID> IDStack;
     Lines()
         : _idCounter(1)
     {
@@ -295,7 +412,7 @@ private:
     static Lines* _instance;
     LineList _list;
     Line::ID _idCounter;
-    std::stack<Line::ID> _idStack;
+    IDStack _idStack;
 
 
 };

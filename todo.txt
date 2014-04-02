@@ -1,5 +1,7 @@
 * make LinesList a member type of Lines
-
+* (line editor) replace broken icon selector with something that works
+* (station editor) make times and interval changeable through text controls
+* (station editor) make stops hideable
 
 
 

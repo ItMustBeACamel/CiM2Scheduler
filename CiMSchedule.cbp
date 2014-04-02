@@ -59,6 +59,7 @@
 			<Add option="-DwxUSE_UNICODE" />
 			<Add directory="$(#wx.include)" />
 			<Add directory="$(#wx.lib)/gcc_dll/mswu" />
+			<Add directory="$(#boost)" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="D:/_dev/lib/wx/wxWidgets-3.0.0/include" />
@@ -66,6 +67,7 @@
 		<Linker>
 			<Add option="-mthreads" />
 			<Add library="libwxmsw30u_adv.a" />
+			<Add directory="$(#boost.lib)" />
 		</Linker>
 		<Unit filename="CiMScheduleApp.cpp" />
 		<Unit filename="CiMScheduleApp.h" />
@@ -84,6 +86,8 @@
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="serializable.h" />
+		<Unit filename="serializer.h" />
 		<Unit filename="stations.cpp" />
 		<Unit filename="stations.h" />
 		<Unit filename="stopAtStation.h" />

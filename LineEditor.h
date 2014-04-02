@@ -1,7 +1,7 @@
 #ifndef LINEEDITOR_H
 #define LINEEDITOR_H
 
-#include "lines.h"
+
 
 #include <wx/imaglist.h>
 
@@ -16,6 +16,8 @@
 #include <wx/dialog.h>
 #include "TimeTablePanel.h"
 //*)
+
+#include "lines.h"
 
 enum LE_RC
 {

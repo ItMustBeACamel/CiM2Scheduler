@@ -2,6 +2,7 @@
 #define TIMETABLE_H_INCLUDED
 
 #include "timestamp.h"
+#include "serializable.h"
 
 #include <cassert>
 
@@ -100,11 +101,11 @@ inline DayName getDayFromWeekTime(const WeekTime& time)
  * Class representing a timetable
  *
  */
-class Timetable
+class Timetable : public Serializable
 {
 public:
 
-    class Plan
+    class Plan : public Serializable
     {
     public:
         typedef DayTime DayTimeType;
@@ -118,6 +119,10 @@ public:
         {
             _startTime.makeDaytime();
             _endTime.makeDaytime();
+        }
+        Plan(const PropertyTree& pt)
+        {
+            deserialize(pt);
         }
         void setStartTime(const DayTimeType& startTime)
         {
@@ -158,8 +163,6 @@ public:
             return _interval;
         }
 
-
-
         const bool activeAtDay(const DayName& day)const /**< returns true if the given day is active in the plan */
         {
             assert(day < DAY_NUM);
@@ -176,14 +179,48 @@ public:
             _days = _days | days;
         }
 
+        void activateDay(const DayName& day)
+        {
+            activateDays((1 << day));
+        }
+
         void deactivateDays(const DayFlags& days)
         {
             _days = _days & ~days;
         }
 
+        void deactivateDay(const DayName& day)
+        {
+            deactivateDays((1 << day));
+        }
+
         void toggleDays(const DayFlags& days)
         {
             _days = _days ^ days;
+        }
+
+        void toggleDay(const DayName& day)
+        {
+            toggleDays((1 << day));
+        }
+
+        virtual PropertyTree serialize() const
+        {
+            PropertyTree pt;
+
+            pt.put("start-time", _startTime.time);
+            pt.put("end-time", _endTime.time);
+            pt.put("interval", _interval.time);
+            pt.put("days", _days);
+            return pt;
+        }
+
+        virtual void deserialize(const PropertyTree& pt)
+        {
+            _startTime = DayTimeType(pt.get<DayTimeType::ValueType>("start-time"));
+            _endTime = DayTimeType(pt.get<DayTimeType::ValueType>("end-time"));
+            _interval = IntervalType(pt.get<IntervalType::ValueType>("interval"));
+            _days = pt.get<DayFlags>("days");
         }
 
     private:
@@ -193,12 +230,13 @@ public:
 
         DayFlags _days;
     };
+
+    //------------------------------------------------------------------------------------------
+
     typedef Plan PlanType;
     typedef unsigned int PlanName;
     typedef PlanType::DayTimeType DayTimeType;
     typedef PlanType::IntervalType IntervalType;
-
-    //------------------------------------------------------------------------------------------
 
     Timetable()
     {
@@ -208,6 +246,11 @@ public:
         _plans[PLAN_WEEKEND] = Plan(PlanType::DayTimeType(6, 0), PlanType::DayTimeType(21, 0), IntervalType(3, 0), F_DAY_SATURDAY | F_DAY_SUNDAY);
         _plans[PLAN_NIGHT] = Plan(DayTimeType(0, 0), DayTimeType(3, 0), IntervalType(3, 0), F_DAY_EVERY_DAY);
         _plans[PLAN_CUSTOM] = Plan(DayTimeType(0, 0), DayTimeType(0, 0), IntervalType(0, 0), F_DAY_NONE);
+    }
+
+    Timetable(const PropertyTree& pt)
+    {
+        deserialize(pt);
     }
 
     Plan& getPlan(const PlanName& plan)
@@ -224,6 +267,31 @@ public:
     {
         return WeekTime(TIME_RESOLUTION * DAY_NUM);
     }
+
+    virtual PropertyTree serialize() const
+        {
+            PropertyTree pt;
+
+            pt.put_child("plans.weekday", _plans[PLAN_WEEKDAY].serialize());
+            pt.put_child("plans.morning-rush", _plans[PLAN_MORNING_RUSH].serialize());
+            pt.put_child("plans.evening-rush", _plans[PLAN_EVENING_RUSH].serialize());
+            pt.put_child("plans.weekend", _plans[PLAN_WEEKEND].serialize());
+            pt.put_child("plans.night", _plans[PLAN_NIGHT].serialize());
+            pt.put_child("plans.custom", _plans[PLAN_CUSTOM].serialize());
+
+            return pt;
+        }
+
+        virtual void deserialize(const PropertyTree& pt)
+        {
+            _plans[PLAN_WEEKDAY] = Plan(pt.get_child("plans.weekday"));
+            _plans[PLAN_MORNING_RUSH] = Plan(pt.get_child("plans.morning-rush"));
+            _plans[PLAN_EVENING_RUSH] = Plan(pt.get_child("plans.evening-rush"));
+            _plans[PLAN_WEEKEND] = Plan(pt.get_child("plans.weekend"));
+            _plans[PLAN_NIGHT] = Plan(pt.get_child("plans.night"));
+            _plans[PLAN_CUSTOM] = Plan(pt.get_child("plans.custom"));
+
+        }
 
 
 private:
