@@ -1,6 +1,6 @@
 <h1>CiM2Scheduler</h1>
 
-<h2>An editor tool for more easy timetable creation in the game "Cities in Motion 2"</h2>
+<h2>An editor tool for easier timetable creation in "Cities in Motion 2"</h2>
 
 
 <p>This little program lets you create timetables for lines and stations to ease the process of custom timetable creation and synchronization in Cities in Motion 2</p>

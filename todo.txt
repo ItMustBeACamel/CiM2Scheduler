@@ -1,7 +1,7 @@
 * (line editor) replace broken icon selector with something that works
 * (station editor) make times and interval changeable through text controls
 * (station editor) make stops hideable
-
+* (line list) implement delete button functionality
 
 
 done:

@@ -157,6 +157,8 @@ private:
     void freeID(Line::ID id);
 
 
+
+
     static Lines* _instance;
     LineList _list;
     Line::ID _idCounter;

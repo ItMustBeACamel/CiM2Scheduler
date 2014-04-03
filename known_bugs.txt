@@ -1,11 +1,12 @@
 Known bugs
 ==========
-* crash when quitting program with created lines
+
 
 
 
 
 fixed:
 
-1 set interval spin button in line editor to value under 0 results in crash
-2 wrong order of stops when edit line in line editor
+* set interval spin button in line editor to value under 0 results in crash
+* wrong order of stops when edit line in line editor
+* crash when quitting program with created lines

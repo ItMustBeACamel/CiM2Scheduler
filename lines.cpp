@@ -1,19 +1,23 @@
 #include "lines.h"
 
-// STL includes
+// STL DEPENDENCIES
 #include <sstream>
 #include <cassert>
 #include <stdexcept>
 
-// boost includes
+// BOOST DEPENDENCIES
 #include <boost/foreach.hpp>
+
+// CONSTANT DEFINITION
+
+#define FIRST_ID 1
 
 // Line::Stop -----------------------------------------------------------------------------
 
 // constructors
 
 Line::Stop::Stop()
-    : station(0), time(0)
+    : station(NO_STATION), time(0)
 {
 }
 
@@ -383,7 +387,7 @@ void Line::deserialize(const Serializable::PropertyTree& pt)
 // constructors
 
 Lines::Lines()
-    : _idCounter(1)
+    : _idCounter(FIRST_ID)
 {
 
 }
@@ -392,7 +396,7 @@ Lines::Lines()
 
 Lines::~Lines()
 {
-    destroy();
+
 }
 
 // public members
