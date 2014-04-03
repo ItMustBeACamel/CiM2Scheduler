@@ -1,4 +1,3 @@
-* make LinesList a member type of Lines
 * (line editor) replace broken icon selector with something that works
 * (station editor) make times and interval changeable through text controls
 * (station editor) make stops hideable
@@ -8,3 +7,6 @@
 done:
 *remove deprecated member function Time::normalize() as soon as every call to it is removed(no more deprecated messages when compiling)
 * manual start- and endtime and interval values in line editors textboxes
+* make LinesList a member type of Lines
+* (station editor) suggest line numbers
+* (line-list) change line appearence to something like "# - <name>"

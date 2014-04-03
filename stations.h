@@ -1,12 +1,16 @@
 #ifndef STATIONS_H_INCLUDED
 #define STATIONS_H_INCLUDED
 
+// PROJECT DEPENDENCIES
+#include "serializable.h"
+
+// STL INCLUDES
 #include<list>
 #include<string>
 #include<stack>
-#include <stdexcept>
 
-#include "serializable.h"
+
+
 
 #define NO_STATION -1
 
@@ -32,12 +36,10 @@ public:
     const ID& getID() const;
 
     void setName(const std::string& n);
-
     void setName(char const * const n);
-
     std::string& getName();
-
     const std::string& getName() const;
+
 
     virtual PropertyTree serialize() const;
     virtual void deserialize(const PropertyTree& pt);
@@ -54,23 +56,34 @@ class Stations: public Serializable
     friend class Station;
 public:
 
+
     static Stations* instance();
     static void destroy();
+
     const StationList& getStationsList() const;
+
     Station::ID peekNextFreeID() const;
+
     Station& addStation(const Station& newStation);
     Station& getStation(Station::ID id);
     const Station& getStation(Station::ID id) const;
-    bool deleteStation(Station::ID id);
+    const bool deleteStation(Station::ID id);
+
+    const bool stationExists(const Station::ID& station) const;
 
     // inherited from Serializable
+
+
     virtual PropertyTree serialize() const;
     virtual void deserialize(const PropertyTree& pt);
 
 private:
     typedef std::stack<Station::ID> IDStack;
 
+
     Station::ID getNextFreeID();
+
+
     void freeID(Station::ID id);
 
     Stations();

@@ -1,18 +1,17 @@
 #ifndef LINES_H_INCLUDED
 #define LINES_H_INCLUDED
 
-#include <list>
-#include <vector>
-#include <string>
-#include <sstream>
-#include <cassert>
+// PROJECT DEPENDENCIES
+#include "serializable.h"
 #include "stations.h"
 #include "timestamp.h"
 #include "timetable.h"
-#include <stdexcept>
-#include "serializable.h"
-#include <boost/foreach.hpp>
 
+// STL INCLUDES
+#include <list>
+#include <string>
+
+//CONSTANTS DEFS
 #define IID_NO_ICON  -1
 #define IID_BUS       0
 #define IID_TROLLEY   1
@@ -21,8 +20,7 @@
 #define IID_BOAT      4
 #define IID_MONORAIL  5
 
-//class Line;
-
+// class Line
 class Line : public Serializable
 {
     friend class Lines;
@@ -34,203 +32,74 @@ public:
 
     struct Stop : public Serializable
     {
+        // typedefs
         typedef TimeOffset TimeStampType;
-        Stop() : station(0), time(0) {}
-        Stop(Station::ID s, const TimeStampType& t)
-            : station(s), time(t)
-        {   }
-        Stop(const PropertyTree& pt)
-        {
-            deserialize(pt);
-        }
 
-        const bool operator>(const Stop& x)const
-        {
-            if(station == x.station)
-                return time > x.time;
-            else
-                return station > x.station;
-        }
+        // constructors
+        Stop();
+        Stop(Station::ID s, const TimeStampType& t);
+        Stop(const PropertyTree& pt);
 
-        const bool operator<(const Stop& x)const
-        {
-            if(station == x.station)
-                return time < x.time;
-            else
-                return station < x.station;
-        }
+        // operators
+        const bool operator>(const Stop& x)const;
+        const bool operator<(const Stop& x)const;
+        const bool operator==(const Stop& x)const;
+        const bool operator!=(const Stop& x)const;
 
-        const bool operator==(const Stop& x)const
-        {
-            return station == x.station && time == x.time;
-        }
+        // serialization
+        virtual PropertyTree serialize() const;
+        virtual void deserialize(const PropertyTree& pt);
 
-        virtual PropertyTree serialize() const
-        {
-            PropertyTree pt;
-
-            pt.put("station", station);
-            pt.put("time", time.time);
-
-            return pt;
-        }
-
-        virtual void deserialize(const PropertyTree& pt)
-        {
-            station = pt.get<Station::ID>("station");
-            time = TimeStampType(pt.get<TimeStampType::ValueType>("time"));
-        }
 
         Station::ID station;
         TimeStampType time;
-    };
+    }; // struct Stop
+
     typedef std::list<Stop> StopList;
 
-    explicit Line(const char* n, const IconID& icon = IID_NO_ICON);
-    explicit Line(const std::string& n, const IconID& icon = IID_NO_ICON);
+    // constructors
 
-    explicit Line(const PropertyTree& pt)
-    {
-        deserialize(pt);
-    }
+    explicit Line(const char* name, const LineNumber& number = 0, const IconID& icon = IID_NO_ICON);
+    explicit Line(const std::string& name, const LineNumber& number = 0, const IconID& icon = IID_NO_ICON);
+
+    explicit Line(const PropertyTree& pt);
+
+    // destructor
 
     ~Line();
-    /*
-        ID& getID()
-        {
-            return _id;
-        }
-    */
-    const ID& getID() const
-    {
-        return _id;
-    }
 
-    IconID& getIcon()
-    {
-        return _icon;
-    }
-    const IconID& getIcon() const
-    {
-        return _icon;
-    }
-    void SetIcon(IconID icon)
-    {
-        _icon = icon;
-    }
+    // public members
 
+    const ID& getID() const;
 
-    LineNumber& getNumber()
-    {
-        return _number;
-    }
-    const LineNumber& getNumber() const
-    {
-        return _number;
-    }
-    void SetNumber(LineNumber number)
-    {
-        _number = number;
-    }
-    void setName(const std::string& n)
-    {
-        _name = std::string(n);
-    }
-    void setName(char const * const n)
-    {
-        _name = std::string(n);
-    }
+    IconID& getIcon();
+    const IconID& getIcon() const;
+    void SetIcon(IconID icon);
 
-    std::string& getName()
-    {
-        return _name;
-    }
-    const std::string& getName() const
-    {
-        return _name;
-    }
+    LineNumber& getNumber();
+    const LineNumber& getNumber() const;
+    void SetNumber(LineNumber number);
 
-    Stop* addStop(const Station::ID& station, const Stop::TimeStampType& time)
-    {
-        assert(station!=NO_STATION);
-        _list.push_back(Stop(station, time));
-        return &(_list.back());
-    }
+    void setName(const std::string& n);
+    void setName(char const * const n);
+    std::string& getName();
+    const std::string& getName() const;
 
-    Stop* addStop(const Stop& stop)
-    {
-        assert(stop.station!=NO_STATION);
-        _list.push_back(stop);
-        return &(_list.back());
-    }
+    Stop* addStop(const Station::ID& station, const Stop::TimeStampType& time);
+    Stop* addStop(const Stop& stop);
 
-    void deleteStops(Station::ID station) // deletes all stops at given station
-    {
-        for(StopList::iterator i = _list.begin(); i != _list.end(); ++i)
-        {
-            if((*i).station == station) i = _list.erase(i);
-        }
-    }
+    void deleteStops(const Station::ID& station); // deletes all stops at given station
+    const StopList& getStopsList() const;
+    void clearStops();
 
-    const StopList& getStopsList() const
-    {
-        return _list;
-    }
+    Timetable& getTimetable();
+    const Timetable& getTimetable()const;
+    void setTimetable(const Timetable& tt);
 
-    void clearStops()
-    {
-        _list.clear();
-    }
+    // serializing
 
-    Timetable& getTimetable()
-    {
-        return _timetable;
-    }
-    const Timetable& getTimetable()const
-    {
-        return _timetable;
-    }
-    void setTimetable(const Timetable& tt)
-    {
-        _timetable = tt;
-    }
-
-    virtual PropertyTree serialize() const
-        {
-            PropertyTree pt;
-
-            pt.put("id", _id);
-            pt.put("number", _number);
-            pt.put("name", _name);
-            pt.put("icon", _icon);
-            pt.put_child("timetable", _timetable.serialize());
-
-            BOOST_FOREACH(const Stop& stop, _list)
-                pt.add_child("stops.stop", stop.serialize());
-            return pt;
-        }
-
-        virtual void deserialize(const PropertyTree& pt)
-        {
-            _id = pt.get<ID>("id");
-            _number = pt.get<LineNumber>("number", 0);
-            _name = pt.get<std::string>("name");
-            _icon = pt.get<IconID>("icon");
-
-            _timetable = Timetable(pt.get_child("timetable"));
-
-            boost::optional<PropertyTree> stops;
-            stops = pt.get_child_optional("stops");
-
-            if(stops)
-            {
-                for(PropertyTree::iterator stop = stops.get().begin(); stop != stops.get().end(); ++stop)
-                    _list.push_back(Stop((*stop).second));
-            }
-
-
-
-        }
+    virtual PropertyTree serialize() const;
+    virtual void deserialize(const PropertyTree& pt);
 
 private:
     std::string _name;
@@ -239,183 +108,61 @@ private:
     StopList _list;
     Timetable _timetable;
     IconID _icon;
-};
+}; // class Line
 
-typedef std::list<Line> LineList;
+
 
 class Lines : public Serializable
 {
     friend class Line;
 public:
+    // public typedefs
+    typedef std::list<Line> LineList;
 
-    static Lines* instance()
-    {
-        if(!_instance) _instance = new Lines;
-        return _instance;
-    }
+    // static members
+
+    static Lines* instance();
     static void destroy();
 
-    Line::ID peekNextFreeID()
-    {
-        Line::ID newID;
-        if(_idStack.empty())
-        {
-            newID = _idCounter;
-        }
-        else
-        {
-            newID = _idStack.top();
-        }
-        return newID;
-    }
+    // public members
 
-    Line& addLine(const Line& newLine)
-    {
-        //newLine._id = getNextFreeID();
-        _list.push_back(newLine);
+    Line::ID peekNextFreeID() const;
 
-        Line line = _list.back();
-        _list.back()._id = getNextFreeID();
-        return _list.back();
-    }
+    Line& addLine(const Line& newLine);
+    Line& getLine(Line::ID id);
+    const Line& getLine(Line::ID id)const;
 
-    Line& getLine(Line::ID id)
-    {
-        for(LineList::iterator i = _list.begin(); i != _list.end(); ++i)
-        {
-            if((*i)._id == id)
-            {
-                return (*i);
-            }
-        }
-        std::stringstream ss;
-        ss << "invalid line-id: " << id;
-        throw std::invalid_argument(ss.str());
-    }
+    const LineList& getLinesList() const;
+    LineList& getLinesList();
 
-    const Line& getLine(Line::ID id)const
-    {
-        for(LineList::const_iterator i = _list.begin(); i != _list.end(); ++i)
-        {
-            if((*i)._id == id)
-            {
-                return (*i);
-            }
+    void deleteStops(Station::ID station); // deletes all stops at given station in all lines
 
-        }
-        std::stringstream ss;
-        ss << "invalid line-id: " << id;
-        throw std::invalid_argument(ss.str());
-    }
+    // serialization
 
-    const LineList& getLinesList() const
-    {
-        return _list;
-    }
+    Serializable::PropertyTree serialize() const;
+    void deserialize(const Serializable::PropertyTree& pt);
 
-    LineList& getLinesList()
-    {
-        return _list;
-    }
-
-    void deleteStops(Station::ID station) // deletes all stops at given station in all lines
-    {
-        LineList::iterator i = _list.begin();
-        while(i != _list.end())
-        {
-            (*i).deleteStops(station);
-            ++i;
-        }
-    }
-
-    Serializable::PropertyTree serialize() const
-{
-    PropertyTree pt;
-
-    pt.put("id-counter", _idCounter);
-
-    BOOST_FOREACH(const Line& i, _list)
-    {
-        pt.add_child("lines.line", i.serialize());
-    }
-
-    IDStack stackCopy(_idStack);
-
-    while(stackCopy.size() > 0)
-    {
-        pt.add("id-stack.id", stackCopy.top());
-        stackCopy.pop();
-    }
-    return pt;
-}
-
-void deserialize(const Serializable::PropertyTree& pt)
-{
-    using boost::property_tree::ptree;
-    _idCounter = pt.get<Line::ID>("id-counter");
-
-    boost::optional<PropertyTree> idLinesTree;
-    idLinesTree = pt.get_child_optional("lines");
-
-    if(idLinesTree)
-    {
-        for(PropertyTree::iterator i = idLinesTree.get().begin(); i != idLinesTree.get().end(); ++i)
-        {
-            _list.push_back(Line((*i).second));
-        }
-    }
-
-
-
-    boost::optional<PropertyTree> idStackTree;
-    idStackTree = pt.get_child_optional("id-stack");
-
-    if(idStackTree)
-    {
-        for(PropertyTree::reverse_iterator i = idStackTree.get().rbegin(); i != idStackTree.get().rend(); ++i)
-        {
-            _idStack.push((*i).second.get_value<Line::ID>());
-        }
-    }
-
-}
 
 private:
     typedef std::stack<Line::ID> IDStack;
-    Lines()
-        : _idCounter(1)
-    {
 
-    }
+    // constructors
+    Lines();
 
-    Line::ID getNextFreeID()
-    {
-        Line::ID newID;
-        if(_idStack.empty())
-        {
-            newID = _idCounter;
-            ++_idCounter;
-        }
-        else
-        {
-            newID = _idStack.top();
-            _idStack.pop();
-        }
-        return newID;
-    }
+    // destructor
+    virtual ~Lines();
 
-    void freeID(Line::ID id)
-    {
-        _idStack.push(id);
-    }
+    //private members
+    Line::ID getNextFreeID();
+    void freeID(Line::ID id);
+
 
     static Lines* _instance;
     LineList _list;
     Line::ID _idCounter;
     IDStack _idStack;
 
-
-};
+}; // class Lines
 
 
 

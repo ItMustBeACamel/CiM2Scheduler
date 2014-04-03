@@ -185,7 +185,6 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
         {
             bcbIconSelect->Append("", _imageList->GetBitmap(i));
         }
-        //bcbIconSelect->
         this->bcbIconSelect->SetSelection(_line.getIcon()+1);
 
     }
@@ -230,7 +229,6 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
     {
         try
         {
-
             wxString t(std::string("+") + (*i).time.toString());
             const Station& station = Stations::instance()->getStation((*i).station);
             Line::Stop* newStop = new Line::Stop(station.getID(),(*i).time);
@@ -244,7 +242,6 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
             wxMessageBox(e.what());
         }
     }
-
     lvStops->SortItems(StopCompareFunc, 0);
 
 

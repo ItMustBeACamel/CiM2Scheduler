@@ -1,6 +1,6 @@
 Known bugs
 ==========
-
+* crash when quitting program with created lines
 
 
 

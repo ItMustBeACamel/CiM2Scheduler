@@ -303,11 +303,15 @@ void CiMScheduleFrame::refreshLinesList()
     lvLines->ClearAll();
 
 
-    const LineList& lines = Lines::instance()->getLinesList();
+    const Lines::LineList& lines = Lines::instance()->getLinesList();
 
-    for(LineList::const_iterator i = lines.begin(); i != lines.end(); ++i )
+    for(Lines::LineList::const_iterator i = lines.begin(); i != lines.end(); ++i )
     {
-        long itemIndex = lvLines->InsertItem(lvLines->GetItemCount(), (*i).getName(),(*i).getIcon());
+        std::stringstream ss;
+
+        ss << (*i).getNumber() << " - " << (*i).getName();
+
+        long itemIndex = lvLines->InsertItem(lvLines->GetItemCount(), ss.str(),(*i).getIcon());
         lvLines->SetItemData(itemIndex, (*i).getID());
     }
 
@@ -324,7 +328,7 @@ void CiMScheduleFrame::refreshStopList()
 	colLine.SetText("Line");
 	colLine.SetId(0);
 
-	colTime.SetText("Time");
+	colTime.SetText("Name");
 	colTime.SetId(1);
 
     lvStops->InsertColumn(0,colLine);
@@ -338,8 +342,8 @@ void CiMScheduleFrame::refreshStopList()
 
         std::list<Stop> newStops;
 
-        LineList& lines = Lines::instance()->getLinesList();
-        for(LineList::iterator line = lines.begin(); line != lines.end(); ++line)
+        Lines::LineList& lines = Lines::instance()->getLinesList();
+        for(Lines::LineList::iterator line = lines.begin(); line != lines.end(); ++line)
         {
             const Line::StopList& stops = (*line).getStopsList();
 
@@ -361,11 +365,7 @@ void CiMScheduleFrame::refreshStopList()
             long itemIndex = lvStops->InsertItem(lvStops->GetItemCount(), ss.str(), line.getIcon());
             lvStops->SetItem(itemIndex, 1, line.getName());
             lvStops->SetItemPtrData(itemIndex, (wxUIntPtr) panStationEditor->addStop((*i)));
-
-            //this->panStationEditor->_stopTable->addStop((*i));
         }
-
-
     }
 
     panStationEditor->_stopTable->refresh();
@@ -474,10 +474,10 @@ void CiMScheduleFrame::OnlvStationsEndLabelEdit(wxListEvent& event)
 void CiMScheduleFrame::OnmiNewLineSelected(wxCommandEvent& event)
 {
     Line::ID nextID = Lines::instance()->peekNextFreeID();
-    std::stringstream ss;
-    ss << "Line " << nextID;
+    //std::stringstream ss;
+    //ss << "Line" << nextID;
 
-    Line newLine(ss.str());
+    Line newLine("Line", nextID);
 
     LineEditor lineEditor(newLine, this, ilIcons);
 

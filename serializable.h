@@ -14,6 +14,12 @@
 class Serializable
 {
 public:
+
+    virtual ~Serializable()
+    {
+
+    }
+
     typedef boost::property_tree::ptree PropertyTree;
 
     virtual PropertyTree serialize() const = 0;
