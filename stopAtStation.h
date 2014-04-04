@@ -7,8 +7,8 @@ struct StopAtStation
 {
     typedef Line::ID LineIDType;
     typedef Line::Stop  StopType;
-    StopAtStation(const LineIDType& lineID, const StopType& st)
-        : line(lineID), stop(st)
+    StopAtStation(const LineIDType& lineID, const StopType& st, const bool hide = false)
+        : line(lineID), stop(st), hidden(hide)
     {
 
     }
@@ -42,6 +42,7 @@ struct StopAtStation
 
     const LineIDType line;
     const StopType stop;
+    bool hidden;
 };
 
 #endif // STOPATSTATION_H_INCLUDED

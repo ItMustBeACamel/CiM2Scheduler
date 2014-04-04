@@ -63,6 +63,7 @@ class CiMScheduleFrame: public wxFrame
         void OnmiSaveAsSelected(wxCommandEvent& event);
         void OnmiNewSelected(wxCommandEvent& event);
         void OnbtDeleteLineClick(wxCommandEvent& event);
+        void OnbtToggleHiddenClick(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(CiMScheduleFrame)
@@ -77,7 +78,6 @@ class CiMScheduleFrame: public wxFrame
         static const long ID_PANEL3;
         static const long ID_LISTVIEW2;
         static const long ID_PANEL7;
-        static const long ID_BUTTON5;
         static const long ID_BUTTON6;
         static const long ID_PANEL8;
         static const long ID_PANEL4;
@@ -115,8 +115,6 @@ class CiMScheduleFrame: public wxFrame
         wxPanel* Panel6;
         wxPanel* panMiddle;
         wxPanel* Panel3;
-        wxButton* Button6;
-        wxButton* Button5;
         wxButton* btEditLine;
         wxImageList* ilIconSmall;
         wxListView* lvStops;
@@ -128,6 +126,7 @@ class CiMScheduleFrame: public wxFrame
         wxPanel* Panel2;
         wxMenuItem* miSaveAs;
         wxButton* btEditStation;
+        wxButton* btToggleHidden;
         wxImageList* ilIcons;
         wxPanel* panLeft;
         //*)

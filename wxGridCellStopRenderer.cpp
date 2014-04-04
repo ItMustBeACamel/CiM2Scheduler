@@ -313,15 +313,18 @@ wxGridCellStopRenderer::RenderItemList wxGridCellStopRenderer::getRenderItems(In
     RenderItemList renderItems;
     for(InputItemList::iterator i = input->begin(); i != input->end(); ++i)
     {
-        bool marked = false;
-        if(_currentStop != 0)
+        if(!(*i).stationStop.hidden)
         {
-            if((*i).stop.plan == _currentPlan && (*i).stationStop == *_currentStop)
+            bool marked = false;
+            if(_currentStop != 0)
             {
-                marked = true;
+                if((*i).stop.plan == _currentPlan && (*i).stationStop == *_currentStop)
+                {
+                    marked = true;
+                }
             }
+            renderItems.push_back(RenderItem((*i), 1, marked, _imageList));
         }
-        renderItems.push_back(RenderItem((*i), 1, marked, _imageList));
     }
     return renderItems;
 }

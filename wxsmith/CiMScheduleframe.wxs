@@ -122,16 +122,9 @@
 										<object class="wxPanel" name="ID_PANEL8" variable="Panel4" member="yes">
 											<object class="wxBoxSizer" variable="BoxSizer6" member="no">
 												<object class="sizeritem">
-													<object class="wxButton" name="ID_BUTTON5" variable="Button5" member="yes">
-														<label>delete</label>
-													</object>
-													<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-													<border>5</border>
-													<option>1</option>
-												</object>
-												<object class="sizeritem">
-													<object class="wxButton" name="ID_BUTTON6" variable="Button6" member="yes">
-														<label>edit</label>
+													<object class="wxButton" name="ID_BUTTON6" variable="btToggleHidden" member="yes">
+														<label>show/hide</label>
+														<handler function="OnbtToggleHiddenClick" entry="EVT_BUTTON" />
 													</object>
 													<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 													<border>5</border>

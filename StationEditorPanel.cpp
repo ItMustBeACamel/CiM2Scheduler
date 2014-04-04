@@ -183,7 +183,8 @@ void StationEditorPanel::refresh()
     }
 
 
-    gdTimetable->ForceRefresh();
+    //gdTimetable->ForceRefresh();
+    gdTimetable->AutoSize();
 
 }
 

@@ -65,7 +65,6 @@ const long CiMScheduleFrame::ID_CUSTOM1 = wxNewId();
 const long CiMScheduleFrame::ID_PANEL3 = wxNewId();
 const long CiMScheduleFrame::ID_LISTVIEW2 = wxNewId();
 const long CiMScheduleFrame::ID_PANEL7 = wxNewId();
-const long CiMScheduleFrame::ID_BUTTON5 = wxNewId();
 const long CiMScheduleFrame::ID_BUTTON6 = wxNewId();
 const long CiMScheduleFrame::ID_PANEL8 = wxNewId();
 const long CiMScheduleFrame::ID_PANEL4 = wxNewId();
@@ -162,10 +161,8 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     StaticBoxSizer2->Add(Panel3, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     Panel4 = new wxPanel(panRight, ID_PANEL8, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL8"));
     BoxSizer6 = new wxBoxSizer(wxHORIZONTAL);
-    Button5 = new wxButton(Panel4, ID_BUTTON5, _("delete"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON5"));
-    BoxSizer6->Add(Button5, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    Button6 = new wxButton(Panel4, ID_BUTTON6, _("edit"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON6"));
-    BoxSizer6->Add(Button6, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    btToggleHidden = new wxButton(Panel4, ID_BUTTON6, _("show/hide"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON6"));
+    BoxSizer6->Add(btToggleHidden, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     Panel4->SetSizer(BoxSizer6);
     BoxSizer6->Fit(Panel4);
     BoxSizer6->SetSizeHints(Panel4);
@@ -255,6 +252,7 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtEditStationClick);
     Connect(ID_LISTVIEW2,wxEVT_COMMAND_LIST_ITEM_SELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnlvStopsItemSelect);
     Connect(ID_LISTVIEW2,wxEVT_COMMAND_LIST_ITEM_DESELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnlvStopsItemDeselect);
+    Connect(ID_BUTTON6,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtToggleHiddenClick);
     Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnmiNewLineSelected);
     Connect(ID_BUTTON7,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtEditLineClick);
     Connect(ID_BUTTON8,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtDeleteLineClick);
@@ -621,4 +619,33 @@ void CiMScheduleFrame::OnbtDeleteLineClick(wxCommandEvent& event)
         if(!lvLines->DeleteItem(i)) wxLogError("list-item does not exist.");
     }
     refreshStopList();
+}
+
+//*****************************************************************************************************
+/** \brief event handler - called when button "show/hide" is clicked
+ *
+ * \param event wxCommandEvent&
+ * \return void
+ *
+ */
+void CiMScheduleFrame::OnbtToggleHiddenClick(wxCommandEvent& event)
+{
+    if(lvStops->GetFirstSelected() != -1)
+    {
+        StopAtStation* stop = (StopAtStation*)lvStops->GetItemData(lvStops->GetFirstSelected());
+
+        if(stop->hidden)
+        {
+            stop->hidden = false;
+            lvStops->SetItemBackgroundColour(lvStops->GetFirstSelected(), *wxWHITE);
+        }
+        else
+        {
+            stop->hidden = true;
+            lvStops->SetItemBackgroundColour(lvStops->GetFirstSelected(), *wxRED);
+        }
+        panStationEditor->_stopTable->refresh();
+        panStationEditor->refresh();
+    }
+
 }
