@@ -455,10 +455,6 @@ void CiMScheduleFrame::OnClose(wxCloseEvent& event)
     Destroy();
 
 // since the default event handler does call Destroy(), too
-    //Lines::destroy();
-    //Stations::destroy();
-    //wxFrame::OnCloseWindow(event);
-
 }
 
 void CiMScheduleFrame::OnlvStationsEndLabelEdit(wxListEvent& event)
