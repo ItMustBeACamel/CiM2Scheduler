@@ -64,6 +64,7 @@ class CiMScheduleFrame: public wxFrame
         void OnmiNewSelected(wxCommandEvent& event);
         void OnbtDeleteLineClick(wxCommandEvent& event);
         void OnbtToggleHiddenClick(wxCommandEvent& event);
+        void OnmiViewLinesSelected(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(CiMScheduleFrame)
@@ -93,14 +94,15 @@ class CiMScheduleFrame: public wxFrame
         static const long ID_MENU_SAVE;
         static const long ID_MENUITEM5;
         static const long idMenuQuit;
+        static const long ID_MENUITEM3;
         static const long ID_MENUITEM1;
         static const long idMenuAbout;
         static const long ID_STATUSBAR1;
         //*)
 
         //(*Declarations(CiMScheduleFrame)
+        wxBoxSizer* sizMain;
         wxButton* btAddStation;
-        wxPanel* Panel5;
         wxButton* btDeleteLine;
         wxMenuItem* miOpen;
         wxListView* lvStations;
@@ -123,11 +125,14 @@ class CiMScheduleFrame: public wxFrame
         wxPanel* MainPanel;
         StationEditorPanel* panStationEditor;
         wxMenuItem* miNew;
+        wxPanel* panLines;
         wxPanel* Panel2;
+        wxMenuItem* miViewLines;
         wxMenuItem* miSaveAs;
         wxButton* btEditStation;
         wxButton* btToggleHidden;
         wxImageList* ilIcons;
+        wxMenu* Menu4;
         wxPanel* panLeft;
         //*)
 

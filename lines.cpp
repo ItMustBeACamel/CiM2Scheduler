@@ -3,7 +3,6 @@
 // STL DEPENDENCIES
 #include <sstream>
 #include <cassert>
-#include <stdexcept>
 
 // BOOST DEPENDENCIES
 #include <boost/foreach.hpp>

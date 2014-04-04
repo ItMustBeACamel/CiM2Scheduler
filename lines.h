@@ -10,6 +10,7 @@
 // STL INCLUDES
 #include <list>
 #include <string>
+#include <stdexcept>
 
 //CONSTANTS DEFS
 #define IID_NO_ICON  -1

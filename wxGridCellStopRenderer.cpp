@@ -24,9 +24,16 @@ wxGridCellStopRenderer::RenderItem::RenderItem(const wxGridCellStopRenderer::Inp
       _border(border), _marked(marked)
 {
     std::stringstream ss;
+    try
+    {
+        ss << "#" << Lines::instance()->getLine(item.getLine()).getNumber();
+        _number = ss.str();
+    }
+    catch(std::invalid_argument& e)
+    {
+        _number = "err#";
+    }
 
-    ss << "#" << Lines::instance()->getLine(item.getLine()).getNumber();
-    _number = ss.str();
     ss.str(std::string());
     ss.clear();
 
