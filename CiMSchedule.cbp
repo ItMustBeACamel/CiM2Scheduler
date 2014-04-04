@@ -69,6 +69,7 @@
 			<Add library="libwxmsw30u_adv.a" />
 			<Add directory="$(#boost.lib)" />
 		</Linker>
+		<Unit filename="./wxGridCellStopRenderer.cpp" />
 		<Unit filename="CiMScheduleApp.cpp" />
 		<Unit filename="CiMScheduleApp.h" />
 		<Unit filename="CiMScheduleMain.cpp" />
@@ -80,7 +81,6 @@
 		<Unit filename="StationEditorPanel.h" />
 		<Unit filename="TimeTablePanel.cpp" />
 		<Unit filename="TimeTablePanel.h" />
-		<Unit filename="known_bugs.txt" />
 		<Unit filename="lines.cpp" />
 		<Unit filename="lines.h" />
 		<Unit filename="resource.rc">

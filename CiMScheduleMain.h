@@ -62,6 +62,7 @@ class CiMScheduleFrame: public wxFrame
         void OnmiOpenSelected(wxCommandEvent& event);
         void OnmiSaveAsSelected(wxCommandEvent& event);
         void OnmiNewSelected(wxCommandEvent& event);
+        void OnbtDeleteLineClick(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(CiMScheduleFrame)

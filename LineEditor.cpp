@@ -178,12 +178,23 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
 	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&LineEditor::OnbtCancelClick);
 	//*)
 
+	wxString iconLabels[] =
+	{
+	    "none",
+	    "bus",
+	    "trolley",
+	    "tram",
+	    "metro",
+	    "waterbus",
+	    "monorail"
+	};
+
     if(_imageList)
     {
         //bcbIconSelect
         for(int i = -1; i < _imageList->GetImageCount();++i)
         {
-            bcbIconSelect->Append("", _imageList->GetBitmap(i));
+            bcbIconSelect->Append(iconLabels[i+1], _imageList->GetBitmap(i));
         }
         this->bcbIconSelect->SetSelection(_line.getIcon()+1);
 

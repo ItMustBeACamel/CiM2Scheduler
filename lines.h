@@ -111,7 +111,10 @@ private:
 }; // class Line
 
 
-
+/** \brief Manager class for Lines
+ *
+ *
+ */
 class Lines : public Serializable
 {
     friend class Line;
@@ -131,6 +134,8 @@ public:
     Line& addLine(const Line& newLine);
     Line& getLine(Line::ID id);
     const Line& getLine(Line::ID id)const;
+
+    bool deleteLine(const Line::ID& id);
 
     const LineList& getLinesList() const;
     LineList& getLinesList();

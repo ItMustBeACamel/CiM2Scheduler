@@ -257,6 +257,7 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_LISTVIEW2,wxEVT_COMMAND_LIST_ITEM_DESELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnlvStopsItemDeselect);
     Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnmiNewLineSelected);
     Connect(ID_BUTTON7,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtEditLineClick);
+    Connect(ID_BUTTON8,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&CiMScheduleFrame::OnbtDeleteLineClick);
     Connect(ID_MENUITEM2,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnmiNewSelected);
     Connect(ID_MENUITEM_OPEN,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnmiOpenSelected);
     Connect(ID_MENU_SAVE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&CiMScheduleFrame::OnmiSaveSelected);
@@ -607,4 +608,21 @@ void CiMScheduleFrame::OnmiNewSelected(wxCommandEvent& event)
     Stations::destroy();
     refreshLinesList();
     refreshStationsList();
+}
+
+//*****************************************************************************************************
+/** \brief event handler - called when button "delete line" is clicked
+ *
+ * \param event wxCommandEvent&
+ * \return void
+ *
+ */
+void CiMScheduleFrame::OnbtDeleteLineClick(wxCommandEvent& event)
+{
+    for(long i = lvLines->GetFirstSelected(); -1 != i; i = lvLines->GetFirstSelected())
+    {
+        if(!Lines::instance()->deleteLine((Line::ID)lvLines->GetItemData(i))) wxLogError("Line does not exist.");
+        if(!lvLines->DeleteItem(i)) wxLogError("list-item does not exist.");
+    }
+    refreshStopList();
 }

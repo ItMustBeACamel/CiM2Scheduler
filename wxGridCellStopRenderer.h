@@ -36,30 +36,13 @@ private:
     public:
         typedef Line::IconID IconID;
 
-        RenderItem(const InputItemType& item, const int& border = 1, const bool& marked = false, wxImageList* imageList = 0 )
-            : _icon(Lines::instance()->getLine(item.getLine()).getIcon()),
-              _imageList(imageList), _bitmap(wxBitmap()),
-              _border(border), _marked(marked)
-        {
-            std::stringstream ss;
+        // Constructor
 
-            ss << "#" << Lines::instance()->getLine(item.getLine()).getNumber();
-            _number = ss.str();
-            ss.str(std::string());
-            ss.clear();
+        RenderItem(const InputItemType& item,
+                   const int& border = 1,
+                   const bool& marked = false,
+                   wxImageList* imageList = 0 );
 
-            ss << item.stop.weekTime.getMinute();
-            _time = ss.str();
-            ss.str(std::string());
-            ss.clear();
-
-            if(_icon != -1 && _imageList != 0)
-            {
-                _bitmap = _imageList->GetBitmap(_icon);
-            }
-            else
-                _number += " ";
-        }
 
         wxSize getNumberSize(wxDC& dc)
         {

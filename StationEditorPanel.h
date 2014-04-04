@@ -44,6 +44,7 @@ public:
     wxGridCellStopRenderer* _renderer;
 
     void setImageList(wxImageList* imageList);
+
     StationStopType* addStop(const StationStopType& stop);
     void setCurrentStop(StationStopType* stop);
 

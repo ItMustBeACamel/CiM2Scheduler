@@ -151,6 +151,7 @@ void StationEditorPanel::refresh()
 {
     if(_currentStop == 0)
     {
+        rbPlan->Disable();
         sbStart->Disable();
         sbEnd->Disable();
         sbInterval->Disable();
@@ -160,6 +161,7 @@ void StationEditorPanel::refresh()
     }
     else
     {
+        rbPlan->Enable();
         sbStart->Enable();
         sbEnd->Enable();
         sbInterval->Enable();

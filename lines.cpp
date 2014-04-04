@@ -506,6 +506,27 @@ Lines::LineList& Lines::getLinesList()
 }
 
 //********************************************************************************
+/** \brief deletes a Line
+ *
+ * \param id Line-id of the line you want to delete
+ * \return true is successful
+ *
+ */
+bool Lines::deleteLine(const Line::ID& id)
+{
+    for(LineList::iterator i = _list.begin(); i != _list.end(); ++i)
+    {
+        if((*i)._id == id)
+        {
+            freeID(id);
+            _list.erase(i);
+            return true;
+        }
+    }
+    return false;
+}
+
+//********************************************************************************
 /** \brief deletes all stops at the given station
  *
  * \param[in] station station-ID
