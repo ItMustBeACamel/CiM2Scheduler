@@ -1,5 +1,4 @@
 * (line editor) replace broken icon selector with something that works
-* (station editor) make times and interval changeable through text controls
 * (line editor) copying timetables and plans
 
 
@@ -12,3 +11,4 @@ done:
 * (line-list) change line appearence to something like "# - <name>"
 * (line list) implement delete button functionality
 * (station editor) make stops hideable
+* (station editor) make times and interval changeable through text controls

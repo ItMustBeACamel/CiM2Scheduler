@@ -61,7 +61,7 @@ StationEditorPanel::StationEditorPanel(wxWindow* parent,wxWindowID id,const wxPo
 	BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
 	StaticText1 = new wxStaticText(Panel2, ID_STATICTEXT1, _("Start Time"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT1"));
 	BoxSizer3->Add(StaticText1, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 1);
-	txtStart = new wxTextCtrl(Panel2, ID_TEXTCTRL1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+	txtStart = new wxTextCtrl(Panel2, ID_TEXTCTRL1, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER, wxDefaultValidator, _T("ID_TEXTCTRL1"));
 	BoxSizer3->Add(txtStart, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
 	sbStart = new wxSpinButton(Panel2, ID_SPINBUTTON1, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP, _T("ID_SPINBUTTON1"));
 	sbStart->SetRange(0, 100);
@@ -69,7 +69,7 @@ StationEditorPanel::StationEditorPanel(wxWindow* parent,wxWindowID id,const wxPo
 	BoxSizer3->Add(-1,-1,0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	StaticText2 = new wxStaticText(Panel2, ID_STATICTEXT2, _("End Time"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
 	BoxSizer3->Add(StaticText2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 1);
-	txtEnd = new wxTextCtrl(Panel2, ID_TEXTCTRL2, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL2"));
+	txtEnd = new wxTextCtrl(Panel2, ID_TEXTCTRL2, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER, wxDefaultValidator, _T("ID_TEXTCTRL2"));
 	BoxSizer3->Add(txtEnd, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
 	sbEnd = new wxSpinButton(Panel2, ID_SPINBUTTON2, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP, _T("ID_SPINBUTTON2"));
 	sbEnd->SetRange(0, 100);
@@ -77,7 +77,7 @@ StationEditorPanel::StationEditorPanel(wxWindow* parent,wxWindowID id,const wxPo
 	BoxSizer3->Add(-1,-1,0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	StaticText3 = new wxStaticText(Panel2, ID_STATICTEXT3, _("Interval"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT3"));
 	BoxSizer3->Add(StaticText3, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 1);
-	txtInterval = new wxTextCtrl(Panel2, ID_TEXTCTRL3, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL3"));
+	txtInterval = new wxTextCtrl(Panel2, ID_TEXTCTRL3, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER, wxDefaultValidator, _T("ID_TEXTCTRL3"));
 	BoxSizer3->Add(txtInterval, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
 	sbInterval = new wxSpinButton(Panel2, ID_SPINBUTTON3, wxDefaultPosition, wxDefaultSize, wxSP_VERTICAL|wxSP_ARROW_KEYS|wxSP_WRAP, _T("ID_SPINBUTTON3"));
 	sbInterval->SetRange(0, 100);
@@ -99,8 +99,11 @@ StationEditorPanel::StationEditorPanel(wxWindow* parent,wxWindowID id,const wxPo
 	BoxSizer1->SetSizeHints(this);
 
 	Connect(ID_RADIOBOX1,wxEVT_COMMAND_RADIOBOX_SELECTED,(wxObjectEventFunction)&StationEditorPanel::OnrbPlanSelect);
+	Connect(ID_TEXTCTRL1,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&StationEditorPanel::OntxtStartTextEnter);
 	Connect(ID_SPINBUTTON1,wxEVT_SCROLL_THUMBTRACK,(wxObjectEventFunction)&StationEditorPanel::OnsbStartChange);
+	Connect(ID_TEXTCTRL2,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&StationEditorPanel::OntxtEndTextEnter);
 	Connect(ID_SPINBUTTON2,wxEVT_SCROLL_THUMBTRACK,(wxObjectEventFunction)&StationEditorPanel::OnsbEndChange);
+	Connect(ID_TEXTCTRL3,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&StationEditorPanel::OntxtIntervalTextEnter);
 	Connect(ID_SPINBUTTON3,wxEVT_SCROLL_LINEUP,(wxObjectEventFunction)&StationEditorPanel::OnsbIntervalChangeUp);
 	Connect(ID_SPINBUTTON3,wxEVT_SCROLL_LINEDOWN,(wxObjectEventFunction)&StationEditorPanel::OnsbIntervalChangeDown);
 	//*)
@@ -212,7 +215,7 @@ void StationEditorPanel::OnrbPlanSelect(wxCommandEvent& event)
     _renderer->setCurrentPlan(_currentPlan);
     _stopTable->setCurrentPlan(_currentPlan);
     refresh();
-    gdTimetable->ForceRefresh();
+    //gdTimetable->ForceRefresh();
 }
 
 void StationEditorPanel::OnsbStartChange(wxSpinEvent& event)
@@ -224,7 +227,8 @@ void StationEditorPanel::OnsbStartChange(wxSpinEvent& event)
 
     line.getTimetable().getPlan(_currentPlan).setStartTime((Time(event.GetValue()) - offset).makeDaytime());
     _stopTable->refresh();
-    gdTimetable->AutoSize();
+    refresh();
+    //gdTimetable->AutoSize();
     //gdTimetable->ForceRefresh();
 }
 
@@ -237,7 +241,8 @@ void StationEditorPanel::OnsbEndChange(wxSpinEvent& event)
 
     line.getTimetable().getPlan(_currentPlan).setEndTime((Time(event.GetValue()) - offset).makeDaytime());
     _stopTable->refresh();
-    gdTimetable->AutoSize();
+    refresh();
+    //gdTimetable->AutoSize();
     //gdTimetable->ForceRefresh();
 }
 
@@ -252,7 +257,8 @@ void StationEditorPanel::OnsbIntervalChangeUp(wxSpinEvent& event)
     line.getTimetable().getPlan(_currentPlan).setInterval(interval);
 
     _stopTable->refresh();
-    gdTimetable->AutoSize();
+    refresh();
+    //gdTimetable->AutoSize();
 }
 
 void StationEditorPanel::OnsbIntervalChangeDown(wxSpinEvent& event)
@@ -267,10 +273,52 @@ void StationEditorPanel::OnsbIntervalChangeDown(wxSpinEvent& event)
     line.getTimetable().getPlan(_currentPlan).setInterval(interval);
 
     _stopTable->refresh();
-    gdTimetable->AutoSize();
+    refresh();
+    //gdTimetable->AutoSize();
 }
 
 void StationEditorPanel::OngdTimetableChanged(wxGridEvent& event)
 {
     gdTimetable->AutoSize();
+}
+
+void StationEditorPanel::OntxtStartTextEnter(wxCommandEvent& event)
+{
+    Line& line = Lines::instance()->getLine(_currentStop->line);
+    Time offset = _currentStop->stop.time;
+
+    Time newTime;
+    newTime.parse(event.GetString());
+
+    line.getTimetable().getPlan(_currentPlan).setStartTime((newTime - offset).makeDaytime());
+    _stopTable->refresh();
+    refresh();
+    //gdTimetable->AutoSize();
+}
+
+void StationEditorPanel::OntxtEndTextEnter(wxCommandEvent& event)
+{
+    Line& line = Lines::instance()->getLine(_currentStop->line);
+    Time offset = _currentStop->stop.time;
+
+    Time newTime;
+    newTime.parse(event.GetString());
+
+    line.getTimetable().getPlan(_currentPlan).setEndTime((newTime - offset).makeDaytime());
+    _stopTable->refresh();
+    refresh();
+    //gdTimetable->AutoSize();
+}
+
+void StationEditorPanel::OntxtIntervalTextEnter(wxCommandEvent& event)
+{
+    Line& line = Lines::instance()->getLine(_currentStop->line);
+
+    Time newTime;
+    newTime.parse(event.GetString());
+
+    line.getTimetable().getPlan(_currentPlan).setInterval(newTime);
+    _stopTable->refresh();
+    refresh();
+    //gdTimetable->AutoSize();
 }

@@ -21,7 +21,7 @@ int wxCALLBACK StopCompareFunc(wxIntPtr item1, wxIntPtr item2, wxIntPtr WXUNUSED
 }
 
 //(*IdInit(LineEditor)
-const long LineEditor::ID_BITMAPCOMBOBOX1 = wxNewId();
+const long LineEditor::ID_CHOICE1 = wxNewId();
 const long LineEditor::ID_STATICTEXT1 = wxNewId();
 const long LineEditor::ID_TEXTCTRL1 = wxNewId();
 const long LineEditor::ID_STATICTEXT2 = wxNewId();
@@ -75,8 +75,15 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
 	BoxSizer2 = new wxBoxSizer(wxVERTICAL);
 	Panel2 = new wxPanel(Panel1, ID_PANEL2, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL2"));
 	BoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
-	bcbIconSelect = new wxBitmapComboBox(Panel2, ID_BITMAPCOMBOBOX1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY|wxCB_DROPDOWN, wxDefaultValidator, _T("ID_BITMAPCOMBOBOX1"));
-	BoxSizer4->Add(bcbIconSelect, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	chIcon = new wxChoice(Panel2, ID_CHOICE1, wxDefaultPosition, wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
+	chIcon->SetSelection( chIcon->Append(_("no icon")) );
+	chIcon->Append(_("bus"));
+	chIcon->Append(_("trolley"));
+	chIcon->Append(_("tram"));
+	chIcon->Append(_("metro"));
+	chIcon->Append(_("waterbus"));
+	chIcon->Append(_("monorail"));
+	BoxSizer4->Add(chIcon, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	Panel5 = new wxPanel(Panel2, ID_PANEL5, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL5"));
 	BoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
 	StaticText1 = new wxStaticText(Panel5, ID_STATICTEXT1, _("#"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT1"));
@@ -166,7 +173,6 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
 	BoxSizer1->SetSizeHints(this);
 	Center();
 
-
 	Connect(ID_LISTVIEW1,wxEVT_COMMAND_LIST_BEGIN_LABEL_EDIT,(wxObjectEventFunction)&LineEditor::OnlvStopsBeginLabelEdit);
 	Connect(ID_LISTVIEW1,wxEVT_COMMAND_LIST_END_LABEL_EDIT,(wxObjectEventFunction)&LineEditor::OnlvStopsEndLabelEdit);
 	Connect(ID_LISTVIEW1,wxEVT_COMMAND_LIST_ITEM_SELECTED,(wxObjectEventFunction)&LineEditor::OnlvStopsItemSelect);
@@ -178,17 +184,7 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
 	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&LineEditor::OnbtCancelClick);
 	//*)
 
-	wxString iconLabels[] =
-	{
-	    "none",
-	    "bus",
-	    "trolley",
-	    "tram",
-	    "metro",
-	    "waterbus",
-	    "monorail"
-	};
-
+    /*
     if(_imageList)
     {
         //bcbIconSelect
@@ -199,6 +195,9 @@ LineEditor::LineEditor(Line& line, wxWindow* parent, wxImageList* imageList, wxW
         this->bcbIconSelect->SetSelection(_line.getIcon()+1);
 
     }
+    */
+
+    chIcon->SetSelection(_line.getIcon()+1);
 
 	wxListItem colStation;
 	wxListItem colTime;
@@ -272,7 +271,7 @@ LineEditor::~LineEditor()
 void LineEditor::apply()
 {
     _line.setTimetable(panTimetable->getTimetable());
-    _line.SetIcon(bcbIconSelect->GetSelection()-1);
+    _line.SetIcon(chIcon->GetSelection()-1);
     _line.setName(txtName->GetValue());
 
     std::stringstream ss;

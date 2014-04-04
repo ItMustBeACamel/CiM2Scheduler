@@ -81,6 +81,9 @@ private:
     void OnsbEndChange(wxSpinEvent& event);
     void OnsbIntervalChangeUp(wxSpinEvent& event);
     void OnsbIntervalChangeDown(wxSpinEvent& event);
+    void OntxtStartTextEnter(wxCommandEvent& event);
+    void OntxtEndTextEnter(wxCommandEvent& event);
+    void OntxtIntervalTextEnter(wxCommandEvent& event);
     //*)
 
     void OngdTimetableChanged(wxGridEvent& event);

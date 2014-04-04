@@ -12,17 +12,17 @@
 							<object class="wxPanel" name="ID_PANEL2" variable="Panel2" member="yes">
 								<object class="wxBoxSizer" variable="BoxSizer4" member="no">
 									<object class="sizeritem">
-										<object class="wxBitmapComboBox" name="ID_BITMAPCOMBOBOX1" variable="bcbIconSelect" member="yes">
-											<mImageList>ilIcons</mImageList>
-											<mItems>
-												<item>bcbIconSelect</item>
-												<item>ilIcons</item>
-											</mItems>
-											<mItemsText>
-												<item2>bcbIconSelect</item2>
-												<item2>ilIcons</item2>
-											</mItemsText>
-											<style>wxCB_READONLY|wxCB_DROPDOWN</style>
+										<object class="wxChoice" name="ID_CHOICE1" variable="chIcon" member="yes">
+											<content>
+												<item>no icon</item>
+												<item>bus</item>
+												<item>trolley</item>
+												<item>tram</item>
+												<item>metro</item>
+												<item>waterbus</item>
+												<item>monorail</item>
+											</content>
+											<selection>0</selection>
 										</object>
 										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 										<border>5</border>
