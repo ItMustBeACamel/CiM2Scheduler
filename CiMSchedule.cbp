@@ -69,7 +69,7 @@
 			<Add library="libwxmsw30u_adv.a" />
 			<Add directory="$(#boost.lib)" />
 		</Linker>
-		<Unit filename="./wxGridCellStopRenderer.cpp" />
+		<Unit filename="./timetable_view.cpp" />
 		<Unit filename="CiMScheduleApp.cpp" />
 		<Unit filename="CiMScheduleApp.h" />
 		<Unit filename="CiMScheduleMain.cpp" />
@@ -98,6 +98,7 @@
 		<Unit filename="timetable_view.h" />
 		<Unit filename="todo.txt" />
 		<Unit filename="utils.h" />
+		<Unit filename="wxGridCellStopRenderer.cpp" />
 		<Unit filename="wxGridCellStopRenderer.h" />
 		<Unit filename="wxGridStopTable.h" />
 		<Unit filename="wxsmith/CiMScheduleframe.wxs" />
