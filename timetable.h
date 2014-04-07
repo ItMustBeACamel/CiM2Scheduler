@@ -168,6 +168,7 @@ public:
 
     Plan& getPlan(const PlanName& plan);
     const Plan& getPlan(const PlanName& plan) const;
+    void setPlan(const PlanName& planName, const Plan& plan);
 
     inline Time getEndOfWeek() const;
 

@@ -69,7 +69,7 @@
 			<Add library="libwxmsw30u_adv.a" />
 			<Add directory="$(#boost.lib)" />
 		</Linker>
-		<Unit filename="./timetable_view.cpp" />
+		<Unit filename="./wxLineClientData.h" />
 		<Unit filename="CiMScheduleApp.cpp" />
 		<Unit filename="CiMScheduleApp.h" />
 		<Unit filename="CiMScheduleMain.cpp" />
@@ -95,6 +95,7 @@
 		<Unit filename="timestamp.h" />
 		<Unit filename="timetable.cpp" />
 		<Unit filename="timetable.h" />
+		<Unit filename="timetable_view.cpp" />
 		<Unit filename="timetable_view.h" />
 		<Unit filename="todo.txt" />
 		<Unit filename="utils.h" />

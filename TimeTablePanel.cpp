@@ -1,7 +1,15 @@
 #include "TimeTablePanel.h"
+
+// PROJECT DEPENDENCIES
+#include "lines.h"
+#include "wxLineClientData.h"
+
+// STL DEPENDENCIES
 #include <list>
 #include <sstream>
 
+// BOOST DEPENDENCIES
+#include <boost/foreach.hpp>
 
 
 //(*InternalHeaders(TimeTablePanel)
@@ -23,6 +31,11 @@ const long TimeTablePanel::ID_TEXTCTRL3 = wxNewId();
 const long TimeTablePanel::ID_SPINBUTTON3 = wxNewId();
 const long TimeTablePanel::ID_PANEL2 = wxNewId();
 const long TimeTablePanel::ID_GRID1 = wxNewId();
+const long TimeTablePanel::ID_BUTTON1 = wxNewId();
+const long TimeTablePanel::ID_CHOICE1 = wxNewId();
+const long TimeTablePanel::ID_STATICTEXT4 = wxNewId();
+const long TimeTablePanel::ID_CHOICE2 = wxNewId();
+const long TimeTablePanel::ID_PANEL4 = wxNewId();
 const long TimeTablePanel::ID_CHECKLISTBOX1 = wxNewId();
 const long TimeTablePanel::ID_PANEL3 = wxNewId();
 //*)
@@ -37,6 +50,7 @@ TimeTablePanel::TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID
 {
     //(*Initialize(TimeTablePanel)
     wxBoxSizer* BoxSizer4;
+    wxBoxSizer* BoxSizer5;
     wxBoxSizer* BoxSizer2;
     wxBoxSizer* BoxSizer1;
     wxBoxSizer* BoxSizer3;
@@ -127,7 +141,23 @@ TimeTablePanel::TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID
     gdTimetable->SetRowLabelValue(24, _("23"));
     gdTimetable->SetDefaultCellFont( gdTimetable->GetFont() );
     gdTimetable->SetDefaultCellTextColour( gdTimetable->GetForegroundColour() );
-    BoxSizer1->Add(gdTimetable, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    BoxSizer1->Add(gdTimetable, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 1);
+    Panel4 = new wxPanel(this, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL4"));
+    BoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
+    btCopy = new wxButton(Panel4, ID_BUTTON1, _("Copy"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
+    BoxSizer5->Add(btCopy, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    chCopy = new wxChoice(Panel4, ID_CHOICE1, wxDefaultPosition, wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
+    chCopy->SetSelection( chCopy->Append(_("current")) );
+    chCopy->Append(_("everything"));
+    BoxSizer5->Add(chCopy, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    StaticText4 = new wxStaticText(Panel4, ID_STATICTEXT4, _("from"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT4"));
+    BoxSizer5->Add(StaticText4, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    chCopyFrom = new wxChoice(Panel4, ID_CHOICE2, wxDefaultPosition, wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE2"));
+    BoxSizer5->Add(chCopyFrom, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    Panel4->SetSizer(BoxSizer5);
+    BoxSizer5->Fit(Panel4);
+    BoxSizer5->SetSizeHints(Panel4);
+    BoxSizer1->Add(Panel4, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     Panel3 = new wxPanel(this, ID_PANEL3, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL3"));
     BoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
     clbOptions = new wxCheckListBox(Panel3, ID_CHECKLISTBOX1, wxDefaultPosition, wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_CHECKLISTBOX1"));
@@ -151,12 +181,20 @@ TimeTablePanel::TimeTablePanel(Timetable& timetable, wxWindow* parent,wxWindowID
     Connect(ID_SPINBUTTON3,wxEVT_SCROLL_LINEDOWN,(wxObjectEventFunction)&TimeTablePanel::OnsbIntervalChangeDown);
     Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&TimeTablePanel::OngdTimetableCellLeftClick);
     gdTimetable->Connect(wxEVT_SIZE,(wxObjectEventFunction)&TimeTablePanel::OngdTimetableResize,0,this);
+    Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&TimeTablePanel::OnbtCopyClick);
     Connect(ID_CHECKLISTBOX1,wxEVT_COMMAND_CHECKLISTBOX_TOGGLED,(wxObjectEventFunction)&TimeTablePanel::OnclbOptionsToggled);
     //*)
     _currentPlan = (PlanNameType)rbPlans->GetSelection();
     gdTimetable->SetDefaultCellAlignment(wxALIGN_CENTRE, wxALIGN_CENTRE);
-    sbBegin->SetMax(TIME_RESOLUTION-1);
-    sbEnd->SetMax(TIME_RESOLUTION-1);
+    sbBegin->SetMax(TIME_SLICES_PER_DAY-1);
+    sbEnd->SetMax(TIME_SLICES_PER_DAY-1);
+
+    BOOST_FOREACH(const Line& i, Lines::instance()->getLinesList())
+    {
+        std::stringstream ss;
+        ss << i.getNumber() << " - " << i.getName();
+        chCopyFrom->Append(ss.str(), new wxLineClientData(i.getID()));
+    }
 
     refresh();
 }
@@ -481,4 +519,25 @@ void TimeTablePanel::OntxtIntervalTextEnter(wxCommandEvent& event)
 {
     _timetable.getPlan(_currentPlan).setInterval(TimeOffsetType(txtInterval->GetValue().c_str()));
     refresh();
+}
+
+void TimeTablePanel::OnbtCopyClick(wxCommandEvent& event)
+{
+    if(chCopyFrom->GetSelection() == -1) return;
+    wxLineClientData* data = static_cast<wxLineClientData*> (chCopyFrom->GetClientObject(chCopyFrom->GetSelection()));
+
+    switch(chCopy->GetSelection())
+    {
+    case 0:
+        _timetable.setPlan(_currentPlan, Lines::instance()->getLine(data->GetData()).getTimetable().getPlan(_currentPlan));
+        refresh();
+        break;
+    case 1:
+        for(Timetable::PlanName i = 0; i < PLAN_NUM; ++i )
+            _timetable.setPlan(i, Lines::instance()->getLine(data->GetData()).getTimetable().getPlan(i));
+        refresh();
+        break;
+    default:
+        break;
+    }
 }

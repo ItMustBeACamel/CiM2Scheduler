@@ -12,6 +12,8 @@
 #include <wx/checklst.h>
 #include <wx/panel.h>
 #include <wx/grid.h>
+#include <wx/choice.h>
+#include <wx/button.h>
 #include <wx/spinbutt.h>
 //*)
 
@@ -31,21 +33,26 @@ class TimeTablePanel: public wxPanel
 		virtual ~TimeTablePanel();
 
 		//(*Declarations(TimeTablePanel)
+		wxChoice* chCopy;
 		wxGrid* gdTimetable;
 		wxTextCtrl* txtBegin;
 		wxRadioBox* rbPlans;
 		wxStaticText* StaticText2;
+		wxPanel* Panel4;
 		wxSpinButton* sbInterval;
 		wxTextCtrl* txtInterval;
+		wxButton* btCopy;
 		wxSpinButton* sbBegin;
 		wxPanel* Panel1;
 		wxStaticText* StaticText1;
 		wxStaticText* StaticText3;
 		wxTextCtrl* txtEnd;
 		wxPanel* Panel3;
+		wxChoice* chCopyFrom;
 		wxSpinButton* sbEnd;
 		wxPanel* Panel2;
 		wxCheckListBox* clbOptions;
+		wxStaticText* StaticText4;
 		//*)
 
 		void refresh();
@@ -74,6 +81,11 @@ class TimeTablePanel: public wxPanel
 		static const long ID_SPINBUTTON3;
 		static const long ID_PANEL2;
 		static const long ID_GRID1;
+		static const long ID_BUTTON1;
+		static const long ID_CHOICE1;
+		static const long ID_STATICTEXT4;
+		static const long ID_CHOICE2;
+		static const long ID_PANEL4;
 		static const long ID_CHECKLISTBOX1;
 		static const long ID_PANEL3;
 		//*)
@@ -102,6 +114,7 @@ class TimeTablePanel: public wxPanel
 		void OntxtBeginTextEnter(wxCommandEvent& event);
 		void OntxtEndTextEnter(wxCommandEvent& event);
 		void OntxtIntervalTextEnter(wxCommandEvent& event);
+		void OnbtCopyClick(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

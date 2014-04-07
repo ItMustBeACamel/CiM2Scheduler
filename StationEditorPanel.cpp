@@ -52,11 +52,11 @@ StationEditorPanel::StationEditorPanel(wxWindow* parent,wxWindowID id,const wxPo
 		_("Custom")
 	};
 	rbPlan = new wxRadioBox(Panel1, ID_RADIOBOX1, _("Plan"), wxDefaultPosition, wxDefaultSize, 6, __wxRadioBoxChoices_1, 1, wxRA_VERTICAL, wxDefaultValidator, _T("ID_RADIOBOX1"));
-	BoxSizer2->Add(rbPlan, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
+	BoxSizer2->Add(rbPlan, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
 	Panel1->SetSizer(BoxSizer2);
 	BoxSizer2->Fit(Panel1);
 	BoxSizer2->SetSizeHints(Panel1);
-	BoxSizer1->Add(Panel1, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	BoxSizer1->Add(Panel1, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 1);
 	Panel2 = new wxPanel(this, ID_PANEL3, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL3"));
 	BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
 	StaticText1 = new wxStaticText(Panel2, ID_STATICTEXT1, _("Start Time"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT1"));
@@ -85,7 +85,7 @@ StationEditorPanel::StationEditorPanel(wxWindow* parent,wxWindowID id,const wxPo
 	Panel2->SetSizer(BoxSizer3);
 	BoxSizer3->Fit(Panel2);
 	BoxSizer3->SetSizeHints(Panel2);
-	BoxSizer1->Add(Panel2, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	BoxSizer1->Add(Panel2, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 1);
 	panTimetable = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	bsTimetable = new wxBoxSizer(wxHORIZONTAL);
 	gdTimetable = new wxGrid(panTimetable,ID_TIMETABLE_GRID,wxDefaultPosition,wxDefaultSize,wxWANTS_CHARS,_T("ID_TIMETABLE_GRID"));
@@ -93,7 +93,7 @@ StationEditorPanel::StationEditorPanel(wxWindow* parent,wxWindowID id,const wxPo
 	panTimetable->SetSizer(bsTimetable);
 	bsTimetable->Fit(panTimetable);
 	bsTimetable->SetSizeHints(panTimetable);
-	BoxSizer1->Add(panTimetable, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	BoxSizer1->Add(panTimetable, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 1);
 	SetSizer(BoxSizer1);
 	BoxSizer1->Fit(this);
 	BoxSizer1->SetSizeHints(this);

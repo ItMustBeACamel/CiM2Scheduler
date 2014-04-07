@@ -333,6 +333,20 @@ const Timetable::Plan& Timetable::getPlan(const PlanName& plan) const
 }
 
 //**********************************************************************************
+/** \brief sets a plan
+ *
+ * \param[in] planName plan name
+ * \param[in] plan plan
+ * \throw std::invalid_argument if plan-name is invalid
+ * \detail should only be used with values of E_PlanLabel
+ */
+void Timetable::setPlan(const PlanName& planName, const Timetable::Plan& plan)
+{
+    if(planName >= PLAN_NUM) throw std::invalid_argument("invalid plan name");
+    _plans[planName] = plan;
+}
+
+//**********************************************************************************
 /** \brief returns the last time slice of the week + 1
  *
  */
