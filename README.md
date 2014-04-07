@@ -7,7 +7,8 @@
 
 
 <p>Note that this is NOT a mod and provides no game integration (yet). You will have to transfer timetables, lines and stations manually to, and from the game.
-It is meant as a compromise since CiM2 doen't support mod development yet. The best way to use this tool is by running it on a second desktop or a mobile device like a laptop.</p>
+It is meant as a compromise since CiM2 doen't support mod development yet.
+The best way to use this tool is by running it on a second desktop or a mobile device like a notebook.</p>
 
 <p>dependencies:</p>
 <ul>
@@ -17,7 +18,7 @@ It is meant as a compromise since CiM2 doen't support mod development yet. The b
 </ul>
 
 
-<p>currently supported systems:</p>
+<p>currently supported platforms:</p>
 <ul>
     <li>Windows</li>
 </ul>

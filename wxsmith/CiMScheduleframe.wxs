@@ -76,7 +76,7 @@
 						</object>
 						<object class="sizeritem">
 							<object class="wxPanel" name="ID_PANEL3" variable="panMiddle" member="yes">
-								<object class="wxBoxSizer" variable="BoxSizer8" member="no">
+								<object class="wxBoxSizer" variable="bsStationEditor" member="yes">
 									<object class="sizeritem">
 										<object class="Custom" name="ID_CUSTOM1" subclass="StationEditorPanel" variable="panStationEditor" member="yes">
 											<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),$(POS),$(SIZE));</creating_code>

@@ -100,7 +100,6 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     wxBoxSizer* BoxSizer6;
     wxBoxSizer* BoxSizer5;
     wxBoxSizer* BoxSizer7;
-    wxBoxSizer* BoxSizer8;
     wxMenuItem* MenuItem2;
     wxMenuItem* MenuItem1;
     wxBoxSizer* BoxSizer2;
@@ -142,12 +141,12 @@ CiMScheduleFrame::CiMScheduleFrame(wxWindow* parent,wxWindowID id)
     StaticBoxSizer1->SetSizeHints(panLeft);
     BoxSizer2->Add(panLeft, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     panMiddle = new wxPanel(MainPanel, ID_PANEL3, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL3"));
-    BoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
+    bsStationEditor = new wxBoxSizer(wxHORIZONTAL);
     panStationEditor = new StationEditorPanel(panMiddle,ID_CUSTOM1,wxDefaultPosition,wxDefaultSize);
-    BoxSizer8->Add(panStationEditor, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    panMiddle->SetSizer(BoxSizer8);
-    BoxSizer8->Fit(panMiddle);
-    BoxSizer8->SetSizeHints(panMiddle);
+    bsStationEditor->Add(panStationEditor, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    panMiddle->SetSizer(bsStationEditor);
+    bsStationEditor->Fit(panMiddle);
+    bsStationEditor->SetSizeHints(panMiddle);
     BoxSizer2->Add(panMiddle, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     panRight = new wxPanel(MainPanel, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL4"));
     StaticBoxSizer2 = new wxStaticBoxSizer(wxVERTICAL, panRight, _("Stops"));
@@ -525,20 +524,25 @@ void CiMScheduleFrame::OnbtEditLineClick(wxCommandEvent& event)
 void CiMScheduleFrame::OnlvStationsItemSelect(wxListEvent& event)
 {
     refreshStopList();
+    bsStationEditor->Layout();
 }
 
 void CiMScheduleFrame::OnlvStopsItemSelect(wxListEvent& event)
 {
     panStationEditor->setCurrentStop(((StationEditorPanel::StationStopType*)event.GetData()));
     panStationEditor->refresh();
-    //panStationEditor->_stopTable->refresh();
     panStationEditor->gdTimetable->AutoSize();
+    //panStationEditor->gdTimetable->ForceRefresh();
+    bsStationEditor->Layout();
+
+
 }
 
 void CiMScheduleFrame::OnlvStopsItemDeselect(wxListEvent& event)
 {
     panStationEditor->setCurrentStop(0);
     panStationEditor->refresh();
+    bsStationEditor->Layout();
 }
 
 void CiMScheduleFrame::OnlvStationsItemDeselect(wxListEvent& event)

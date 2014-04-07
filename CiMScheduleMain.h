@@ -133,6 +133,7 @@ class CiMScheduleFrame: public wxFrame
         wxButton* btToggleHidden;
         wxImageList* ilIcons;
         wxMenu* Menu4;
+        wxBoxSizer* bsStationEditor;
         wxPanel* panLeft;
         //*)
 
