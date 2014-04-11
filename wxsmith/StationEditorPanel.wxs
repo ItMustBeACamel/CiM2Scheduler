@@ -7,7 +7,7 @@
 			<orient>wxVERTICAL</orient>
 			<object class="sizeritem">
 				<object class="wxPanel" name="ID_PANEL2" variable="Panel1" member="yes">
-					<object class="wxBoxSizer" variable="BoxSizer2" member="no">
+					<object class="wxBoxSizer" variable="bsSelect" member="no">
 						<orient>wxVERTICAL</orient>
 						<object class="sizeritem">
 							<object class="wxRadioBox" name="ID_RADIOBOX1" variable="rbPlan" member="yes">
@@ -118,7 +118,7 @@
 			</object>
 			<object class="sizeritem">
 				<object class="wxPanel" name="ID_PANEL1" variable="panTimetable" member="yes">
-					<object class="wxBoxSizer" variable="bsTimetable" member="no">
+					<object class="wxBoxSizer" variable="bsTimetable" member="yes">
 						<object class="sizeritem">
 							<object class="Custom" name="ID_TIMETABLE_GRID" subclass="wxGrid" variable="gdTimetable" member="yes">
 								<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),$(POS),$(SIZE),$(STYLE),$(NAME));</creating_code>

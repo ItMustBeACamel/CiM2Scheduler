@@ -33,15 +33,14 @@ StationEditorPanel::StationEditorPanel(wxWindow* parent,wxWindowID id,const wxPo
     : _currentPlan(0), _currentStop(0)
 {
 	//(*Initialize(StationEditorPanel)
-	wxBoxSizer* bsTimetable;
-	wxBoxSizer* BoxSizer2;
+	wxBoxSizer* bsSelect;
 	wxBoxSizer* BoxSizer1;
 	wxBoxSizer* BoxSizer3;
 
 	Create(parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("id"));
 	BoxSizer1 = new wxBoxSizer(wxVERTICAL);
 	Panel1 = new wxPanel(this, ID_PANEL2, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL2"));
-	BoxSizer2 = new wxBoxSizer(wxVERTICAL);
+	bsSelect = new wxBoxSizer(wxVERTICAL);
 	wxString __wxRadioBoxChoices_1[6] =
 	{
 		_("Weekday"),
@@ -52,10 +51,10 @@ StationEditorPanel::StationEditorPanel(wxWindow* parent,wxWindowID id,const wxPo
 		_("Custom")
 	};
 	rbPlan = new wxRadioBox(Panel1, ID_RADIOBOX1, _("Plan"), wxDefaultPosition, wxDefaultSize, 6, __wxRadioBoxChoices_1, 1, wxRA_VERTICAL, wxDefaultValidator, _T("ID_RADIOBOX1"));
-	BoxSizer2->Add(rbPlan, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
-	Panel1->SetSizer(BoxSizer2);
-	BoxSizer2->Fit(Panel1);
-	BoxSizer2->SetSizeHints(Panel1);
+	bsSelect->Add(rbPlan, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
+	Panel1->SetSizer(bsSelect);
+	bsSelect->Fit(Panel1);
+	bsSelect->SetSizeHints(Panel1);
 	BoxSizer1->Add(Panel1, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 1);
 	Panel2 = new wxPanel(this, ID_PANEL3, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL3"));
 	BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
@@ -188,6 +187,7 @@ void StationEditorPanel::refresh()
 
     //gdTimetable->ForceRefresh();
     gdTimetable->AutoSize();
+    bsTimetable->Layout();
 
 }
 
@@ -215,7 +215,7 @@ void StationEditorPanel::OnrbPlanSelect(wxCommandEvent& event)
     _renderer->setCurrentPlan(_currentPlan);
     _stopTable->setCurrentPlan(_currentPlan);
     refresh();
-    //gdTimetable->ForceRefresh();
+    gdTimetable->ForceRefresh();
 }
 
 void StationEditorPanel::OnsbStartChange(wxSpinEvent& event)

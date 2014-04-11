@@ -30,6 +30,7 @@ public:
     wxSpinButton* sbInterval;
     wxTextCtrl* txtInterval;
     wxTextCtrl* txtStart;
+    wxBoxSizer* bsTimetable;
     wxPanel* Panel1;
     wxStaticText* StaticText1;
     wxStaticText* StaticText3;
