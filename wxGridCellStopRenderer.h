@@ -47,7 +47,9 @@ private:
 
         RenderItem(const InputItemType& item,
                    const int& border = 1,
-                   const bool& marked = false,
+                   //const bool& marked = false,
+                   const wxColor& backgColor = *wxWHITE,
+                   const wxColor& bordColor = *wxBLACK,
                    wxImageList* imageList = 0 );
 
         // public members
@@ -66,9 +68,9 @@ private:
         wxImageList*    _imageList;
         wxBitmap        _bitmap;
         int             _border;
-        bool            _marked;
-
-
+        //bool            _marked;
+        wxColor         _backgroundColor;
+        wxColor         _borderColor;
     };
     typedef std::vector<RenderItem> RenderItemList;
 

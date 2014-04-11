@@ -179,12 +179,7 @@ void StationEditorPanel::refresh()
         txtStart->SetValue(Time(sbStart->GetValue()).toString());
         txtEnd->SetValue(Time(sbEnd->GetValue()).toString());
         txtInterval->SetValue((line.getTimetable().getPlan(_currentPlan).getInterval()).toString());
-
-
-        //sbInterval->SetValue(line.getTimetable().getPlan(_currentPlan).getStartTime().time);
     }
-
-
     //gdTimetable->ForceRefresh();
     gdTimetable->AutoSize();
     bsTimetable->Layout();
@@ -279,7 +274,9 @@ void StationEditorPanel::OnsbIntervalChangeDown(wxSpinEvent& event)
 
 void StationEditorPanel::OngdTimetableChanged(wxGridEvent& event)
 {
-    gdTimetable->AutoSize();
+    //gdTimetable->AutoSize();
+    refresh();
+
 }
 
 void StationEditorPanel::OntxtStartTextEnter(wxCommandEvent& event)

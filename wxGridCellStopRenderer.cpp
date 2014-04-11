@@ -17,11 +17,14 @@
  *
  */
 wxGridCellStopRenderer::RenderItem::RenderItem(const wxGridCellStopRenderer::InputItemType& item,
-                                               const int& border, const bool& marked,
+                                               const int& border,
+                                               //const bool& marked,
+                                               const wxColor& backgColor,
+                                               const wxColor& bordColor,
                                                wxImageList* imageList)
     : _icon(Lines::instance()->getLine(item.getLine()).getIcon()),
       _imageList(imageList), _bitmap(wxBitmap()),
-      _border(border), _marked(marked)
+      _border(border), _backgroundColor(backgColor), _borderColor(bordColor)//, _marked(marked)
 {
     std::stringstream ss;
     try
@@ -134,16 +137,21 @@ void wxGridCellStopRenderer::RenderItem::Draw(wxDC& dc, int x, const int& y, con
 {
     wxSize itemSize = getSize(dc, flags);
 
-    dc.SetPen(*wxBLACK_PEN);
+    wxPen borderPen(_borderColor);
+    wxBrush rectBrush(_backgroundColor);
 
     dc.SetBackgroundMode(wxPENSTYLE_TRANSPARENT);
     dc.SetTextForeground(*wxBLACK);
 
+    /*
     if(_marked)
         dc.SetBrush(*wxYELLOW_BRUSH);
     else
         dc.SetBrush(*wxWHITE_BRUSH);
+    */
 
+    dc.SetPen(borderPen);
+    dc.SetBrush(rectBrush);
     dc.DrawRectangle(wxPoint(x, y), itemSize);
     x+=_border + RI_SUBITEM_INTERSPACE;
 
@@ -322,15 +330,25 @@ wxGridCellStopRenderer::RenderItemList wxGridCellStopRenderer::getRenderItems(In
     {
         if(!(*i).stationStop.hidden)
         {
-            bool marked = false;
+            wxColor backgroundColor = *wxWHITE;
+            wxColor borderColor = *wxBLACK;
+
+            //bool marked = false;
             if(_currentStop != 0)
             {
-                if((*i).stop.plan == _currentPlan && (*i).stationStop == *_currentStop)
+                if((*i).stationStop == *_currentStop)
+                    borderColor = *wxRED;
+
+                if((*i).stop.plan == _currentPlan)
                 {
-                    marked = true;
+                    if((*i).stationStop == *_currentStop)
+                        backgroundColor = *wxYELLOW;
+                    else
+                        backgroundColor = *wxLIGHT_GREY;
+                    //marked = true;
                 }
             }
-            renderItems.push_back(RenderItem((*i), 1, marked, _imageList));
+            renderItems.push_back(RenderItem((*i), 1, backgroundColor, borderColor, _imageList));
         }
     }
     return renderItems;
